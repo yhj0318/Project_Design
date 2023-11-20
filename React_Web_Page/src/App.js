@@ -72,13 +72,13 @@ function App() {
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="consulting-explain">
-              <div class="text-box">
-                <div class="text">채팅 상담에 대한 설명입니다.</div>
-                <div class="text">영상 상담에 대한 설명입니다.</div>
-                <div class="text">챗봇 상담에 대한 설명입니다.</div>
-                <div class="text">AI 상담에 대한 설명입니다.</div>
+              <div class="consulting-explain">
+                <div class="text-box">
+                  <div class="text">채팅 상담에 대한 설명입니다.</div>
+                  <div class="text">영상 상담에 대한 설명입니다.</div>
+                  <div class="text">챗봇 상담에 대한 설명입니다.</div>
+                  <div class="text">AI 상담에 대한 설명입니다.</div>
+                </div>
               </div>
             </div>
           </div>
