@@ -1,92 +1,57 @@
-import logo from './logo.svg';
-import './App.css';
+/**
+ * 11-23
+ * 진행 사항 : 
+ * 웹 페이지 구분을 위한 React_Router_Dom을 활용
+ * Header.js -> 웹 페이지 상단 카테고리를 표시하기 위한 파일
+ * Main.js -> 메인 페이지를 보여주는 파일
+ * NotFound.js -> 올바르지 못한 경로로 갔을 때 보여주는 파일
+ * Service.js -> 서비스소개 페이지로 이동
+ * Information.js -> 법률 정보 공개 페이지로 이동
+ * Edit_law.js -> 개정법안 페이지로 이동
+ * Consulting_review.js -> 상담후기 페이지로 이동
+ * Help.js -> 고객센터 페이지로 이동
+ * Login_sign -> 로그인/가입 페이지로 이동
+ * js, css파일 세분화를 진행
+ * Mid-content 카테고리별 변호사 상담분류
+ * 
+ * 각 페이지로 이동을 하기위해 App.js에 import하고 파일을 만들어야 함
+ * 각 파일안에서 파일로 이동을 위해 <Link>태그를 사용
+ * 
+ * 해야할 일:
+ * 1. 메인 페이지 구성 -> 11-23 Mid-content 하는중
+ * 2. 검색 기능 구현
+ * 3. 배너 넘어가는 기능 구현
+ */
+import React, { Component } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Main from './Main';
+import NotFound from './NotFound';
+import Service from './Service';
+import Header from './Header';
+import Information from './Information'
+import Edit_law from './Edit_law'
+import Consilting_review from './Consulting_review'
+import Help from './Help'
+import Login_sign from './Login_sign'
 
-function App() {
-  return (
-    <div class="wrapper">
-      <div class="main">
-        <header class="header">
-          <div class="top">
-            <div class="top-left">
-              <div class="top-title">
-                <h2 class="title">
-                  <a href="index.html">프로젝트 제목</a>
-                </h2>
-              </div>
-              <nav class="menu">
-                <div class="menu-list">
-                  <ul class="kategories">
-                    <li class="kategorie"><a href="service.html">서비스 소개</a></li>
-                    <li class="kategorie"><a href="imfo.html">법률 정보 공개</a></li>
-                    <li class="kategorie"><a href="edit.html">개정법안</a></li>
-                    <li class="kategorie"><a href="consulting.html">상담후기</a></li>
-                    <li class="kategorie"><a href="help.html">고객센터</a></li>
-                  </ul>
-                </div>
-              </nav>
-            </div>
-            <div class="top-center">
-              <div class="search-icon">
-                <a class="icon-btn">
-                  <img class="icon" src="/images/search-icon.png" alt="검색 아이콘" width={20} height={20} href="search-btn"></img>
-                </a>
-              </div>
-              <div class="search-area">
-                <input type="text" placeholder='어떤 문제가 있으신가요?' maxLength="30" class="search-space"></input>
-              </div>
-            </div>
-            <div class="top-right">
-              <div class="login-btn">
-                <a href="login-html" target="_self">로그인/가입</a>
-              </div>
-            </div>
-          </div>
-        </header>
-        <div class="escape-line"></div>
-        <section class="section">
-          <div class="mid-content">
-            <div class="banner" href="conserting-html">
-              <div class="banner-image">
-                <img class="banner-in-image" src="banner-image.jpg"></img>
-              </div>
-              <div class="banner-comment">
-                <div class="escape"></div>
-                <p class="banner-in-comment">AI를 통해 보다 빠르게 변호사와 상담하고 도움을 받으세요!</p>
-                <p class="banner-in-comment">필요한 정보를 입력하면 관련 판례와 법률들을 손쉽게 찾아볼 수 있습니다!</p>
-              </div>
-            </div>
-            <div class="consulting">
-              <div class="consulting-box">
-                <div class="consulting-list">
-                  <div class="consulting-btn">채팅 상담
-                    <img class="chat-img" src="chat-img"></img>
-                  </div>
-                  <div class="consulting-btn">영상 상담
-                    <img class="video-img" src="video-img"></img>
-                  </div>
-                  <div class="consulting-btn">챗봇 상담
-                    <img class="bot-img" src="bot-img"></img>
-                  </div>
-                  <div class="consulting-btn">AI 상담
-                    <img class="ai-img" src="ai-img"></img>
-                  </div>
-                </div>
-              </div>
-              <div class="consulting-explain">
-                <div class="text-box">
-                  <div class="text">채팅 상담에 대한 설명입니다.</div>
-                  <div class="text">영상 상담에 대한 설명입니다.</div>
-                  <div class="text">챗봇 상담에 대한 설명입니다.</div>
-                  <div class="text">AI 상담에 대한 설명입니다.</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-        <footer class="bottom"></footer>
-      </div>
-    </div>
-  );
-}
+const App = () => {
+	return (
+		<div className='App'>
+			<BrowserRouter>
+      <Header/>
+				<Routes>
+					<Route path="/" element={<Main />}></Route>
+          <Route path='/service' element={<Service />}></Route>
+          <Route path='/information' element={<Information />}></Route>
+          <Route path='/edit_law' element={<Edit_law />}></Route>
+          <Route path='/consulting_review' element={<Consilting_review />}></Route>
+          <Route path='/help' element={<Help />}></Route>
+          <Route path='/login_sign' element={<Login_sign />}></Route>
+					<Route path="*" element={<NotFound />}></Route>
+				</Routes>
+			</BrowserRouter>
+		</div>
+	);
+};
 
 export default App;

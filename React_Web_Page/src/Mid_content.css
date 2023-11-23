@@ -1,0 +1,32 @@
+/* 
+11-23
+진행 사항 :
+width를 100%가 아닌 80%로 설정했기에 margin auto를 사용할 수 있었음
+auto는 width 값을 정해주고 사용을 해야하는데 100%였기에 마진이 적용이 안 됐다. 왜 마진이 바뀌지 않았는지 몰랐는데 width값을 80%로 낮추니까 마진이 적용되고 좀 더 보기 좋아졌다.
+ */
+.mid-content
+{
+    width: 80%;
+    margin-top: 60px;
+    margin: auto;
+}
+.search-lawer
+{
+    display: block;
+}
+.search-text
+{
+    margin-top: 50px;
+}
+p
+{
+    font-size: 20px;
+}
+.search-category
+{
+    display:flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    gap: 32px 100px;
+    margin-top: 50px;
+}
