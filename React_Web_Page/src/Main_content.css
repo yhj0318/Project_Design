@@ -1,3 +1,9 @@
+/*
+11-26
+진행 사항:
+불필요한 코드를 제거
+hover되면 효과가 나오는 코드를 작성
+*/
 .escape-line
 {
   height: 60px;
@@ -5,7 +11,8 @@
 .section
 {
   display:block;
-  width:90%;
+  width:80%;
+  max-width: 1300px;
   margin: auto;
 }
 .main-content
@@ -47,15 +54,34 @@
 {
   display: flex;
   flex-direction: column;
+  text-align: center;
+}
+.consulting-wrap
+{
+  box-shadow: 4.0px 4.0px 4.0px hsl(0deg 0% 0% / 0.1);
+  background-color: white;
+  border-radius: 10%;
+  padding: 3px;
+  margin: 10px;
+  font-size: 20px;
+}
+.consulting-wrap:hover
+{
+  box-shadow: 4.0px 4.0px 4.0px hsl(0deg 0% 0% / 0.2);
+}
+.cbtn
+{
+  display: flex;
   align-items: center;
 }
-.consulting-btn
+.consulting-icons
 {
-  background-color: bisque;
-  border-radius: 10%;
-  padding: 10px;
-  margin: 20px 10px 20px 10px;
-  font-size: 20px;
+  width: 32px;
+  height: 32px;
+}
+.consulting-text
+{
+  margin-left: 10px;
 }
 .consulting-explain
 {

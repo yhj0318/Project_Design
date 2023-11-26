@@ -1,20 +1,8 @@
-html
-{
-  white-space: nowrap
-}
-a
-{
-  text-decoration: none;
-  color:black;
-}
-.wrapper
-{
-  display: block;
-}
-.main
-{
-  display:block;
-}
+/*
+11-26
+진행사항:
+
+*/
 .header
 {
   display:block;
@@ -49,20 +37,22 @@ a
   display:flex;
   margin: 10px;
 }
-ul
-{
-  list-style: none;
-}
-.kategories
+.header-categories
 {
   display:flex;
   align-items: center;
   margin-right: 40px;;
 }
-.kategorie
+.header-categorie
 {
   font-size:15px;
-  margin-left:25px;
+  margin:2px 10px 2px 10px;
+  padding: 8px;
+  border-radius: 10%;
+}
+.header-categorie:hover
+{
+  box-shadow: 4.0px 4.0px 4.0px 4.0px hsl(0deg 0% 0% / 0.1);
 }
 .top-center
 {
@@ -106,7 +96,12 @@ input
 }
 .top-right
 {
-  display:flex;
-  text-align: center;
-  padding:10px;
+  font-size:15px;
+  margin:2px 10px 2px 10px;
+  padding: 8px;
+  border-radius: 10%;
+}
+.top-right:hover
+{
+  box-shadow: 4.0px 4.0px 4.0px 4.0px hsl(0deg 0% 0% / 0.1);
 }

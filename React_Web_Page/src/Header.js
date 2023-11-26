@@ -16,12 +16,12 @@ function Header(props) {
               </div>
               <nav class="menu">
                 <div class="menu-list">
-                  <ul class="kategories">
-                  <Link to="/service"><li class="kategorie">서비스 소개</li></Link>
-                    <Link to="/information"><li class="kategorie">법률 정보 공개</li></Link>
-                    <Link to="/edit_law"><li class="kategorie">개정법안</li></Link>
-                    <Link to="/consulting_review"><li class="kategorie">상담후기</li></Link>
-                    <Link to="/help"><li class="kategorie">고객센터</li></Link>
+                  <ul class="header-categories">
+                    <Link to="/service"><li class="header-categorie">서비스 소개</li></Link>
+                    <Link to="/information"><li class="header-categorie">법률 정보 공개</li></Link>
+                    <Link to="/edit_law"><li class="header-categorie">개정법안</li></Link>
+                    <Link to="/consulting_review"><li class="header-categorie">상담후기</li></Link>
+                    <Link to="/help"><li class="header-categorie">고객센터</li></Link>
                   </ul>
                 </div>
               </nav>

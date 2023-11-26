@@ -1,9 +1,16 @@
 /* 
 11-23
-진행 사항 :
+진행 사항:
 width를 100%가 아닌 80%로 설정했기에 margin auto를 사용할 수 있었음
 auto는 width 값을 정해주고 사용을 해야하는데 100%였기에 마진이 적용이 안 됐다. 왜 마진이 바뀌지 않았는지 몰랐는데 width값을 80%로 낮추니까 마진이 적용되고 좀 더 보기 좋아졌다.
- */
+11-26
+진행 사항:
+category 이미지 삽입 및 hover될때 효과주기 
+*/
+.main
+{
+    display: block;
+}
 .mid-content
 {
     width: 80%;
@@ -28,5 +35,29 @@ p
     justify-content: space-evenly;
     flex-wrap: wrap;
     gap: 32px 100px;
-    margin-top: 50px;
+}
+.mid-categorys
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100px;
+    background-color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 20%;
+}
+.mid-categorys:hover
+{
+    box-shadow: 4.0px 4.0px 4.0px 4.0px hsl(0deg 0% 0% / 0.2);
+}
+.mid-icons
+{
+    width: 56px;
+    height: 56px;
+    margin: 10px;
+}
+.category-text
+{
+    
 }
