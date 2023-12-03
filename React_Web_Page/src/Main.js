@@ -9,6 +9,10 @@
  * 11-26
  * 진행 사항:
  * 아이콘을 부트스트랩 아이콘으로 삽입했음
+ * 
+ * 12-03
+ * 진행 사항:
+ * 미디어 쿼리를 사용하기 위해 따로 두었던 컨설팅 버튼과 컨설팅 설명을 같은 div태그에 묶었다.
  */
 import logo from './logo.svg';
 import './Main_content.css';
@@ -34,54 +38,64 @@ const Main = (props) => {
               </div>
             </div>
             <div class="consulting">
-              <div class="consulting-box">
                 <div class="consulting-list">
-                  <div class="consulting-wrap" >
-                  <Link to={'/consulting'} class="cbtn">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="consulting-icons" viewBox="0 0 16 16">
-                      <path d="M5 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
-                      <path d="m2.165 15.803.02-.004c1.83-.363 2.948-.842 3.468-1.105A9.06 9.06 0 0 0 8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6a10.437 10.437 0 0 1-.524 2.318l-.003.011a10.722 10.722 0 0 1-.244.637c-.079.186.074.394.273.362a21.673 21.673 0 0 0 .693-.125zm.8-3.108a1 1 0 0 0-.287-.801C1.618 10.83 1 9.468 1 8c0-3.192 3.004-6 7-6s7 2.808 7 6c0 3.193-3.004 6-7 6a8.06 8.06 0 0 1-2.088-.272 1 1 0 0 0-.711.074c-.387.196-1.24.57-2.634.893a10.97 10.97 0 0 0 .398-2z"/>
-                    </svg>
-                    <p class="consulting-text">채팅상담</p>
-                  </Link>
+                  <div class="consulting-wrap">
+                    <div class="consulting-btn-icons" >
+                      <Link to={'/consulting'} class="cbtn">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="consulting-icons" viewBox="0 0 16 16">
+                          <path d="M5 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+                          <path d="m2.165 15.803.02-.004c1.83-.363 2.948-.842 3.468-1.105A9.06 9.06 0 0 0 8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6a10.437 10.437 0 0 1-.524 2.318l-.003.011a10.722 10.722 0 0 1-.244.637c-.079.186.074.394.273.362a21.673 21.673 0 0 0 .693-.125zm.8-3.108a1 1 0 0 0-.287-.801C1.618 10.83 1 9.468 1 8c0-3.192 3.004-6 7-6s7 2.808 7 6c0 3.193-3.004 6-7 6a8.06 8.06 0 0 1-2.088-.272 1 1 0 0 0-.711.074c-.387.196-1.24.57-2.634.893a10.97 10.97 0 0 0 .398-2z"/>
+                        </svg>
+                        <p class="consulting-btn-icons-text">채팅상담</p>
+                      </Link>
+                    </div>
+                    <div class="consulting-text">
+                      채팅상담에 대한 내용입니다.
+                    </div>
                   </div>
                   <div class="consulting-wrap">
-                  <Link to={'/consulting'} class="cbtn">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="consulting-icons" viewBox="0 0 16 16">
-                      <path d="M14 9.5a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm-6 5.7c0 .8.8.8.8.8h6.4s.8 0 .8-.8-.8-3.2-4-3.2-4 2.4-4 3.2Z"/>
-                      <path d="M2 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h5.243c.122-.326.295-.668.526-1H2a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v7.81c.353.23.656.496.91.783.059-.187.09-.386.09-.593V4a2 2 0 0 0-2-2H2Z"/>
-                    </svg>
-                    <p class="consulting-text">영상상담</p>
-                  </Link>
+                    <div class="consulting-btn-icons">
+                      <Link to={'/consulting'} class="cbtn">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="consulting-icons" viewBox="0 0 16 16">
+                          <path d="M14 9.5a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm-6 5.7c0 .8.8.8.8.8h6.4s.8 0 .8-.8-.8-3.2-4-3.2-4 2.4-4 3.2Z"/>
+                          <path d="M2 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h5.243c.122-.326.295-.668.526-1H2a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v7.81c.353.23.656.496.91.783.059-.187.09-.386.09-.593V4a2 2 0 0 0-2-2H2Z"/>
+                        </svg>
+                        <p class="consulting-btn-icons-text">영상상담</p>
+                      </Link>
+                    </div>
+                    <div class="consulting-text">
+                      영상상담에 대한 내용입니다.
+                    </div>
                   </div>
                   <div class="consulting-wrap">
-                  <Link to={'/consulting'} class="cbtn">
-                    <svg xmlns="http://www.w3.org/2000/svg"fill="currentColor" class="consulting-icons" viewBox="0 0 16 16">
-                      <path d="M6 12.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5ZM3 8.062C3 6.76 4.235 5.765 5.53 5.886a26.58 26.58 0 0 0 4.94 0C11.765 5.765 13 6.76 13 8.062v1.157a.933.933 0 0 1-.765.935c-.845.147-2.34.346-4.235.346-1.895 0-3.39-.2-4.235-.346A.933.933 0 0 1 3 9.219V8.062Zm4.542-.827a.25.25 0 0 0-.217.068l-.92.9a24.767 24.767 0 0 1-1.871-.183.25.25 0 0 0-.068.495c.55.076 1.232.149 2.02.193a.25.25 0 0 0 .189-.071l.754-.736.847 1.71a.25.25 0 0 0 .404.062l.932-.97a25.286 25.286 0 0 0 1.922-.188.25.25 0 0 0-.068-.495c-.538.074-1.207.145-1.98.189a.25.25 0 0 0-.166.076l-.754.785-.842-1.7a.25.25 0 0 0-.182-.135Z"/>
-                      <path d="M8.5 1.866a1 1 0 1 0-1 0V3h-2A4.5 4.5 0 0 0 1 7.5V8a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1v1a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-1a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1v-.5A4.5 4.5 0 0 0 10.5 3h-2V1.866ZM14 7.5V13a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V7.5A3.5 3.5 0 0 1 5.5 4h5A3.5 3.5 0 0 1 14 7.5Z"/>
-                    </svg>
-                    <p class="consulting-text">챗봇상담</p>
-                  </Link>
+                    <div class="consulting-btn-icons">
+                      <Link to={'/consulting'} class="cbtn">
+                        <svg xmlns="http://www.w3.org/2000/svg"fill="currentColor" class="consulting-icons" viewBox="0 0 16 16">
+                          <path d="M6 12.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5ZM3 8.062C3 6.76 4.235 5.765 5.53 5.886a26.58 26.58 0 0 0 4.94 0C11.765 5.765 13 6.76 13 8.062v1.157a.933.933 0 0 1-.765.935c-.845.147-2.34.346-4.235.346-1.895 0-3.39-.2-4.235-.346A.933.933 0 0 1 3 9.219V8.062Zm4.542-.827a.25.25 0 0 0-.217.068l-.92.9a24.767 24.767 0 0 1-1.871-.183.25.25 0 0 0-.068.495c.55.076 1.232.149 2.02.193a.25.25 0 0 0 .189-.071l.754-.736.847 1.71a.25.25 0 0 0 .404.062l.932-.97a25.286 25.286 0 0 0 1.922-.188.25.25 0 0 0-.068-.495c-.538.074-1.207.145-1.98.189a.25.25 0 0 0-.166.076l-.754.785-.842-1.7a.25.25 0 0 0-.182-.135Z"/>
+                          <path d="M8.5 1.866a1 1 0 1 0-1 0V3h-2A4.5 4.5 0 0 0 1 7.5V8a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1v1a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-1a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1v-.5A4.5 4.5 0 0 0 10.5 3h-2V1.866ZM14 7.5V13a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V7.5A3.5 3.5 0 0 1 5.5 4h5A3.5 3.5 0 0 1 14 7.5Z"/>
+                        </svg>
+                        <p class="consulting-btn-icons-text">챗봇상담</p>
+                      </Link>
+                    </div>
+                    <div class="consulting-text">
+                      챗봇상담에 대한 내용입니다.
+                    </div>
                   </div>
                   <div class="consulting-wrap">
-                  <Link to={'/consulting'} class="cbtn">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="consulting-icons" viewBox="0 0 16 16">
-                      <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
-                      <path d="M3 5.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM3 8a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 8zm0 2.5a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5z"/>
-                    </svg>
-                    <p class="consulting-text">AI상담</p>
-                  </Link>
+                    <div class="consulting-btn-icons">
+                      <Link to={'/consulting'} class="cbtn">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="consulting-icons" viewBox="0 0 16 16">
+                          <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
+                          <path d="M3 5.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM3 8a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 8zm0 2.5a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5z"/>
+                        </svg>
+                        <p class="consulting-btn-icons-text">AI상담</p>
+                      </Link>
+                    </div>
+                    <div class="consulting-text">
+                      AI상담에 대한 내용입니다.
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div class="consulting-explain">
-                <div class="text-box">
-                  <div class="text">채팅 상담에 대한 설명입니다.</div>
-                  <div class="text">영상 상담에 대한 설명입니다.</div>
-                  <div class="text">챗봇 상담에 대한 설명입니다.</div>
-                  <div class="text">AI 상담에 대한 설명입니다.</div>
-                </div>
-              </div>
             </div>
           </div>
           <div class="mid-content">

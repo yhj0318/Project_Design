@@ -1,21 +1,26 @@
 /*
 11-26
-진행사항:
-
+진행 사항:
+불필요한 코드를 삭제하고 마우스를 올리면 효과가 나오도록 만들었다
+12-03
+진행 사항:
+반응형으로 만드는데 앞서 헤더의 요소간 좌우 마진 및 패딩이 너무 많은 관계로 줄이는 과정을 진행했다.
+불필요한 코드를 삭제하고 헤더에 width와 margin을 주어 가독성을 높힘
 */
 .header
 {
   display:block;
-  width: 100%;
+  width: 80%;
   height: 100px;
+  margin: auto;
 }
 .top
 {
   display:flex;
-  justify-content: space-evenly;
+  justify-content: center;
   align-items: center;
   position:fixed;
-  width: 100%;
+  width: 80%;
   border-bottom:2px solid gray;
   background-color: white;
 }
@@ -28,14 +33,10 @@
   margin:1vh;
   border:none;
 }
-.menu
-{
-  display:flex;
-}
 .menu-list
 {
   display:flex;
-  margin: 10px;
+  margin: 10px 0px 10px 0px;
 }
 .header-categories
 {
@@ -46,7 +47,6 @@
 .header-categorie
 {
   font-size:15px;
-  margin:2px 10px 2px 10px;
   padding: 8px;
   border-radius: 10%;
 }
@@ -59,7 +59,6 @@
   display:flex;
   align-items: center;
   border:2px solid powderblue;
-  width:460px;
   height:25px;
   padding:10px;
   border-radius: 10px;
@@ -85,19 +84,14 @@ input
   border:none;
   font-size:1rem;
 }
-.search-area
-{
-  margin:10px;
-}
 .search-space
 {
   font-size:17px;
-  width: 400px;
 }
 .top-right
 {
   font-size:15px;
-  margin:2px 10px 2px 10px;
+  margin:0px 15px 0px 15px;
   padding: 8px;
   border-radius: 10%;
 }

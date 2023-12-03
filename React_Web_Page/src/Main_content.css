@@ -3,6 +3,11 @@
 진행 사항:
 불필요한 코드를 제거
 hover되면 효과가 나오는 코드를 작성
+12-03
+진행 사항:
+미디어 쿼리를 적용하여 반응형 웹페이지를 구성하였다
+컨설팅 버튼과 설명을 같은 div태그에 묶는바람에 클래스명이 바뀌었다
+불필요한 코드를 제거했다
 */
 .escape-line
 {
@@ -21,6 +26,15 @@ hover되면 효과가 나오는 코드를 작성
   justify-content: space-evenly;
   align-items: center;
   background-color: whitesmoke;
+}
+@media(max-width:1400px)
+{
+  .main-content
+  {
+    flex-direction: column;
+    width:100%;
+    margin:auto;
+  }
 }
 .banner
 {
@@ -56,7 +70,18 @@ hover되면 효과가 나오는 코드를 작성
   flex-direction: column;
   text-align: center;
 }
-.consulting-wrap
+@media(max-width:1400px)
+{
+  .consulting-list
+  {
+    display:flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 32px 50px;
+  }
+}
+.consulting-btn-icons
 {
   box-shadow: 4.0px 4.0px 4.0px hsl(0deg 0% 0% / 0.1);
   background-color: white;
@@ -64,10 +89,22 @@ hover되면 효과가 나오는 코드를 작성
   padding: 3px;
   margin: 10px;
   font-size: 20px;
+  min-width: 120px;
 }
-.consulting-wrap:hover
+.consulting-btn-icons:hover
 {
   box-shadow: 4.0px 4.0px 4.0px hsl(0deg 0% 0% / 0.2);
+}
+.consulting-wrap
+{
+  display: flex;
+  min-width: 350px;
+}
+.consulting-text
+{
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .cbtn
 {
@@ -79,22 +116,7 @@ hover되면 효과가 나오는 코드를 작성
   width: 32px;
   height: 32px;
 }
-.consulting-text
+.consulting-btn-icons-text
 {
   margin-left: 10px;
-}
-.consulting-explain
-{
-  display:flex;
-}
-.text-box
-{
-  display:flex;
-  flex-direction: column;
-}
-.text
-{
-  padding: 10px;
-  margin: 20px 10px 20px 10px;
-  font-size: 20px;
 }

@@ -14,7 +14,7 @@ function Header(props) {
                   <Link to="/">프로젝트 제목</Link>
                 </h2>
               </div>
-              <nav class="menu">
+              <div class="menu">
                 <div class="menu-list">
                   <ul class="header-categories">
                     <Link to="/service"><li class="header-categorie">서비스 소개</li></Link>
@@ -24,7 +24,7 @@ function Header(props) {
                     <Link to="/help"><li class="header-categorie">고객센터</li></Link>
                   </ul>
                 </div>
-              </nav>
+              </div>
             </div>
             <div class="top-center">
               <div class="search-icon">
