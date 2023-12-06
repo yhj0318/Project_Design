@@ -1,0 +1,62 @@
+/*
+12-06
+진행 사항:
+로그인/가입 페이지에 대한 css를 적용시킴
+*/
+.login-sign-content
+{
+    margin:auto;
+    width: 367px;
+    padding-top: 30px;
+    text-align: center;
+}
+.header-login
+{
+    padding-bottom: 30px;
+}
+.header-login-area
+{
+
+    border-bottom: 2px solid slategray;
+}
+.header-login-text
+{
+    margin:20px;
+}
+.login-screen
+{
+    margin-top: 50px;
+}
+.login-box
+{
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+}
+label
+{
+    display:flex;
+    margin: 20px 0px 20px 0px;
+}
+.input-id
+{
+    border-bottom: 2px solid slategray;
+    height: 40px;
+}
+.input-pw
+{
+    border-bottom: 2px solid slategray;
+    height: 40px;
+}
+.login-btn
+{
+    margin: 40px 0px 20px 0px;
+    height: 50px;
+    background-color: powderblue ;
+    border-color: slategray ;
+}
+.sign-btn
+{
+    margin-left: 60px;
+    color: tomato;
+}

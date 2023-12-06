@@ -13,6 +13,12 @@
  * 12-03
  * 진행 사항:
  * 미디어 쿼리를 사용하기 위해 따로 두었던 컨설팅 버튼과 컨설팅 설명을 같은 div태그에 묶었다.
+ * 
+ * 12-06
+ * 진행 사항:
+ * banner 이미지를 삽입했지만 이미지가 채워지는 바람에 텍스트가 밖으로 나가게 되어 텍스트는 주석처리 하여 보류하였음
+ * 이미지를 뒤로 보내는 작업이 필요하다.
+ * 이미지는 서버로 작업할 예정이라 pocess.env.PUBLIC_URL을 사용하였음
  */
 import logo from './logo.svg';
 import './Main_content.css';
@@ -27,16 +33,18 @@ const Main = (props) => {
         <div class="escape-line"></div>
         <section class="section">
           <div class="main-content">
-            <div class="banner" href="conserting-html">
-              <div class="banner-image">
-                <img class="banner-in-image" src="banner-image.jpg"></img>
+            <Link to={'/consulting'}>
+              <div class="banner" href="conserting-html">
+                <div class="banner-image">
+                  <img class="banner-in-image" src={process.env.PUBLIC_URL + '/images/banner_img.png'}></img>
+                </div>
+                {/* <div class="banner-comment">
+                  <div class="escape"></div>
+                  <p class="banner-in-comment">AI를 통해 보다 빠르게 변호사와 상담하고 도움을 받으세요!</p>
+                  <p class="banner-in-comment">필요한 정보를 입력하면 관련 판례와 법률들을 손쉽게 찾아볼 수 있습니다!</p>
+                </div> */}
               </div>
-              <div class="banner-comment">
-                <div class="escape"></div>
-                <p class="banner-in-comment">AI를 통해 보다 빠르게 변호사와 상담하고 도움을 받으세요!</p>
-                <p class="banner-in-comment">필요한 정보를 입력하면 관련 판례와 법률들을 손쉽게 찾아볼 수 있습니다!</p>
-              </div>
-            </div>
+            </Link>
             <div class="consulting">
                 <div class="consulting-list">
                   <div class="consulting-wrap">
@@ -104,7 +112,7 @@ const Main = (props) => {
                 <p>어떤 문제가 있나요?</p>
               </div>
               <div class="search-category">
-                <button class="mid-categorys">
+                <div class="mid-categorys">
                   <div class="mid-category-icon-wrap">
                     <div class="mid-category-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor"  class="mid-icons" viewBox="0 0 16 16">
@@ -115,8 +123,8 @@ const Main = (props) => {
                   <div class="category-text">
                     <p>민사</p>
                   </div>
-                </button>
-                <button class="mid-categorys">
+                </div>
+                <div class="mid-categorys">
                   <div class="mid-category-icon-wrap">
                     <div class="mid-category-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="mid-icons" viewBox="0 0 16 16">
@@ -128,8 +136,8 @@ const Main = (props) => {
                   <div class="category-text">
                     <p>상사</p>
                   </div>
-                </button>
-                <button class="mid-categorys">
+                </div>
+                <div class="mid-categorys">
                   <div class="mid-category-icon-wrap">
                     <div class="mid-category-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="mid-icons" viewBox="0 0 16 16">
@@ -141,8 +149,8 @@ const Main = (props) => {
                   <div class="category-text">
                     <p>형사</p>
                   </div>
-                </button>
-                <button class="mid-categorys">
+                </div>
+                <div class="mid-categorys">
                   <div class="mid-category-icon-wrap">
                     <div class="mid-category-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="mid-icons" viewBox="0 0 16 16">
@@ -154,8 +162,8 @@ const Main = (props) => {
                   <div class="category-text">
                     <p>노동</p>
                   </div>
-                </button>
-                <button class="mid-categorys">
+                </div>
+                <div class="mid-categorys">
                   <div class="mid-category-icon-wrap">
                     <div class="mid-category-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="mid-icons" viewBox="0 0 16 16">
@@ -167,8 +175,8 @@ const Main = (props) => {
                   <div class="category-text">
                     <p>조세</p>
                   </div>
-                </button>
-                <button class="mid-categorys">
+                </div>
+                <div class="mid-categorys">
                   <div class="mid-category-icon-wrap">
                     <div class="mid-category-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="mid-icons" viewBox="0 0 16 16">
@@ -179,8 +187,8 @@ const Main = (props) => {
                   <div class="category-text">
                     <p>지적재산권</p>
                   </div>
-                </button>
-                <button class="mid-categorys">
+                </div>
+                <div class="mid-categorys">
                   <div class="mid-category-icon-wrap">
                     <div class="mid-category-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="mid-icons" viewBox="0 0 16 16">
@@ -191,8 +199,8 @@ const Main = (props) => {
                   <div class="category-text">
                     <p>국제관계</p>
                   </div>
-                </button>
-                <button class="mid-categorys">
+                </div>
+                <div class="mid-categorys">
                   <div class="mid-category-icon-wrap">
                     <div class="mid-category-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="mid-icons" viewBox="0 0 16 16">
@@ -203,8 +211,8 @@ const Main = (props) => {
                   <div class="category-text">
                     <p>행정</p>
                   </div>
-                </button>
-                <button class="mid-categorys">
+                </div>
+                <div class="mid-categorys">
                   <div class="mid-category-icon-wrap">
                     <div class="mid-category-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="mid-icons" viewBox="0 0 16 16">
@@ -215,8 +223,8 @@ const Main = (props) => {
                   <div class="category-text">
                     <p>가사</p>
                   </div>
-                </button>
-                <button class="mid-categorys">
+                </div>
+                <div class="mid-categorys">
                   <div class="mid-category-icon-wrap">
                     <div class="mid-category-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="mid-icons" viewBox="0 0 16 16">
@@ -228,7 +236,7 @@ const Main = (props) => {
                   <div class="category-text">
                     <p>기타</p>
                   </div>
-                </button>
+                </div>
               </div>
             </div>
           </div>

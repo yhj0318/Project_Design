@@ -7,10 +7,6 @@ auto는 width 값을 정해주고 사용을 해야하는데 100%였기에 마진
 진행 사항:
 category 이미지 삽입 및 hover될때 효과주기 
 */
-.main
-{
-    display: block;
-}
 .mid-content
 {
     width: 80%;
@@ -56,8 +52,4 @@ p
     width: 56px;
     height: 56px;
     margin: 10px;
-}
-.category-text
-{
-    
 }

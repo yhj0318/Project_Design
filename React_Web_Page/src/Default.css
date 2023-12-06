@@ -1,5 +1,19 @@
-html
+/*
+12-06
+진행 사항:
+웹페이지 전체 폰트적용
+*/
+@import url("https://font.elice.io/css?family=Elice+DX+Neolli");
+@font-face {
+  font-family: 'Elice DX Neolli';
+  font-style: normal;
+  font-weight: 300;
+  src:
+    url('https://cdn-front-door.elice.io/font/static/f/dxneolli/300/0.woff2') format('woff2');
+}
+body
 {
+  font-family: 'Elice DX Neolli';
   white-space: nowrap
 }
 a
@@ -10,4 +24,10 @@ a
 ul
 {
   list-style: none;
+}
+input
+{
+  outline:none;
+  border:none;
+  font-size:1rem;
 }

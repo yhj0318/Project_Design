@@ -41,6 +41,7 @@ import Consilting_review from './Consulting_review'
 import Help from './Help'
 import Login_sign from './Login_sign'
 import Consulting from './Consulting'
+import Sign from './Sign'
 
 const App = () => {
 	return (
@@ -56,6 +57,7 @@ const App = () => {
 			<Route path='/help' element={<Help />}></Route>
 			<Route path='/login_sign' element={<Login_sign />}></Route>
 			<Route path='/consulting' element={<Consulting />}></Route>
+			<Route path='/sign' element={<Sign />}></Route>
 			<Route path="*" element={<NotFound />}></Route>
 		</Routes>
 		</BrowserRouter>

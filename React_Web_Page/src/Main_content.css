@@ -8,6 +8,12 @@ hover되면 효과가 나오는 코드를 작성
 미디어 쿼리를 적용하여 반응형 웹페이지를 구성하였다
 컨설팅 버튼과 설명을 같은 div태그에 묶는바람에 클래스명이 바뀌었다
 불필요한 코드를 제거했다
+12-06
+진행 사항:
+banner에 이미지를 삽입했음
+이미지는 미리캔버스에서 만들었는데 텍스트도 이미지라 나중에는 이미지에 텍스트를 빼고
+HTML로 삽입하여 텍스트를 삽입하도록 수정 예정
+그러기 위해서 이미지 삽입을 했을 시 이미지를 뒤로 보내는 작업이 필요 z-index?
 */
 .escape-line
 {
@@ -38,10 +44,11 @@ hover되면 효과가 나오는 코드를 작성
 }
 .banner
 {
-  background-color: powderblue;
-  height: 300px;
+  background-color: lightblue;
+  border-radius: 5%;
+  height: 400px;
   cursor: pointer;
-  border: 1px solid red;
+  width: 800px;
 }
 .escape
 {

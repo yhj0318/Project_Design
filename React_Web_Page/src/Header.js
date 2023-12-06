@@ -1,3 +1,8 @@
+/**
+ * 12-06
+ * 진행 사항:
+ * 로그인 버튼에 Link태그를 달고 페이지 이동을 시킴
+ */
 import React from 'react';
 import './Header.css';
 import { Link } from 'react-router-dom';
@@ -37,7 +42,7 @@ function Header(props) {
               </div>
             </div>
             <div class="top-right">
-              <div class="login-btn">
+              <div class="login-sign-btn">
                 <Link to="/login_sign" target="_self">로그인/가입</Link>
               </div>
             </div>
