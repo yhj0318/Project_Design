@@ -35,13 +35,14 @@ import Main from './Main';
 import NotFound from './NotFound';
 import Service from './Service';
 import Header from './Header';
-import Information from './Information'
-import Edit_law from './Edit_law'
-import Consilting_review from './Consulting_review'
-import Help from './Help'
-import Login_sign from './Login_sign'
-import Consulting from './Consulting'
-import Sign from './Sign'
+import Information from './Information';
+import Edit_law from './Edit_law';
+import Consilting_review from './Consulting_review';
+import Help from './Help';
+import Login_sign from './Login_sign';
+import Consulting from './Consulting';
+import Sign from './Sign';
+import Footer from './Footer';
 
 const App = () => {
 	return (
@@ -60,6 +61,7 @@ const App = () => {
 			<Route path='/sign' element={<Sign />}></Route>
 			<Route path="*" element={<NotFound />}></Route>
 		</Routes>
+		<Footer/>
 		</BrowserRouter>
 	</div>
 	);

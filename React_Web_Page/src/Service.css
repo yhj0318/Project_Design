@@ -1,0 +1,56 @@
+/*
+12-11
+진행 사항:
+Service 페이지에 대한 CSS를 적용시킴
+효과를 주는거는 나중에 추가할 예정
+*/
+.header-service, .service-top, .service-mid
+{
+    font-size: x-large;
+    margin:auto;
+    width: 367px;
+    padding-top: 30px;
+    text-align: center;
+    padding-bottom: 30px;
+}
+.header-service-area
+{
+    border-bottom: 2px solid slategray;
+}
+.header-service-text
+{
+    margin:20px;
+}
+.service-screen
+{
+    margin-top: 50px;
+}
+.service-top, .service-mid
+{
+    font-size: large;
+    border-bottom: 2px solid slategray;
+    margin-bottom: 30px;
+}
+.service-background, .service-objective
+{
+    margin:auto;
+    text-align: center;
+    width: 1300px;
+    background-color: whitesmoke;
+    border-radius: 30px;
+}
+.service-background-text, .service-objective-text
+{
+    word-break: keep-all;
+    white-space: pre-wrap;
+    line-height: 280%;
+}
+.service-background-text-wrap, .service-objective-text-wrap
+{
+    margin: auto;
+    width: 90%
+}
+.strong-text
+{
+    color: coral;
+}

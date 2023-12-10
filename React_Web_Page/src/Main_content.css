@@ -14,6 +14,9 @@ banner에 이미지를 삽입했음
 이미지는 미리캔버스에서 만들었는데 텍스트도 이미지라 나중에는 이미지에 텍스트를 빼고
 HTML로 삽입하여 텍스트를 삽입하도록 수정 예정
 그러기 위해서 이미지 삽입을 했을 시 이미지를 뒤로 보내는 작업이 필요 z-index?
+12-11
+진행 사항:
+border-radius를 30px로 바꾸니 아주 이쁘게 동그라미 모양을 만들었다.
 */
 .escape-line
 {
@@ -45,7 +48,7 @@ HTML로 삽입하여 텍스트를 삽입하도록 수정 예정
 .banner
 {
   background-color: lightblue;
-  border-radius: 5%;
+  border-radius: 30px;
   height: 400px;
   cursor: pointer;
   width: 800px;
@@ -92,7 +95,7 @@ HTML로 삽입하여 텍스트를 삽입하도록 수정 예정
 {
   box-shadow: 4.0px 4.0px 4.0px hsl(0deg 0% 0% / 0.1);
   background-color: white;
-  border-radius: 10%;
+  border-radius: 30px;
   padding: 3px;
   margin: 10px;
   font-size: 20px;

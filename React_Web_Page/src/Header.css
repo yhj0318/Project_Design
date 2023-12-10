@@ -6,6 +6,9 @@
 진행 사항:
 반응형으로 만드는데 앞서 헤더의 요소간 좌우 마진 및 패딩이 너무 많은 관계로 줄이는 과정을 진행했다.
 불필요한 코드를 삭제하고 헤더에 width와 margin을 주어 가독성을 높힘
+12-11
+진행 사항:
+border-radius를 30px로 바꾸니 아주 이쁘게 동그라미 모양을 만들었다.
 */
 .header
 {
@@ -47,8 +50,8 @@
 .header-categorie
 {
   font-size:15px;
-  padding: 8px;
-  border-radius: 10%;
+  padding: 9px;
+  border-radius: 30px;
 }
 .header-categorie:hover
 {
@@ -87,7 +90,7 @@
   font-size:15px;
   margin:0px 15px 0px 15px;
   padding: 8px;
-  border-radius: 10%;
+  border-radius: 30px;
 }
 .top-right:hover
 {

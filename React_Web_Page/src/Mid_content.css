@@ -6,6 +6,9 @@ auto는 width 값을 정해주고 사용을 해야하는데 100%였기에 마진
 11-26
 진행 사항:
 category 이미지 삽입 및 hover될때 효과주기 
+12-11
+진행 사항:
+border-radius를 30px로 바꾸니 아주 이쁘게 동그라미 모양을 만들었다.
 */
 .mid-content
 {
@@ -41,7 +44,7 @@ p
     background-color: white;
     border: none;
     cursor: pointer;
-    border-radius: 20%;
+    border-radius: 30px;
 }
 .mid-categorys:hover
 {

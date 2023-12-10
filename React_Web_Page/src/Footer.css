@@ -1,0 +1,13 @@
+/*
+12-11
+진행 사항:
+footer 틀만 만들어뒀다.
+나중에 요소를 추가하면서 수정할 예정
+*/
+.footer
+{
+    width:auto;
+    margin-top: 100px;
+    height: 300px;
+    background-color: gray;
+}
