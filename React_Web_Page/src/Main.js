@@ -34,7 +34,7 @@ const Main = (props) => {
         <section class="section">
           <div class="main-content">
             <Link to={'/consulting'}>
-              <div class="banner" href="conserting-html">
+              <div class="banner">
                 <div class="banner-image">
                   <img class="banner-in-image" src={process.env.PUBLIC_URL + '/images/banner_img.png'}></img>
                 </div>
@@ -245,7 +245,6 @@ const Main = (props) => {
             <div class="reviews"></div>
           </div>
         </section>
-        <footer class="bottom"></footer>
       </div>
   );
 }

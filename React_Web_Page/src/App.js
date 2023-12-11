@@ -43,11 +43,13 @@ import Login_sign from './Login_sign';
 import Consulting from './Consulting';
 import Sign from './Sign';
 import Footer from './Footer';
+import ScrollToTop from './ScrollToTop';
 
 const App = () => {
 	return (
 	<div className='App'>
 		<BrowserRouter>
+		<ScrollToTop/>
 		<Header/>
 		<Routes>
 			<Route path="/" element={<Main />}></Route>

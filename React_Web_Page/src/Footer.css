@@ -4,10 +4,47 @@
 footer 틀만 만들어뒀다.
 나중에 요소를 추가하면서 수정할 예정
 */
-.footer
+footer
 {
     width:auto;
     margin-top: 100px;
-    height: 300px;
-    background-color: gray;
+    height: 400px;
+    background-color: lightgray;
+    text-align: center;
+}
+.footer-contain
+{
+    padding-top: 100px;
+}
+.footer-contain-content
+{
+    font-size: x-large;
+}
+.footer-contain-group
+{
+    padding-top: 50px;
+}
+.footer-contain-group-service
+{
+    margin: 0px 10px 0px 10px;
+}
+.footer-social-media
+{
+    padding-top: 30px;
+}
+.footer-social-media-group
+{
+    display: flex;
+    justify-content: center;
+    padding: 0;
+}
+.footer-social-media-icons
+{
+    border-radius: 40px;
+    margin: 0px 25px 0px 25px;
+}
+.footer-icons
+{
+    width: 64px;
+    height: 64px;
 }
