@@ -1,0 +1,8 @@
+CREATE DATABASE login_test;
+
+CREATE TABLE users(
+    id VARCHAR(45) NOT NULL PRIMARY KEY,
+    password VARCHAR(100) NOT NULL
+);
+
+SELECT * FROM users;

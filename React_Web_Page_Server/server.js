@@ -11,12 +11,18 @@
  * cors이슈를 해결하기 위해 코드를 추가하였다.
  * DB에 연결하기 위한 host, user, password, database는 개발환경에 따라 다르다.
  * DB에 적재가 가능하고 로그인도 가능하지만 클라이언트와의 송수신 과정에서 알림 주는 기능이 동작하지 않는 문제점이 있다. send와 status에 문제가 있는 것 같다. 수정 예정
+ * 
+ * 1-4
+ * 진행 사항:
+ * 로그인을 위해 jsonwebtoken 설치
+ * 서버를 즉각 확인하기 위해 nodemon 설치
  */
 const express = require('express');
 const path = require('path');
 const app = express();
 const mysql = require('mysql');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 app.use(express.json());
 var cors = require('cors');
@@ -52,7 +58,7 @@ app.post('/sign', async (req, res) => {
       console.log('Error registering user');
       res.status(500).send('Error registering user');
     } else {
-        console.log('User registered successfully');
+      console.log('User registered successfully');
       res.send('User registered successfully');
     }
 });
