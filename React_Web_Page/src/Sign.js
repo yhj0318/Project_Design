@@ -11,22 +11,28 @@
  * 로그인과 마찬가지로 axios 라이브러리를 사용하였다.
  * 비밀번호 확인은 나중에 기능을 추가할 예정이다.
  * 마찬가지로 서버로부터 수신을 받는 코드에 문제가 있는 것 같다. 수정 예정
+ * 
+ * 1-9
+ * 진행 사항:
+ * 로그인 기능과 마찬가지로 메세지 창을 띄움
  */
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
-const Sign = () => {
-
+const Sign = () => {    
+    const [message, setMessage] = useState('');
     const [id, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleRegister = async () => {
+    const handleRegister = async (event) => {
+        event.preventDefault();
         try {
         const response = await axios.post('http://localhost:8080/sign', {
             id,
             password
         });
+        setMessage(response.data);
         console.log(response.data);
         } catch (error) {
         console.error(error);
@@ -52,6 +58,11 @@ const Sign = () => {
                     <input type='password' id="password" class="input-pw" placeholder='비밀번호를 다시 입력하세요'></input> */}
                     <button class="login-btn" onClick={handleRegister}>회원가입</button>
                 </form>
+                {message && (
+                    <div>
+                    <p>{message}</p>
+                    </div>
+                )}
             </div>
         </div>
         </>

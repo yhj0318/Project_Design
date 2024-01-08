@@ -31,13 +31,9 @@ const connection = mysql.createConnection({
 
 connection.connect();
 
-app.listen(8080, function () {
-  console.log('listening on 8080');
-}); 
-
 app.use(express.static(path.join(__dirname, '..', 'React_Web_Page/build')));
 
-app.get('/', function(req, res)
+app.get('/', async (req, res) =>
 {
     res.sendFile(path.join(__dirname, '..', 'React_Web_Page/build/index.html'));
 });
@@ -69,9 +65,8 @@ app.post('/login_sign', (req, res) => {
       if (results.length > 0) {
         const match = await bcrypt.compare(password, results[0].password);
         if (match) {
-            console.log('Login successful');
-            res.send('Login successful');
-        } else {
+            res.status(200).send('Login successful');
+          } else {
             console.log('Invalid password');
             res.status(400).send('Invalid password');
         }
@@ -82,7 +77,11 @@ app.post('/login_sign', (req, res) => {
     });
 });
 
-app.get('*', function(req, res)
+app.listen(8080, () => {
+  console.log('listening on 8080');
+}); 
+
+app.get('*', async (req, res) =>
 {
     res.sendFile(path.join(__dirname, '..', 'React_Web_Page/build/index.html'));
 });
