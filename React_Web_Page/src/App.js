@@ -36,7 +36,7 @@ import NotFound from './NotFound';
 import Service from './Service';
 import Header from './Header';
 import Information from './Information';
-import Edit_law from './Edit_law';
+import Edit_Law from './Edit_Law';
 import Consilting_review from './Consulting_review';
 import Help from './Help';
 import Login_sign from './Login_sign';
@@ -55,7 +55,7 @@ const App = () => {
 			<Route path="/" element={<Main />}></Route>
 			<Route path='/service' element={<Service />}></Route>
 			<Route path='/information' element={<Information />}></Route>
-			<Route path='/edit_law' element={<Edit_law />}></Route>
+			<Route path='/edit_law' element={<Edit_Law />}></Route>
 			<Route path='/consulting_review' element={<Consilting_review />}></Route>
 			<Route path='/help' element={<Help />}></Route>
 			<Route path='/login_sign' element={<Login_sign />}></Route>
