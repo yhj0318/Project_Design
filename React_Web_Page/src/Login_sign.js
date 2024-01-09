@@ -10,7 +10,7 @@
  * 서버로부터 post요청을 하는 비동기 통신 방법을 채택했다.
  * 마찬가지로 서버로부터 수신을 받는 코드에 문제가 있는 것 같다. 수정 예정
  * 
- * 1-28
+ * 1-9
  * 진행 사항:
  * 로그인 버튼을 눌렀을 때 자동으로 새로고침이 되기에 그것을 막고자 event.preventDefault()를 추가
  * 이로인해 콘솔창이 자동으로 새로고침 되지 않아 콘솔 메세지를 확인할 수 있게 됌
@@ -25,11 +25,7 @@ const Login_sign = () => {
     const [message, setMessage] = useState('');
     const [id, setUsername] = useState('');
     const [password, setPassword] = useState('');
-<<<<<<< Updated upstream
-    
-=======
 
->>>>>>> Stashed changes
     const handleLogin = async (event) => {
         event.preventDefault();
         try {

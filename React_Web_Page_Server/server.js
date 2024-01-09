@@ -79,6 +79,10 @@ app.post('/login_sign', (req, res) => {
       if (results.length > 0) {
         const match = await bcrypt.compare(password, results[0].password);
         if (match) {
+            const token = jwt.sign(id, 'secretToken');
+            id.token = token;
+            res.cookie("x_auth", )
+            console.log(id, "is Login");
             res.status(200).send('Login successful');
           } else {
             console.log('Invalid password');
