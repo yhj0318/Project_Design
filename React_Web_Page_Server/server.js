@@ -35,7 +35,15 @@ const connection = mysql.createConnection({
   database : 'login_test'
 });
 
-connection.connect();
+connection.connect((err) => {
+  if(err){
+    console.log('Error connection to MySQL: ', err);
+    throw err;
+  }
+  else{
+    console.log("Connection to MySQL database");
+  }
+});
 
 app.use(express.static(path.join(__dirname, '..', 'React_Web_Page/build')));
 
@@ -55,7 +63,7 @@ app.post('/sign', async (req, res) => {
       res.status(500).send('Error registering user');
     } else {
       console.log('User registered successfully');
-      res.send('User registered successfully');
+      res.status(200).send('User registered successfully')
     }
 });
 });
