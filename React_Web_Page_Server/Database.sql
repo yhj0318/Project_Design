@@ -6,8 +6,9 @@ CREATE DATABASE login_test;
 
 CREATE TABLE users(
     id VARCHAR(45) NOT NULL PRIMARY KEY,
-    password VARCHAR(100) NOT NULL
-    token 
+    password VARCHAR(100) NOT NULL,
+    token VARCHAR(500),
+    tokenEXP ENUM
 );
 
 SELECT * FROM users;
