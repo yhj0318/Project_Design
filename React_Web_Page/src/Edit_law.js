@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Edit_Law = () => {
+const Edit_law = () => {
     return (
         <>
         <h3>개정법안 페이지입니다.</h3>
@@ -8,4 +8,4 @@ const Edit_Law = () => {
     );
 };
   
-export default Edit_Law;
+export default Edit_law;

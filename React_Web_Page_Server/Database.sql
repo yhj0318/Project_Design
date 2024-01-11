@@ -8,7 +8,8 @@ CREATE TABLE users(
     id VARCHAR(45) NOT NULL PRIMARY KEY,
     password VARCHAR(100) NOT NULL,
     token VARCHAR(500),
-    tokenEXP ENUM
 );
+
+ALTER TABLE users ADD COLUMN token VARCHAR(500);
 
 SELECT * FROM users;

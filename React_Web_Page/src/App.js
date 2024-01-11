@@ -28,6 +28,10 @@
  * 1. 메인 페이지 구성 -> 11-26 review-content 하는중
  * 2. 검색 기능 구현
  * 3. 배너 넘어가는 기능 구현
+ * 
+ * 1-11 
+ * 진행 사항:
+ * redux, react-redux, redux-thunk, redux-promise 설치
  */
 import React, { Component } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
@@ -44,10 +48,13 @@ import Consulting from './Consulting';
 import Sign from './Sign';
 import Footer from './Footer';
 import ScrollToTop from './ScrollToTop';
+import { Provider } from 'react-redux';
+import store from './'; // 스토어 가져오기
 
 const App = () => {
 	return (
 	<div className='App'>
+		<Provider store={store}>
 		<BrowserRouter>
 		<ScrollToTop/>
 		<Header/>
@@ -65,6 +72,7 @@ const App = () => {
 		</Routes>
 		<Footer/>
 		</BrowserRouter>
+		</Provider>
 	</div>
 	);
 };

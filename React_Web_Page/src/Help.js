@@ -1,6 +1,6 @@
 import React from 'react';
 
-const NotFound = () => {
+const Help = () => {
     return (
         <>
             <h3>고객센터 페이지입니다.</h3>
@@ -8,4 +8,4 @@ const NotFound = () => {
     );
 };
   
-export default NotFound;
+export default Help;

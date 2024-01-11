@@ -15,29 +15,30 @@
  * 로그인 버튼을 눌렀을 때 자동으로 새로고침이 되기에 그것을 막고자 event.preventDefault()를 추가
  * 이로인해 콘솔창이 자동으로 새로고침 되지 않아 콘솔 메세지를 확인할 수 있게 됌
  * 로그인이 되었는지 안 되었는지 확인을 위한 메세지 창을 띄움
+ * 
+ * 1-11
+ * 진행 사항:
+ * redux를 적용시키기 위해 action, reducers, store를 정의
  */
 import React, { useState } from 'react';
 import './Login_sign.css';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-
+import {useDispatch} from 'react-redux';
+import { loginUser } from './actions/user_action';
 const Login_sign = () => {
+    const dispatch = useDispatch();
     const [message, setMessage] = useState('');
-    const [id, setUsername] = useState('');
+    const [id, setUserid] = useState('');
     const [password, setPassword] = useState('');
 
     const handleLogin = async (event) => {
         event.preventDefault();
-        try {
-            const response = await axios.post('http://localhost:8080/login_sign', {
+        const body = {
             id,
             password
-        });
-        setMessage(response.data);
-        console.log(response.data);
-        } catch (error) {
-        console.error(error);
         }
+        dispatch(loginUser(body));
     };
   
     return (
@@ -52,7 +53,7 @@ const Login_sign = () => {
                 <div class="login-top">로그인</div>
                 <form class="login-box">
                     <label for="id">아이디</label>
-                    <input type='text' id="id" class="input-id" placeholder='아이디를 입력하세요' value={id} onChange={(e) => setUsername(e.target.value)}></input>
+                    <input type='text' id="id" class="input-id" placeholder='아이디를 입력하세요' value={id} onChange={(e) => setUserid(e.target.value)}></input>
                     <label for="password">비밀번호</label>
                     <input type='password' id="password" class="input-pw" placeholder='비밀번호를 입력하세요' value={password} onChange={(e) => setPassword(e.target.value)}></input>
                     <button class="login-btn" onClick={handleLogin}>로그인</button>

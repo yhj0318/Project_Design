@@ -108,7 +108,7 @@ app.post('/login_sign', (req, res) => {
               console.log('query result == ', token);
               res.cookie("x_auth", token)
               .status(200)
-              .json({userId: id})
+              .json({loginSuccess: true, userId: id})
             });
             console.log(results[0].id, "is Login");
           } else {
