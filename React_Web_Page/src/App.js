@@ -48,33 +48,29 @@ import Consulting from './Consulting';
 import Sign from './Sign';
 import Footer from './Footer';
 import ScrollToTop from './ScrollToTop';
-import { Provider } from 'react-redux';
-import store from './'; // 스토어 가져오기
 
 const App = () => {
-	return (
-	<div className='App'>
-		<Provider store={store}>
-		<BrowserRouter>
-		<ScrollToTop/>
-		<Header/>
-		<Routes>
-			<Route path="/" element={<Main />}></Route>
-			<Route path='/service' element={<Service />}></Route>
-			<Route path='/information' element={<Information />}></Route>
-			<Route path='/edit_law' element={<Edit_law />}></Route>
-			<Route path='/consulting_review' element={<Consilting_review />}></Route>
-			<Route path='/help' element={<Help />}></Route>
-			<Route path='/login_sign' element={<Login_sign />}></Route>
-			<Route path='/consulting' element={<Consulting />}></Route>
-			<Route path='/sign' element={<Sign />}></Route>
-			<Route path="*" element={<NotFound />}></Route>
-		</Routes>
-		<Footer/>
-		</BrowserRouter>
-		</Provider>
-	</div>
-	);
+   return (
+   <div className='App'>
+      <BrowserRouter>
+      <ScrollToTop/>
+      <Header/>
+      <Routes>
+         <Route path="/" element={<Main />}></Route>
+         <Route path='/service' element={<Service />}></Route>
+         <Route path='/information' element={<Information />}></Route>
+         <Route path='/edit_law' element={<Edit_law />}></Route>
+         <Route path='/consulting_review' element={<Consilting_review />}></Route>
+         <Route path='/help' element={<Help />}></Route>
+         <Route path='/login_sign' element={<Login_sign />}></Route>
+         <Route path='/consulting' element={<Consulting />}></Route>
+         <Route path='/sign' element={<Sign />}></Route>
+         <Route path="*" element={<NotFound />}></Route>
+      </Routes>
+      <Footer/>
+      </BrowserRouter>
+   </div>
+   );
 };
 
 export default App;

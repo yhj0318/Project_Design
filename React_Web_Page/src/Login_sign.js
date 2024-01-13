@@ -15,30 +15,40 @@
  * 로그인 버튼을 눌렀을 때 자동으로 새로고침이 되기에 그것을 막고자 event.preventDefault()를 추가
  * 이로인해 콘솔창이 자동으로 새로고침 되지 않아 콘솔 메세지를 확인할 수 있게 됌
  * 로그인이 되었는지 안 되었는지 확인을 위한 메세지 창을 띄움
- * 
- * 1-11
- * 진행 사항:
- * redux를 적용시키기 위해 action, reducers, store를 정의
  */
 import React, { useState } from 'react';
 import './Login_sign.css';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import {useDispatch} from 'react-redux';
-import { loginUser } from './actions/user_action';
+
 const Login_sign = () => {
-    const dispatch = useDispatch();
     const [message, setMessage] = useState('');
     const [id, setUserid] = useState('');
     const [password, setPassword] = useState('');
-
     const handleLogin = async (event) => {
         event.preventDefault();
-        const body = {
+        try {
+            const response = await axios.post('http://localhost:8080/login_sign', {
             id,
             password
+        });
+        console.log(response);
+        const myCookieValue = response.headers['x_auth'];
+        console.log(myCookieValue)
+        // const myCookie = myCookieString.split(';').find(cookie => cookie.trim().startsWith('x_auth='));
+        // console.log(myCookie);
+        // if (myCookie) {
+        //     const myCookieValue = myCookie.split('=')[1];
+        //     console.log(myCookieValue);
+        // } else {
+        //     console.log('myCookie not found');
+        // }
+        setMessage(response.data);
+        console.log(response.data);
+        } catch (error) {
+        setMessage('아이디 또는 비밀번호가 틀립니다!');
+        console.error(error);
         }
-        dispatch(loginUser(body));
     };
   
     return (
