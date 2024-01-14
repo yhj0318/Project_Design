@@ -32,8 +32,12 @@
  * 1-11 
  * 진행 사항:
  * redux, react-redux, redux-thunk, redux-promise 설치
+ * 
+ * 1-14
+ * 진행 사항:
+ * 헤더에 로그인과 로그아웃을 구분하기 위해 상태값을 주고 구분지었다.
  */
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Main from './Main';
 import NotFound from './NotFound';
@@ -50,11 +54,23 @@ import Footer from './Footer';
 import ScrollToTop from './ScrollToTop';
 
 const App = () => {
+   const [isLoggedIn, setLoggedIn] = useState(false);
+
+   const handleLogin = () => {
+      // 로그인 로직 수행 후 로그인이 성공하면 상태 업데이트
+      setLoggedIn(true);
+   };
+
+   const handleLogout = () => {
+      // 로그아웃 로직 수행 후 로그아웃이 성공하면 상태 업데이트
+      setLoggedIn(false);
+   };
+
    return (
    <div className='App'>
       <BrowserRouter>
       <ScrollToTop/>
-      <Header/>
+      <Header isLoggedIn={isLoggedIn} handleLogout={handleLogout}/>
       <Routes>
          <Route path="/" element={<Main />}></Route>
          <Route path='/service' element={<Service />}></Route>
@@ -62,7 +78,7 @@ const App = () => {
          <Route path='/edit_law' element={<Edit_law />}></Route>
          <Route path='/consulting_review' element={<Consilting_review />}></Route>
          <Route path='/help' element={<Help />}></Route>
-         <Route path='/login_sign' element={<Login_sign />}></Route>
+         <Route path='/login_sign' element={<Login_sign handleLogin={handleLogin}/>}></Route>
          <Route path='/consulting' element={<Consulting />}></Route>
          <Route path='/sign' element={<Sign />}></Route>
          <Route path="*" element={<NotFound />}></Route>

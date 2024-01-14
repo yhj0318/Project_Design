@@ -16,7 +16,7 @@ body
   font-family: 'Elice DX Neolli';
   white-space: nowrap
 }
-a
+a, button
 {
   text-decoration: none;
   color:black;

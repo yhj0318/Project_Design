@@ -28,6 +28,11 @@
  * 앞으로 어떤 기능이던 로그인 유지를 판단하려면 auth를 활용하여 사용자가 로그인이 되어있는지 확인이 가능하다.
  * 클라이언트에서 서버가 주는 정보를 바탕으로 어떠한 행동을 할지는 아직 정의하지 않았다.
  * 따라서 서버에서의 정의는 끝났음으로 클라이언트에서 동작하는걸 수정할 예정이다.
+ * 
+ * 1-14
+ * 진행 사항:
+ * 로그아웃 로직에서 요청한 클라이언트의 쿠키값이 조회가 안 된다. 어떻게든 요청한 클라이언트와
+ * 데이터베이스에 토큰값과 일치한다면 로그아웃을 진행하도록 만들어야한다.
  */
 const express = require('express');
 const path = require('path');
@@ -138,9 +143,10 @@ app.get('/auth', verifyToken, (req, res) => {
  */
 function verifyToken(req, res, next) {
   const token = req.cookies.x_auth; // 쿠키에서 토큰 가져오기
+  console.log('verifyToken in token is = ', req.cookies);
   console.log('token is = ', token);
   if (!token) {
-    return res.status(403).json({ message: 'Token is not provided' });
+    return res.json({ message: 'Token is not provided' });
   }
   // verify 메서드로 복호화를 진행한다.
   jwt.verify(token, 'secretToken', (err, decoded) => {
@@ -163,13 +169,17 @@ function verifyToken(req, res, next) {
  * 마찬가지로 토큰이 일치하는지 확인을 위해 verifyToken 함수를 실행
  * 일치한다면 데이터베이스에서 해당 id랑 일치하는 컬럼에 token 값을 공백으로 업데이트 해준다.
  */
-app.get('/logout', verifyToken, (req, res) => {
-  connection.query('UPDATE users SET token = "" WHERE id = ?', [req.userID], (error, results) => {
+app.get('/logout', (req, res) => {
+  console.log(req);
+  connection.query('SELECT * FROM users WHERE id = ?', [req.userID], (error, results) => {
     if (error || results.length === 0) {
-      return res.status(401).json({ message: 'User token not defined' });
+      return res.status(401).json({ message: 'User not defined' });
     }
-    console.log('logout successful!');
-    res.status(200).send({logout : 'true'});
+    else {
+      connection.query('UPDATE users SET token = "" WHERE id = ?', [req.userID])
+      console.log('logout successful!');
+      res.status(200).send({logout : 'true'});
+    }
   })
 });
 

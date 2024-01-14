@@ -15,36 +15,36 @@
  * 로그인 버튼을 눌렀을 때 자동으로 새로고침이 되기에 그것을 막고자 event.preventDefault()를 추가
  * 이로인해 콘솔창이 자동으로 새로고침 되지 않아 콘솔 메세지를 확인할 수 있게 됌
  * 로그인이 되었는지 안 되었는지 확인을 위한 메세지 창을 띄움
+ * 
+ * 1-14
+ * 진행 사항:
+ * 로그인/가입 페이지에서 로그인에 성공하면 useNavigate를 사용하여 첫 페이지로 이동하게 되고, 
+ * handleLogin을 추가하여 로그인에 성공하면 App.js에서 handleLogin 함수를 실행하고, 로그인 된 상태로 바꾼다.
  */
 import React, { useState } from 'react';
 import './Login_sign.css';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
-const Login_sign = () => {
+const Login_sign = ({handleLogin}) => {
+    const navigate = useNavigate();
     const [message, setMessage] = useState('');
     const [id, setUserid] = useState('');
     const [password, setPassword] = useState('');
-    const handleLogin = async (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         try {
             const response = await axios.post('http://localhost:8080/login_sign', {
             id,
             password
         });
-        console.log(response);
-        const myCookieValue = response.headers['x_auth'];
-        console.log(myCookieValue)
-        // const myCookie = myCookieString.split(';').find(cookie => cookie.trim().startsWith('x_auth='));
-        // console.log(myCookie);
-        // if (myCookie) {
-        //     const myCookieValue = myCookie.split('=')[1];
-        //     console.log(myCookieValue);
-        // } else {
-        //     console.log('myCookie not found');
-        // }
-        setMessage(response.data);
-        console.log(response.data);
+
+        console.log('response is = ', response);
+        setMessage(response.headers);
+        console.log('response.data is = ', response.data);
+        handleLogin();
+        navigate('/');
         } catch (error) {
         setMessage('아이디 또는 비밀번호가 틀립니다!');
         console.error(error);
@@ -66,7 +66,7 @@ const Login_sign = () => {
                     <input type='text' id="id" class="input-id" placeholder='아이디를 입력하세요' value={id} onChange={(e) => setUserid(e.target.value)}></input>
                     <label for="password">비밀번호</label>
                     <input type='password' id="password" class="input-pw" placeholder='비밀번호를 입력하세요' value={password} onChange={(e) => setPassword(e.target.value)}></input>
-                    <button class="login-btn" onClick={handleLogin}>로그인</button>
+                    <button class="login-btn" onClick={handleSubmit}>로그인</button>
                 </form>
                 {message && (
                     <div>
