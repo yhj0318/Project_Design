@@ -33,6 +33,13 @@
  * 진행 사항:
  * 로그아웃 로직에서 요청한 클라이언트의 쿠키값이 조회가 안 된다. 어떻게든 요청한 클라이언트와
  * 데이터베이스에 토큰값과 일치한다면 로그아웃을 진행하도록 만들어야한다.
+ * 
+ * 1-15
+ * 진행 사항:
+ * CORS 오류로 인해 쿠키값이 전송이 안 되는 문제가 발생하였다.
+ * Set-cookie에는 값이 존재하지만 Application Storage에 들어가면 쿠키가 존재하지 않았다.
+ * 따라서 이것을 해결하고자 cors에 3000번 포트의 주소를 신뢰하도록 만들고, credentials를 true로 설정해주었다.
+ * 결과 쿠키값이 제대로 송신되고 수신받게 되었다.
  */
 const express = require('express');
 const path = require('path');
@@ -43,8 +50,11 @@ const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
 
 app.use(express.json());
-var cors = require('cors');
-app.use(cors());
+const cors = require('cors');
+app.use(cors({
+  origin: 'http://localhost:3000',
+  credentials:true
+}));
 app.use(cookieParser());
 
 const connection = mysql.createConnection({
@@ -169,8 +179,7 @@ function verifyToken(req, res, next) {
  * 마찬가지로 토큰이 일치하는지 확인을 위해 verifyToken 함수를 실행
  * 일치한다면 데이터베이스에서 해당 id랑 일치하는 컬럼에 token 값을 공백으로 업데이트 해준다.
  */
-app.get('/logout', (req, res) => {
-  console.log(req);
+app.get('/logout',verifyToken, (req, res) => {
   connection.query('SELECT * FROM users WHERE id = ?', [req.userID], (error, results) => {
     if (error || results.length === 0) {
       return res.status(401).json({ message: 'User not defined' });

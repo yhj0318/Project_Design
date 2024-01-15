@@ -5,12 +5,16 @@
  * 페이지로 이동하도록 만들었고, 소셜 미디어 공간에는 팀의 깃허브 주소를 넣었다.
  * 깃허브 아이콘은 부트스트랩에서 가져왔다.
  * 나중에 아이콘만 보여지는게 아니라 더 자세한 정보를 보여주도록 만들어도 좋을 것 같다.
+ * 
+ * 1-15
+ * 진행 사항:
+ * 풋터에 로그인이 됐을 경우 로그인/가입 클릭이 막히고 로그인 상태가 아니라면 로그인 페이지로 이동하도록 만들었다.
  */
 import React from 'react';
 import './Footer.css'
 import { Link } from 'react-router-dom';
 
-const Consulting = () => {
+const Consulting = ({isLoggedIn}) => {
     return (
         <>
         <footer class="footer">
@@ -48,11 +52,11 @@ const Consulting = () => {
                             고객센터
                         </a>
                     </Link>
-                    <Link to={'/sign'}>
-                        <a class="footer-contain-group-service">
-                            로그인/가입
-                        </a>
-                    </Link>
+                    {isLoggedIn ? (
+                        <Link target='_self' class="footer-contain-group-service">로그인/가입</Link>
+                    ) : (
+                        <Link to='/login_sign' class="footer-contain-group-service">로그인/가입</Link>
+                    )}
                 </p>
                 <div class="footer-social-media">
                     <ul class="footer-social-media-group">

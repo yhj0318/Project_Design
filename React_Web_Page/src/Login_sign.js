@@ -20,6 +20,13 @@
  * 진행 사항:
  * 로그인/가입 페이지에서 로그인에 성공하면 useNavigate를 사용하여 첫 페이지로 이동하게 되고, 
  * handleLogin을 추가하여 로그인에 성공하면 App.js에서 handleLogin 함수를 실행하고, 로그인 된 상태로 바꾼다.
+ * 
+ * 1-15
+ * 진행 사항:
+ * 쿠키값을 받아오기 위해 withCredentials를 true로 설정해줬다.
+ * CORS 오류로 이를 설정해줘야지 쿠키를 송신하고 수신받는다.
+ * 서버가 전송한 쿠키값을 가져오기 위해 이를 설정해주었고 따라서 쿠키가 스토리지에 저장되는 것을 확인할 수 있다.
+ * 서버로 전송하는 과정이 기존에는 try catch문 이였는데, 간단하게 보이고자 promise 문법으로 바꿨다.
  */
 import React, { useState } from 'react';
 import './Login_sign.css';
@@ -27,6 +34,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
+axios.defaults.withCredentials = true;
 const Login_sign = ({handleLogin}) => {
     const navigate = useNavigate();
     const [message, setMessage] = useState('');
@@ -34,21 +42,31 @@ const Login_sign = ({handleLogin}) => {
     const [password, setPassword] = useState('');
     const handleSubmit = async (event) => {
         event.preventDefault();
-        try {
-            const response = await axios.post('http://localhost:8080/login_sign', {
-            id,
-            password
+        await axios.post('http://localhost:8080/login_sign',{
+            id, password
+        }, {withCredentials: true})
+        .then((res) => {
+            console.log('res is = ', res);
+            console.log('res.data is = ', res.data);
+            console.log('res.cookie is = ', res)
+            console.log('cookies is = ', document.cookie);
+            handleLogin();
+            navigate('/');
+        })
+        .catch((err) => {
+            setMessage('아이디 또는 비밀번호가 틀립니다!');
+            console.log('login error = ', err);
         });
 
-        console.log('response is = ', response);
-        setMessage(response.headers);
-        console.log('response.data is = ', response.data);
-        handleLogin();
-        navigate('/');
-        } catch (error) {
-        setMessage('아이디 또는 비밀번호가 틀립니다!');
-        console.error(error);
-        }
+        // console.log('response is = ', response);
+        // setMessage(response.headers);
+        // console.log('response.data is = ', response.data);
+        // handleLogin();
+        // navigate('/');
+        // } catch (error) {
+        // setMessage('아이디 또는 비밀번호가 틀립니다!');
+        // console.error(error);
+        // }
     };
   
     return (

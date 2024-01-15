@@ -35,7 +35,11 @@
  * 
  * 1-14
  * 진행 사항:
- * 헤더에 로그인과 로그아웃을 구분하기 위해 상태값을 주고 구분지었다.
+ * App.js에 상태를 두어 로그인과 로그아웃이 수행 됐을 경우 헤더에 변경사항이 표시되도록 만들었다.
+ * 
+ * 1-15
+ * 진행 사항:
+ * 풋터에도 마찬가지로 로그인과 로그아웃이 수행 됐을 경우 논리값에 따라 바뀌도록 표시했다.
  */
 import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
@@ -83,7 +87,7 @@ const App = () => {
          <Route path='/sign' element={<Sign />}></Route>
          <Route path="*" element={<NotFound />}></Route>
       </Routes>
-      <Footer/>
+      <Footer isLoggedIn={isLoggedIn}/>
       </BrowserRouter>
    </div>
    );

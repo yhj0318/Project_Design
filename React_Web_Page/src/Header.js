@@ -10,6 +10,17 @@
  * 헤더에 로그인/가입, 로그아웃으로 나뉘도록 만들었다.
  * 클라이언트에서 쿠키에 대한 정보를 확인할 수 있지만 서버로 전송하려고 하면 자꾸 전송이 안 되서
  * 로그아웃을 하면 데이터베이스에서 토큰 값을 지우지 못 하는 문제가 있다.
+ * 
+ * 1-15
+ * 진행 사항:
+ * 쿠키에 대한 오류를 해결했다.
+ * 오류의 원인은 CORS오류로 원래 정책상 쿠키를 전송하는게 불가능 했기에 그것을 풀어주기 위해
+ * withCredentials를 true로 바꿔줘야했다.
+ * 클라이언트에서도 true로 바꾸고 서버에서도 마찬가지로 true로 바꿔줘야한다.
+ * axios통신을 하면서 쿠키를 수신하거나 송신받으려면 꼭 이 작업이 선행되어야 한다.
+ * 따라서 이 구문을 추가했더니 원래의 로직대로 서버로부터 쿠키를 받고 스토리지에 저장이 가능했다.
+ * 쿠키가 저장되어 서버로 전송하는 것도 가능하게 되어 로그인 상태를 유지하도록 만드는게 가능했다.
+ * 가독성을 위해 try catch문을 promise로 바꿨다.
  */
 import React from 'react';
 import './Header.css';
@@ -19,30 +30,20 @@ import axios from 'axios';
 
 const Header = ({isLoggedIn, handleLogout}) => {
   const logout = async() => {
-    try{
-      // 현재 서버로부터 전송받은 쿠키값을 확인하고 서버로 전송하는 코드이다.
-      const cookies = document.cookie.split(';');
-      console.log('cookies is', cookies);
-        for(let i = 0; i < cookies.length; i++)
-        {
-            const cookie = cookies[i].trim();
-            if(cookie.startsWith('x_auth' + '='))
-            {
-              console.log('cookie is = ', cookie);
-              const myCookieValue = cookie.split('=')[1];
-              console.log('mycookievalue is = ', myCookieValue);
-              const response = await axios.get('http://localhost:8080/logout', {
-                headers:{
-                  Authorization: `Bearer ${myCookieValue}`
-                }
-              });
-              console.log(response);
-              handleLogout();
-            }
-        }
-    }
-    catch(error){
-      console.log('response data is empty error = ', error);
+    const cookies = document.cookie.split(';');
+    for(let i = 0; i < cookies.length; i++){
+      const cookie = cookies[i].trim();
+      if(cookie.startsWith('x_auth' + '=')){
+        console.log('x_auth cookie is = ', cookie);
+        await axios.get('http://localhost:8080/logout', {withCredentials: true})
+        .then((res) => {
+          console.log(res.data);
+          handleLogout();
+        })
+        .catch((err) => {
+          console.log('logout error = ', err);
+        })
+      }
     }
   };
 
