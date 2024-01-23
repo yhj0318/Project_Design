@@ -19,15 +19,41 @@
  * banner 이미지를 삽입했지만 이미지가 채워지는 바람에 텍스트가 밖으로 나가게 되어 텍스트는 주석처리 하여 보류하였음
  * 이미지를 뒤로 보내는 작업이 필요하다.
  * 이미지는 서버로 작업할 예정이라 pocess.env.PUBLIC_URL을 사용하였음
+ * 
+ * 1-24
+ * 진행 사항:
+ * 메인페이지에 상담게시판을 보여주기 위한 캐러셀을 만들어야했다.
+ * 라이브러리를 사용하기로 하여 react-slick을 설치
+ * 테스트로 작업을 해놓았고, 수정하여 게시판에 있는 내용이 보이도록 만들 것이다.
  */
 import logo from './logo.svg';
 import './Main_content.css';
 import './Default.css';
 import './Mid_content.css'
-import React from 'react';
+import {React, Component} from 'react';
 import { Link } from 'react-router-dom';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import Slider from "react-slick";
+import './Reviews_content.css';
 
-const Main = (props) => {
+export default class Main extends Component {
+  render(){
+    const settings = {
+      slide: 'div',		//슬라이드 되어야 할 태그 ex) div, li 
+      infinite : true, 	//무한 반복 옵션	 
+      slidesToShow : 3,		// 한 화면에 보여질 컨텐츠 개수
+      slidesToScroll : 1,		//스크롤 한번에 움직일 컨텐츠 개수
+      speed : 500,	 // 다음 버튼 누르고 다음 화면 뜨는데까지 걸리는 시간(ms)
+      arrows : true, 		// 옆으로 이동하는 화살표 표시 여부
+      dots : true, 		// 스크롤바 아래 점으로 페이지네이션 여부
+      autoplay : true,			// 자동 스크롤 사용 여부
+      autoplaySpeed : 3000, 		// 자동 스크롤 시 다음으로 넘어가는데 걸리는 시간 (ms)
+      pauseOnHover : true,		// 슬라이드 이동	시 마우스 호버하면 슬라이더 멈추게 설정
+      vertical : false,		// 세로 방향 슬라이드 옵션
+      dotsClass : "slick-dots", 	//아래 나오는 페이지네이션(점) css class 지정
+      draggable : true, 	//드래그 가능 여부 
+    };
   return (
       <div class="main">
         <div class="escape-line"></div>
@@ -241,12 +267,40 @@ const Main = (props) => {
             </div>
           </div>
           <div class="review-content">
-            <div class="review-content-title"></div>
-            <div class="reviews"></div>
+            <div class="review-content-title">
+              <div class="review-text">
+                <p>상담게시판을 확인해보세요!</p>
+              </div>
+            </div>
+            <div class="reviews">
+              <div class="reviews-wrap">
+                <div class="reviews-slick">
+                  <Slider {...settings}>
+                    <div>
+                      <h3>1</h3>
+                    </div>
+                    <div>
+                      <h3>2</h3>
+                    </div>
+                    <div>
+                      <h3>3</h3>
+                    </div>
+                    <div>
+                      <h3>4</h3>
+                    </div>
+                    <div>
+                      <h3>5</h3>
+                    </div>
+                    <div>
+                      <h3>6</h3>
+                    </div>
+                  </Slider>
+                </div>
+              </div>
+            </div>
           </div>
         </section>
       </div>
-  );
+    );
+  }
 }
-
-export default Main;
