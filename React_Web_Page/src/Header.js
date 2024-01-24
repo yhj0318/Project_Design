@@ -54,7 +54,7 @@ const Header = ({isLoggedIn, handleLogout}) => {
         <div class="top-left">
           <div class="top-title">
             <h2 class="title">
-              <Link to="/">프로젝트 제목</Link>
+              <Link to="/">법률 상담 서비스</Link>
             </h2>
           </div>
           <div class="menu">

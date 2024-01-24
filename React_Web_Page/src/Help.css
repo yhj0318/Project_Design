@@ -1,0 +1,17 @@
+.header-help, .help-top, .help-notice, .help-qna
+{
+    font-size: x-large;
+    margin:auto;
+    width: 367px;
+    padding-top: 30px;
+    text-align: center;
+    padding-bottom: 30px;
+}
+.header-help-area
+{
+    border-bottom: 2px solid slategray;
+}
+.header-help-text
+{
+    margin:20px;
+}
