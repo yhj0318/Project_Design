@@ -1,0 +1,108 @@
+/*
+2-1
+진행 사항:
+R에 해당하는 CSS를 적용하였다.
+태그 부분을 메인페이지와 비슷하게 바꿔야함으로 수정이 필요하다.
+*/
+.header-review
+{
+    font-size: x-large;
+    margin:auto;
+    width: 367px;
+    padding-top: 30px;
+    text-align: center;
+    padding-bottom: 30px;
+}
+.header-review-area
+{
+    border-bottom: 2px solid slategray;
+}
+.header-review-text
+{
+    margin:20px;
+}
+.review-top-content{
+    margin: auto;
+    padding-top: 30px;
+    width: 1700px;
+}
+.review-top-content-area{
+    display: flex;
+    height: 40px;
+    align-items: center;
+}
+.review-top-content-search{
+    display: flex;
+    border: 3px solid gray;
+    height: 40px;
+    align-items: center;
+}
+.review-top-content-search-icon{
+    width: 70px;
+    border-right: 3px solid gray;
+    height: 40px;
+}
+.review-top-content-serach-area{
+    width: 600px;
+    margin-left: 10px;
+}
+.review-top-content-create{
+    margin-left: 250px;
+}
+.review-mid-content{
+    margin: auto;
+    padding-top: 30px;
+    width: 1700px;
+}
+.review-mid-content-area{
+    display: flex;
+}
+.review-mid-content-board{
+    height: 1200px;
+    border: 3px solid gray;
+}
+.review-mid-content-board-header{
+    
+}
+.review-mid-content-board-header-list, .review-mid-content-board-main-list{
+    display: flex;
+    padding: 0;
+    height: 40px;
+    margin:1px;
+    border-bottom: 3px solid gray;
+    align-items: center;
+}
+.review-mid-content-board-headers{
+    text-align: center;
+    border-right: 3px solid gray;
+    height: 40px;
+}
+.review-mid-content-board-mains{
+    text-align: center;
+}
+#num{
+    width:50px;
+}
+#id, #date, #tag{
+    width:150px;
+}
+#title{
+    width:550px;
+}
+.review-mid-content-board-main{
+}
+.review-mid-content-tag{
+    width:20%;
+    margin-left: 20px;
+}
+.review-mid-content-tags{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px 25px;
+}
+.review-mid-content-list{
+    font-size: large;
+    width: 50px;
+    text-align: center;
+    height: 40px;
+}

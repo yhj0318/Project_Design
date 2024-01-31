@@ -40,6 +40,11 @@
  * Set-cookie에는 값이 존재하지만 Application Storage에 들어가면 쿠키가 존재하지 않았다.
  * 따라서 이것을 해결하고자 cors에 3000번 포트의 주소를 신뢰하도록 만들고, credentials를 true로 설정해주었다.
  * 결과 쿠키값이 제대로 송신되고 수신받게 되었다.
+ * 
+ * 2-1
+ * 진행 사항:
+ * 게시판 작업 CRUD 중 R기능을 적용하였다.
+ * get요청을 받은 서버는 post_test 데이터베이스에 테스트값을 반환한다.
  */
 const express = require('express');
 const path = require('path');
@@ -57,20 +62,37 @@ app.use(cors({
 }));
 app.use(cookieParser());
 
-const connection = mysql.createConnection({
+const User_DB = mysql.createConnection({
   host     : 'localhost',
   user     : 'root',
   password : 'flej12153473',
   database : 'login_test'
 });
 
-connection.connect((err) => {
+const Post_DB = mysql.createConnection({
+  host     : 'localhost',
+  user     : 'root',
+  password : 'flej12153473',
+  database : 'post_test'
+});
+
+User_DB.connect((err) => {
   if(err){
-    console.log('Error connection to MySQL: ', err);
+    console.log('Error User_DB is connection to MySQL: ', err);
     throw err;
   }
   else{
-    console.log("Connection to MySQL database");
+    console.log("User_DB is connection to MySQL database");
+  }
+});
+
+Post_DB.connect((err) => {
+  if(err){
+    console.log('Error Post_DB is connection to MySQL: ', err);
+    throw err;
+  }
+  else{
+    console.log("Post_DB is connection to MySQL database");
   }
 });
 
@@ -85,7 +107,7 @@ app.post('/sign', async (req, res) => {
   const { id, password } = req.body;
   const hashedPassword = await bcrypt.hash(password, 10);
   const user = { id, password: hashedPassword };
-  connection.query('INSERT INTO users SET ?', user, (error, results) => {
+  User_DB.query('INSERT INTO users SET ?', user, (error, results) => {
     if (error) {
       console.error('Error registering user:', error);
       console.log('Error registering user');
@@ -99,7 +121,7 @@ app.post('/sign', async (req, res) => {
 
 app.post('/login_sign', (req, res) => {
     const { id, password } = req.body;
-    connection.query('SELECT * FROM users WHERE id = ?', [id], async (error, results) => {
+    User_DB.query('SELECT * FROM users WHERE id = ?', [id], async (error, results) => {
       if (error) {
         console.error('Error during login:', error);
         console.log('Error during login');
@@ -115,7 +137,7 @@ app.post('/login_sign', (req, res) => {
            */
             const token = jwt.sign({userID: id}, 'secretToken');
             console.log(token);
-            connection.query('UPDATE users SET token = ? WHERE id = ?', [token, id], (updateError, updateResults)=>{
+            User_DB.query('UPDATE users SET token = ? WHERE id = ?', [token, id], (updateError, updateResults)=>{
               if(updateError){
                 console.log(updateError);
                 return res.status(400).send(updateError);
@@ -164,7 +186,7 @@ function verifyToken(req, res, next) {
     if (err) {
       return res.status(401).json({ message: 'Invalid token' });
     }
-    connection.query('SELECT id FROM users WHERE token = ?', [token], (error, results) => {
+    User_DB.query('SELECT id FROM users WHERE token = ?', [token], (error, results) => {
       if (error || results.length === 0) {
         return res.status(401).json({ message: 'User not found or invalid token' });
       }
@@ -180,16 +202,29 @@ function verifyToken(req, res, next) {
  * 일치한다면 데이터베이스에서 해당 id랑 일치하는 컬럼에 token 값을 공백으로 업데이트 해준다.
  */
 app.get('/logout',verifyToken, (req, res) => {
-  connection.query('SELECT * FROM users WHERE id = ?', [req.userID], (error, results) => {
+  User_DB.query('SELECT * FROM users WHERE id = ?', [req.userID], (error, results) => {
     if (error || results.length === 0) {
       return res.status(401).json({ message: 'User not defined' });
     }
     else {
-      connection.query('UPDATE users SET token = "" WHERE id = ?', [req.userID])
+      User_DB.query('UPDATE users SET token = "" WHERE id = ?', [req.userID])
       console.log('logout successful!');
       res.status(200).send({logout : 'true'});
     }
   })
+});
+
+app.get('/api/posts', async (req, res) => {
+  Post_DB.query('SELECT Post_ID, Post_Title, Post_Tag, Post_Num, DATE_FORMAT(Post_Date, "%Y-%m-%d") AS Post_Date FROM posts ORDER BY Post_Num DESC',(error, results) => {
+    if (error){
+      console.log('post read error');
+    }
+    else{
+      console.log('post read successful');
+      console.log('results is = ', results);
+      res.json(results);
+    }
+  });
 });
 
 app.listen(8080, () => {
