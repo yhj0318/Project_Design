@@ -56,6 +56,7 @@ import Consulting from './Consulting';
 import Sign from './Sign';
 import Footer from './Footer';
 import ScrollToTop from './ScrollToTop';
+import CreatePost from './CreatePost';
 
 const App = () => {
    const [isLoggedIn, setLoggedIn] = useState(false);
@@ -85,6 +86,7 @@ const App = () => {
          <Route path='/login_sign' element={<Login_sign handleLogin={handleLogin}/>}></Route>
          <Route path='/consulting' element={<Consulting />}></Route>
          <Route path='/sign' element={<Sign />}></Route>
+         <Route path='/createPost' element={<CreatePost />}></Route>
          <Route path="*" element={<NotFound />}></Route>
       </Routes>
       <Footer isLoggedIn={isLoggedIn}/>

@@ -8,6 +8,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Consulting_review.css';
+import {Link} from 'react-router-dom';
 
 const NotFound = () => {
     const [posts, setPosts] = useState([]);
@@ -34,7 +35,9 @@ const NotFound = () => {
                         <div class="review-top-content-search-icon">검색</div>
                         <div class="review-top-content-serach-area">검색탭입니다.</div>
                     </div>
-                    <div class="review-top-content-create">게시글 작성</div>
+                    <div class="review-top-content-create">
+                        <Link to={'/createPost'}>게시글 작성</Link>
+                    </div>
                 </div>
             </div>
             <div class="review-mid-content">
@@ -43,7 +46,7 @@ const NotFound = () => {
                         <div class="review-mid-content-board-header">
                             <ul class="review-mid-content-board-header-list">
                                 <li class="review-mid-content-board-headers" id="num">번호</li>
-                                <li class="review-mid-content-board-headers" id="id">작성자</li>
+                                <li class="review-mid-content-board-headers" id="user">작성자</li>
                                 <li class="review-mid-content-board-headers" id='title'>제목</li>
                                 <li class="review-mid-content-board-headers" id='date'>작성날짜</li>
                                 <li class="review-mid-content-board-headers" id='tag'>태그</li>
@@ -53,7 +56,7 @@ const NotFound = () => {
                             {posts.map(post => (
                                 <ul class="review-mid-content-board-main-list" key={post.Post_Num}>
                                     <li class="review-mid-content-board-mains" id="num">{post.Post_Num}</li>
-                                    <li class="review-mid-content-board-mains" id="id">{post.Post_ID}</li>
+                                    <li class="review-mid-content-board-mains" id="user">{post.Post_ID}</li>
                                     <li class="review-mid-content-board-mains" id='title'>{post.Post_Title}</li>
                                     <li class="review-mid-content-board-mains" id='date'>{post.Post_Date}</li>
                                     <li class="review-mid-content-board-mains" id='tag'>{post.Post_Tag}</li>
@@ -64,18 +67,33 @@ const NotFound = () => {
                     <div class="review-mid-content-tag">
                         <div class="review-mid-content-tag-wrap">
                             <div class="review-mid-content-tags">
-                                <div class="review-mid-content-list">태그</div>
-                                <div class="review-mid-content-list">태그</div>
-                                <div class="review-mid-content-list">태그</div>
-                                <div class="review-mid-content-list">태그</div>
-                                <div class="review-mid-content-list">태그</div>
-                                <div class="review-mid-content-list">태그</div>
-                                <div class="review-mid-content-list">태그</div>
-                                <div class="review-mid-content-list">태그</div>
-                                <div class="review-mid-content-list">태그</div>
-                                <div class="review-mid-content-list">태그</div>
-                                <div class="review-mid-content-list">태그</div>
-                                <div class="review-mid-content-list">태그</div>
+                                <div class="review-mid-content-list">
+                                    <p>민사</p>
+                                </div>
+                                <div class="review-mid-content-list">
+                                    <p>상사</p>
+                                </div>
+                                <div class="review-mid-content-list">
+                                    <p>형사</p>
+                                </div>
+                                <div class="review-mid-content-list">
+                                    <p>노동</p>
+                                </div>
+                                <div class="review-mid-content-list">
+                                    <p>조세</p>
+                                </div>
+                                <div class="review-mid-content-list">
+                                    <p>지적재산권</p>
+                                </div>
+                                <div class="review-mid-content-list">
+                                    <p>국제관계</p>
+                                    </div>
+                                <div class="review-mid-content-list">
+                                    <p>행정</p>
+                                </div>
+                                <div class="review-mid-content-list">
+                                    <p>가사</p>
+                                </div>
                             </div>
                         </div>
                     </div>
