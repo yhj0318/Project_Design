@@ -45,6 +45,12 @@
  * 진행 사항:
  * 게시판 작업 CRUD 중 R기능을 적용하였다.
  * get요청을 받은 서버는 post_test 데이터베이스에 테스트값을 반환한다.
+ * 
+ * 2-3
+ * 진행 사항:
+ * 게시판 작업 C기능을 적용하였다.
+ * 클라이언트로부터 제목 내용 태그를 post요청으로 받아 데이터베이스에 추가해준다.
+ * 체크박스 기능을 추가하기 위해 checkboxes를 만들어줬고, get요청이 오면 이 자료를 뿌려주도록 만들었다.
  */
 const express = require('express');
 const path = require('path');
@@ -75,6 +81,19 @@ const Post_DB = mysql.createConnection({
   password : 'flej12153473',
   database : 'post_test'
 });
+
+const checkboxes = [
+  { id: '민사', label: '민사' },
+  { id: '상사', label: '상사' },
+  { id: '형사', label: '형사' },
+  { id: '노동', label: '노동' },
+  { id: '조세', label: '조세' },
+  { id: '지적재산권', label: '지적재산권' },
+  { id: '국제관계', label: '국제관계' },
+  { id: '행정', label: '행정' },
+  { id: '가사', label: '가사' },
+  // 추가적인 체크박스 항목들을 필요에 따라 추가할 수 있습니다.
+];
 
 User_DB.connect((err) => {
   if(err){
@@ -217,7 +236,7 @@ app.get('/logout',verifyToken, (req, res) => {
 app.get('/api/posts', async (req, res) => {
   Post_DB.query('SELECT Post_ID, Post_Title, Post_Tag, Post_Num, DATE_FORMAT(Post_Date, "%Y-%m-%d") AS Post_Date FROM posts ORDER BY Post_Num DESC',(error, results) => {
     if (error){
-      console.log('post read error');
+      console.log('post read error', error);
     }
     else{
       console.log('post read successful');
@@ -225,6 +244,25 @@ app.get('/api/posts', async (req, res) => {
       res.json(results);
     }
   });
+});
+
+// 게시글 작성을 위한 요청 토큰을 확인하여 어떤 작성자인지 확인하고 데이터베이스에 저장
+app.post('/api/create', verifyToken, async (req, res) => {
+  const { title, content} = req.body.newPost;
+  const selectItem = req.body.selectedItem;
+  console.log(req.body);
+  Post_DB.query('INSERT INTO posts (Post_ID, Post_Title, Post_Content, Post_Tag) VALUES (?, ?, ?, ?)', [req.userID, title, content, selectItem], (error, results) => {
+    if (error){
+      console.log('create Post error', error);
+    }
+    else{
+      res.json('createPost successful');
+    }
+  });
+})
+
+app.get('/checkboxes', (req, res) => {
+  res.json(checkboxes);
 });
 
 app.listen(8080, () => {
