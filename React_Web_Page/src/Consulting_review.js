@@ -12,6 +12,10 @@
  * 게시글을 눌러서 볼 수 있도록 페이지를 만들어야하고 만든 페이지에서 회원 정보와 일치한다면
  * 수정 권한을 통해 수정 버튼을 활성화 하고 게시글 수정 페이지로 넘어갈 수 있도록 만들어야 할 것 같다.
  * 이러한 작업 이전에 게시판에서 글을 선택할 수 있도록 만들어야 하고 그 후에 뷰페이지를 만들어야 한다.
+ * 
+ * 2-5
+ * 진행 사항:
+ * 상세페이지로 들어가도록 해당 id에 맞는 게시글을 Link하여 보여주도록 만들었다.
  */
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
@@ -62,13 +66,15 @@ const NotFound = () => {
                         </div>
                         <div class="review-mid-content-board-main">
                             {posts.map(post => (
-                                <ul class="review-mid-content-board-main-list" key={post.Post_Num}>
-                                    <li class="review-mid-content-board-mains" id="num">{post.Post_Num}</li>
-                                    <li class="review-mid-content-board-mains" id="user">{post.Post_ID}</li>
-                                    <li class="review-mid-content-board-mains" id='title'>{post.Post_Title}</li>
-                                    <li class="review-mid-content-board-mains" id='date'>{post.Post_Date}</li>
-                                    <li class="review-mid-content-board-mains" id='tag'>{post.Post_Tag}</li>
-                                </ul>
+                                <Link to={`/viewPost/${post.Post_Num}`}>
+                                    <ul class="review-mid-content-board-main-list" key={post.Post_Num}>
+                                        <li class="review-mid-content-board-mains" id="num">{post.Post_Num}</li>
+                                        <li class="review-mid-content-board-mains" id="user">{post.Post_ID}</li>
+                                        <li class="review-mid-content-board-mains" id='title'>{post.Post_Title}</li>
+                                        <li class="review-mid-content-board-mains" id='date'>{post.Post_Date}</li>
+                                        <li class="review-mid-content-board-mains" id='tag'>{post.Post_Tag}</li>
+                                    </ul>
+                                </Link>
                             ))}
                         </div>
                     </div>

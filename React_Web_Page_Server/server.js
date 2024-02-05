@@ -51,6 +51,13 @@
  * 게시판 작업 C기능을 적용하였다.
  * 클라이언트로부터 제목 내용 태그를 post요청으로 받아 데이터베이스에 추가해준다.
  * 체크박스 기능을 추가하기 위해 checkboxes를 만들어줬고, get요청이 오면 이 자료를 뿌려주도록 만들었다.
+ * 
+ * 2-5
+ * 진행 사항:
+ * 상세페이지를 만들기 위해 posts/:id 엔드포인트를 주고 해당 페이지를 보여주도록 만들었다.
+ * 게시판 작업 D기능을 적용하였다.
+ * 삭제를 위한 작업을 했고 해당 ID에 컬럼을 전부 삭제하도록 쿼리문을 작성하였다.
+ * 게시판 작업 U기능 일부를 적용하였다.
  */
 const express = require('express');
 const path = require('path');
@@ -246,6 +253,19 @@ app.get('/api/posts', async (req, res) => {
   });
 });
 
+app.get('/api/posts/:id', (req, res) => {
+  const postID = req.params.id;
+  Post_DB.query('SELECT Post_ID, Post_Title, Post_Content, Post_Tag, Post_Num, DATE_FORMAT(Post_Date, "%Y-%m-%d") AS Post_Date FROM posts WHERE Post_Num = ?', [postID], (error, results) => {
+    if (error){
+      console.log('post read error', error);
+    }
+    else{
+      console.log('post id read successful');
+      console.log('results is = ', results);
+      res.json(results[0]);
+    }
+  });
+});
 // 게시글 작성을 위한 요청 토큰을 확인하여 어떤 작성자인지 확인하고 데이터베이스에 저장
 app.post('/api/create', verifyToken, async (req, res) => {
   const { title, content} = req.body.newPost;
@@ -259,6 +279,23 @@ app.post('/api/create', verifyToken, async (req, res) => {
       res.json('createPost successful');
     }
   });
+})
+
+app.put('/api/update:id', async (req, res) => {
+  // 이 부분에는 생성하는 것과 마찬가지로 제목과 내용 태그를 받아 UPDATE쿼리를 적용해주면 된다.
+})
+
+app.delete('/api/delete/:id', async (req, res) => {
+  const postID = req.params.id;
+  console.log(postID)
+  Post_DB.query('DELETE FROM posts WHERE Post_Num = ?', [postID], (error, results) => {
+    if(error){
+      console.log('delete post error is = ', error);
+    }
+    else{
+      res.json('deletePost successful');
+    }
+  })
 })
 
 app.get('/checkboxes', (req, res) => {
