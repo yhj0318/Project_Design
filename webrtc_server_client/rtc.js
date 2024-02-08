@@ -49,7 +49,7 @@ function startMedia() {
   navigator.mediaDevices
     .getUserMedia({
       video: true,
-      audio: false,
+      audio: true,
     })
     .then(gotStream)
     .catch((error) => console.error(error));
@@ -374,4 +374,50 @@ document.querySelector("button#start").addEventListener("click", async (event) =
 
   console.log("Using media constraints:", constraints);
   await init(constraints);
+});
+
+// 방 이름을 입력하면 자동으로 입장하게
+//const axios = require("axios");
+const EnterRoomButtonToDb = document.querySelector("button#EnterRoomButtonToDb");
+let userName;
+
+EnterRoomButtonToDb.addEventListener("click", (event) => {
+  event.preventDefault(); // 이벤트 기본 동작을 막음(새로고침 방지)
+
+  const userNameInPut = document.getElementById("UserNameToDb");
+
+  console.log("userName:", userNameInPut.value);
+  userName = userNameInPut.value;
+
+  fetch("http://localhost:3000/") // 서버의 URL로 요청을 보냄
+    .then((response) => response.json()) // 응답을 JSON 형식으로 변환
+    .then((data) => {
+      console.log(data); // 받은 데이터를 콘솔에 출력하거나 필요한 처리를 수행
+      data.forEach((item) => {
+        console.log(item);
+        console.log("id: " + item.id);
+        console.log("room name: " + item.ROOM_NAME);
+        console.log("R_TIME: " + item.R_TIME);
+        if (userName === item.id) {
+          console.log("userName: " + item.id);
+          socket.emit("join_room", item.ROOM_NAME, roomPassword, startMedia);
+        }
+      });
+    })
+    .catch((error) => {
+      console.error("There was an error!", error); // 에러 처리
+    });
+
+  /*
+  axios
+    .get("http://localhost:3000/")
+    .then((response) => {
+      console.log(response.data); // 서버로부터 받은 데이터를 콘솔에 출력 또는 필요한 작업 수행
+    })
+    .catch((error) => {
+      console.error("There was an error!", error); // 에러 처리
+    });
+    */
+
+  userNameInPut.value = "";
 });
