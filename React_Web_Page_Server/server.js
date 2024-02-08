@@ -58,6 +58,11 @@
  * 게시판 작업 D기능을 적용하였다.
  * 삭제를 위한 작업을 했고 해당 ID에 컬럼을 전부 삭제하도록 쿼리문을 작성하였다.
  * 게시판 작업 U기능 일부를 적용하였다.
+ * 
+ * 2-8
+ * 진행 사항:
+ * 게시판 작업을 모두 끝마쳤다.
+ * 업데이트를 위한 API를 작성했고, 로그아웃시 x_auth가 이름인 쿠키를 삭제하도록 로그아웃 API에 코드를 수정했다.
  */
 const express = require('express');
 const path = require('path');
@@ -188,7 +193,7 @@ app.post('/login_sign', (req, res) => {
 /**
  * 클라이언트와 서버에 존재하는 토큰이 일치하는지 확인하는 미들웨어이다.
  */
-app.get('/auth', verifyToken, (req, res) => {
+app.get('/auth', verifyToken, async (req, res) => {
   res.json({
     userID : req.userID,
     message: 'This is secure data!' 
@@ -204,7 +209,7 @@ function verifyToken(req, res, next) {
   console.log('verifyToken in token is = ', req.cookies);
   console.log('token is = ', token);
   if (!token) {
-    return res.json({ message: 'Token is not provided' });
+    return res.status(401).json({ message: 'Token is not provided' });
   }
   // verify 메서드로 복호화를 진행한다.
   jwt.verify(token, 'secretToken', (err, decoded) => {
@@ -227,7 +232,7 @@ function verifyToken(req, res, next) {
  * 마찬가지로 토큰이 일치하는지 확인을 위해 verifyToken 함수를 실행
  * 일치한다면 데이터베이스에서 해당 id랑 일치하는 컬럼에 token 값을 공백으로 업데이트 해준다.
  */
-app.get('/logout',verifyToken, (req, res) => {
+app.get('/logout',verifyToken, async (req, res) => {
   User_DB.query('SELECT * FROM users WHERE id = ?', [req.userID], (error, results) => {
     if (error || results.length === 0) {
       return res.status(401).json({ message: 'User not defined' });
@@ -235,7 +240,7 @@ app.get('/logout',verifyToken, (req, res) => {
     else {
       User_DB.query('UPDATE users SET token = "" WHERE id = ?', [req.userID])
       console.log('logout successful!');
-      res.status(200).send({logout : 'true'});
+      res.clearCookie('x_auth').status(200).send({logout : 'true'});
     }
   })
 });
@@ -281,8 +286,19 @@ app.post('/api/create', verifyToken, async (req, res) => {
   });
 })
 
-app.put('/api/update:id', async (req, res) => {
+app.put('/api/update:id', verifyToken, async (req, res) => {
   // 이 부분에는 생성하는 것과 마찬가지로 제목과 내용 태그를 받아 UPDATE쿼리를 적용해주면 된다.
+  const { Post_Title, Post_Content} = req.body.updatePost;
+  const selectItem = req.body.selectedItem;
+  const postID = req.params.id;
+  Post_DB.query('UPDATE posts SET Post_ID = ?, Post_Title = ?, Post_Content = ? ,Post_Tag = ? WHERE Post_Num = ?', [req.userID, Post_Title, Post_Content, selectItem, postID], (error, results) => {
+    if (error){
+      console.log('update Post error', error);
+    }
+    else{
+      res.json('updatePost successful');
+    }
+  });
 })
 
 app.delete('/api/delete/:id', async (req, res) => {

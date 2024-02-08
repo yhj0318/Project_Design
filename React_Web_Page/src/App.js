@@ -40,8 +40,12 @@
  * 1-15
  * 진행 사항:
  * 풋터에도 마찬가지로 로그인과 로그아웃이 수행 됐을 경우 논리값에 따라 바뀌도록 표시했다.
+ * 
+ * 2-8
+ * 진행 사항:
+ * 새로고침을 하면 로그인이 풀리는 문제를 발견해서 문제를 해결하고자 useEffect로 쿠키값을 항상 조회하여 그 값이 있다면 로그인이 유지되도록 만들었다.
  */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Main from './Main';
 import NotFound from './NotFound';
@@ -61,6 +65,16 @@ import ViewPost from './ViewPost';
 
 const App = () => {
    const [isLoggedIn, setLoggedIn] = useState(false);
+
+   useEffect(() => {
+      const cookies = document.cookie.split(';');
+      for(let i = 0; i < cookies.length; i++){
+         const cookie = cookies[i].trim();
+         if(cookie.startsWith('x_auth' + '=')){
+            setLoggedIn(true);
+         }
+      }
+   },[]);
 
    const handleLogin = () => {
       // 로그인 로직 수행 후 로그인이 성공하면 상태 업데이트

@@ -7,6 +7,11 @@
  * 아직은 위 기능이 구현되어있지 않아 누구나 수정 삭제가 가능하다.
  * 수정 기능은 아직 미완성으로 보여지는 것은 가능하지만 제목과 내용이 고정되어 수정이 불가능하여 이 문제를 해결 해야한다.
  * 삭제 기능은 정상적으로 동작한다.
+ * 
+ * 2-8
+ * 진행 사항:
+ * 내용이 고정되어 수정이 불가능한 문제를 해결했다. 조회하는 데이터셋과 변경하려는 데이터셋의 상태가 서로 같았기에 수정이 불가능했다.
+ * 상태는 상수로서 절대불변이기에 바꾸려는 값을 다른 상태에 저장하여 문제를 해결했다.
  */
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -14,6 +19,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 
 const ViewPost = () => {
   const [post, setPost] = useState({title: '', content: ''});
+  const [updatePost, setUpdatePost] = useState({Post_Title: '', Post_Content: ''});
   const { id } = useParams();
   const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
@@ -24,6 +30,7 @@ const ViewPost = () => {
     axios.get(`http://localhost:8080/api/posts/${id}`)
       .then((res) => {
         setPost(res.data);
+        setUpdatePost(res.data);
         console.log(res.data);
     })
       .catch(err => console.error(err));
@@ -41,9 +48,10 @@ const ViewPost = () => {
   }
   
   const handleUpdatePostSave = async () => {
-    await axios.put(`http://localhost:8080/api/update${id}`)
+    await axios.put(`http://localhost:8080/api/update${id}`, {updatePost, selectedItem})
     .then((res) => {
         console.log('response is = ', res.data);
+        navigate('/consulting_review');
     })
     .catch((err) => {
         console.error('update error is = ', err);
@@ -69,14 +77,14 @@ const ViewPost = () => {
                 <input
                     type="text"
                     placeholder="제목을 입력해주세요"
-                    value={post.Post_Title}
-                    onChange={e => setPost({ ...post, title: e.target.value })}
+                    value={updatePost.Post_Title}
+                    onChange={e => setUpdatePost({ ...updatePost, Post_Title: e.target.value })}
                 />
                 <p>내용</p>
                 <textarea
                     placeholder="1000자 이내로 작성해주세요"
-                    value={post.Post_Content}
-                    onChange={e => setPost({ ...post, content: e.target.value })}
+                    value={updatePost.Post_Content}
+                    onChange={e => setUpdatePost({ ...updatePost, Post_Content: e.target.value })}
                 />
                 <p>태그</p>
                     {checkboxes.map((checkbox) => (

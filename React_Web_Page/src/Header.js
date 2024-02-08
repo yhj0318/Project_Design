@@ -21,6 +21,10 @@
  * 따라서 이 구문을 추가했더니 원래의 로직대로 서버로부터 쿠키를 받고 스토리지에 저장이 가능했다.
  * 쿠키가 저장되어 서버로 전송하는 것도 가능하게 되어 로그인 상태를 유지하도록 만드는게 가능했다.
  * 가독성을 위해 try catch문을 promise로 바꿨다.
+ * 
+ * 2-8
+ * 진행 사항:
+ * 불필요한 쿠키 정보를 조회하는 코드를 App.js에 useEffect로 코드를 옮겨줬다.
  */
 import React from 'react';
 import './Header.css';
@@ -30,23 +34,16 @@ import axios from 'axios';
 
 const Header = ({isLoggedIn, handleLogout}) => {
   const logout = async() => {
-    const cookies = document.cookie.split(';');
-    for(let i = 0; i < cookies.length; i++){
-      const cookie = cookies[i].trim();
-      if(cookie.startsWith('x_auth' + '=')){
-        console.log('x_auth cookie is = ', cookie);
-        await axios.get('http://localhost:8080/logout', {withCredentials: true})
-        .then((res) => {
-          console.log(res.data);
-          handleLogout();
-        })
-        .catch((err) => {
-          console.log('logout error = ', err);
-        })
-      }
-    }
-  };
-
+    await axios.get('http://localhost:8080/logout', {withCredentials: true})
+    .then((res) => {
+      console.log(res.data);
+      handleLogout();
+    })
+    .catch((err) => {
+      console.log('logout error = ', err);
+    })
+  }
+  
     return (
     <>
     <header class="header">
