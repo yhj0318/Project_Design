@@ -63,6 +63,12 @@
  * 진행 사항:
  * 게시판 작업을 모두 끝마쳤다.
  * 업데이트를 위한 API를 작성했고, 로그아웃시 x_auth가 이름인 쿠키를 삭제하도록 로그아웃 API에 코드를 수정했다.
+ * 
+ * 2-27
+ * 진행 사항:
+ * 게시글 검색 및 페이지 기능을 수행하기 위해 API를 추가했다.
+ * 페이지 기능을 하기위해 기존에 post에 페이지 값을 추가하였고, 10개의 게시물만 보이도록 설정했다.
+ * 검색 API를 추가하여 검색시 해당 검색어중 제목, 내용, 태그 어느 하나라도 일치한다면 결과를 보여주도록 작성했다.
  */
 const express = require('express');
 const path = require('path');
@@ -246,7 +252,10 @@ app.get('/logout',verifyToken, async (req, res) => {
 });
 
 app.get('/api/posts', async (req, res) => {
-  Post_DB.query('SELECT Post_ID, Post_Title, Post_Tag, Post_Num, DATE_FORMAT(Post_Date, "%Y-%m-%d") AS Post_Date FROM posts ORDER BY Post_Num DESC',(error, results) => {
+  const page = parseInt(req.query.page) || 1;
+  const limit = 10;
+  const offset = (page - 1) * limit;
+  Post_DB.query('SELECT Post_ID, Post_Title, Post_Tag, Post_Num, DATE_FORMAT(Post_Date, "%Y-%m-%d") AS Post_Date FROM posts ORDER BY Post_Num DESC LIMIT ? OFFSET ?', [limit, offset], (error, results) => {
     if (error){
       console.log('post read error', error);
     }
@@ -313,6 +322,24 @@ app.delete('/api/delete/:id', async (req, res) => {
     }
   })
 })
+
+app.get('/api/search/:searchLine', async (req, res) => {
+  const page = parseInt(req.query.page) || 1;
+  const limit = 10;
+  const offset = (page - 1) * limit;
+  const postSearchLine = req.params.searchLine;
+  console.log(postSearchLine);
+  Post_DB.query('SELECT Post_ID, Post_Title, Post_Content, Post_Tag, Post_Num, DATE_FORMAT(Post_Date, "%Y-%m-%d") AS Post_Date FROM posts WHERE Post_Title LIKE ? OR Post_Content LIKE ? OR Post_Tag LIKE ? ORDER BY Post_Num DESC LIMIT ? OFFSET ?', [`%${postSearchLine}%`, `%${postSearchLine}%`,`%${postSearchLine}%`, limit, offset], (error, results) => {
+    if (error){
+      console.log('post search error', error);
+    }
+    else{
+      console.log('post search successful');
+      console.log('results is = ', results);
+      res.json(results);
+    }
+  });
+});
 
 app.get('/checkboxes', (req, res) => {
   res.json(checkboxes);

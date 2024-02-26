@@ -1,45 +1,30 @@
 /**
- * 2-1
- * 진행 사항:
- * 게시판 작업 CRUD 중 R을 진행하였다.
- * useEffect로 페이지에 접속할 때마다 작동하도록 하였고, get요청으로 데이터베이스에 있는 값을 불러온다.
- * 테스트 단계로 미흡한 부분이 있어 계속해서 수정이 필요하다.
- * 
- * 2-3
- * 진행 사항:
- * CRUD 중 C를 진행하였다.
- * 이제 수정 기능을 추가 해야한다.
- * 게시글을 눌러서 볼 수 있도록 페이지를 만들어야하고 만든 페이지에서 회원 정보와 일치한다면
- * 수정 권한을 통해 수정 버튼을 활성화 하고 게시글 수정 페이지로 넘어갈 수 있도록 만들어야 할 것 같다.
- * 이러한 작업 이전에 게시판에서 글을 선택할 수 있도록 만들어야 하고 그 후에 뷰페이지를 만들어야 한다.
- * 
- * 2-5
- * 진행 사항:
- * 상세페이지로 들어가도록 해당 id에 맞는 게시글을 Link하여 보여주도록 만들었다.
- * 
  * 2-27
  * 진행 사항:
- * 검색 기능을 위해 검색하기 위한 인풋창을 새롭게 만들었다.
- * 또한 태그 검색을 위해 모두 Link로 걸어주고, 페이지 기능을 만들기위해 버튼과 axios를 ?(query)로 값을 보내줬다.
- * 10개의 게시글만 보이도록 설정했고, 아직까진 디자인을 생각하지 않아서 디자인을 수정하고,
- * 게시글이 10개 미만일 경우 버튼이 고정되지 않아 버튼을 고정시킬 방법을 생각해야한다.
- * 이 문제는 버튼 태그를 밖으로 빼는 방법이 적절할 것 같다. => 수정예정
+ * 검색을 했을 때 검색된 페이지로 이동하도록 만든 js파일이다.
+ * 검색어가 제목, 내용, 태그 중 한 가지만 일치해도 결과를 보여주는 페이지이다.
  */
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Consulting_review.css';
-import {Link} from 'react-router-dom';
+import {Link, useParams} from 'react-router-dom';
 
-const Consulting_review = () => {
-    const [posts, setPosts] = useState([]);
+const SearchPost = () => {
+    const [searchResult, setSearchResult] = useState([]);
+    const { searchTerm } = useParams();
     const [searchLine, setSearchLine] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
 
     useEffect(() => {
-      axios.get(`http://localhost:8080/api/posts?page=${currentPage}`)
-        .then(response => setPosts(response.data))
-        .catch(error => console.error(error));
-    }, [currentPage]);
+        axios.get(`http://localhost:8080/api/search/${searchTerm}?page=${currentPage}`)
+        .then((response) => {
+            setSearchResult(response.data);
+            console.log('search response data is = ', response.data);
+        })
+        .catch(
+            error => console.error(error)
+        );
+    }, [searchTerm, currentPage]);
 
     return (
         <>
@@ -74,13 +59,14 @@ const Consulting_review = () => {
                                 <li class="review-mid-content-board-headers" id='tag'>태그</li>
                             </ul>
                         </div>
-                        <div class="review-mid-content-board-main">
-                            {posts.map(post => (
+                         <div class="review-mid-content-board-main">
+                            {searchResult.map(post => (
                                 <Link to={`/viewPost/${post.Post_Num}`}>
                                     <ul class="review-mid-content-board-main-list" key={post.Post_Num}>
                                         <li class="review-mid-content-board-mains" id="num">{post.Post_Num}</li>
                                         <li class="review-mid-content-board-mains" id="user">{post.Post_ID}</li>
-                                        <li class="review-mid-content-board-mains" id='title'>{post.Post_Title}</li>                                            <li class="review-mid-content-board-mains" id='date'>{post.Post_Date}</li>
+                                        <li class="review-mid-content-board-mains" id='title'>{post.Post_Title}</li>
+                                        <li class="review-mid-content-board-mains" id='date'>{post.Post_Date}</li>
                                         <li class="review-mid-content-board-mains" id='tag'>{post.Post_Tag}</li>
                                     </ul>
                                 </Link>
@@ -131,4 +117,4 @@ const Consulting_review = () => {
     );
 };
   
-export default Consulting_review;
+export default SearchPost;

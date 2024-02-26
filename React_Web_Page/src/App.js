@@ -62,6 +62,7 @@ import Footer from './Footer';
 import ScrollToTop from './ScrollToTop';
 import CreatePost from './CreatePost';
 import ViewPost from './ViewPost';
+import SearchPost from './SearchPost';
 
 const App = () => {
    const [isLoggedIn, setLoggedIn] = useState(false);
@@ -103,6 +104,7 @@ const App = () => {
          <Route path='/sign' element={<Sign />}></Route>
          <Route path='/createPost' element={<CreatePost />}></Route>
          <Route path='/viewPost/:id' element={<ViewPost />}></Route>
+         <Route path='/searchPost/:searchTerm' element={<SearchPost />}></Route>
          <Route path="*" element={<NotFound />}></Route>
       </Routes>
       <Footer isLoggedIn={isLoggedIn}/>
