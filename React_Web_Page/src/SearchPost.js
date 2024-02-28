@@ -3,6 +3,10 @@
  * 진행 사항:
  * 검색을 했을 때 검색된 페이지로 이동하도록 만든 js파일이다.
  * 검색어가 제목, 내용, 태그 중 한 가지만 일치해도 결과를 보여주는 페이지이다.
+ * 
+ * 2-29
+ * 진행 사항:
+ * 에러 헨들링을 하기위해 마지막페이지임을 알려주도록 만들었다.
  */
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
@@ -21,9 +25,10 @@ const SearchPost = () => {
             setSearchResult(response.data);
             console.log('search response data is = ', response.data);
         })
-        .catch(
-            error => console.error(error)
-        );
+        .catch((error) => {
+            console.error(error)
+            alert('마지막 페이지입니다.')
+        });
     }, [searchTerm, currentPage]);
 
     return (

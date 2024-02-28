@@ -69,6 +69,11 @@
  * 게시글 검색 및 페이지 기능을 수행하기 위해 API를 추가했다.
  * 페이지 기능을 하기위해 기존에 post에 페이지 값을 추가하였고, 10개의 게시물만 보이도록 설정했다.
  * 검색 API를 추가하여 검색시 해당 검색어중 제목, 내용, 태그 어느 하나라도 일치한다면 결과를 보여주도록 작성했다.
+ * 
+ * 2-29
+ * 진행 사항:
+ * 게시글 작성 기능 중 제목, 내용, 태그 어느 하나라도 없다면 작성이 안 되도록 작성했다.
+ * 검색시 페이지를 확인하기 위해 검색 API에도 페이지 확인을 위한 로직을 추가했다.
  */
 const express = require('express');
 const path = require('path');
@@ -255,6 +260,23 @@ app.get('/api/posts', async (req, res) => {
   const page = parseInt(req.query.page) || 1;
   const limit = 10;
   const offset = (page - 1) * limit;
+
+  Post_DB.query('SELECT COUNT(*) AS totalPosts FROM posts', (error, countResult) => {
+    if (error) {
+      console.log('total post count error', error);
+      res.status(500).json({ error: 'Internal server error' });
+      return;
+    }
+
+    const totalPosts = countResult[0].totalPosts;
+    const totalPages = Math.ceil(totalPosts / limit);
+
+    // 마지막 페이지인지 확인
+    if (page > totalPages) {
+      res.status(404).json({ error: 'Page not found' });
+      return;
+    }
+
   Post_DB.query('SELECT Post_ID, Post_Title, Post_Tag, Post_Num, DATE_FORMAT(Post_Date, "%Y-%m-%d") AS Post_Date FROM posts ORDER BY Post_Num DESC LIMIT ? OFFSET ?', [limit, offset], (error, results) => {
     if (error){
       console.log('post read error', error);
@@ -264,6 +286,7 @@ app.get('/api/posts', async (req, res) => {
       console.log('results is = ', results);
       res.json(results);
     }
+    });
   });
 });
 
@@ -281,10 +304,14 @@ app.get('/api/posts/:id', (req, res) => {
   });
 });
 // 게시글 작성을 위한 요청 토큰을 확인하여 어떤 작성자인지 확인하고 데이터베이스에 저장
+// 제목, 내용, 태그 중 하나라도 비어있다면 작성이 안 되도록 작성
 app.post('/api/create', verifyToken, async (req, res) => {
   const { title, content} = req.body.newPost;
   const selectItem = req.body.selectedItem;
-  console.log(req.body);
+  if(title === '' || content == '' || selectItem == null){
+    res.status(401).json({error : 'Not Null'});
+    return;
+  }
   Post_DB.query('INSERT INTO posts (Post_ID, Post_Title, Post_Content, Post_Tag) VALUES (?, ?, ?, ?)', [req.userID, title, content, selectItem], (error, results) => {
     if (error){
       console.log('create Post error', error);
@@ -310,7 +337,7 @@ app.put('/api/update:id', verifyToken, async (req, res) => {
   });
 })
 
-app.delete('/api/delete/:id', async (req, res) => {
+app.delete('/api/delete/:id', verifyToken, async (req, res) => {
   const postID = req.params.id;
   console.log(postID)
   Post_DB.query('DELETE FROM posts WHERE Post_Num = ?', [postID], (error, results) => {
@@ -329,6 +356,23 @@ app.get('/api/search/:searchLine', async (req, res) => {
   const offset = (page - 1) * limit;
   const postSearchLine = req.params.searchLine;
   console.log(postSearchLine);
+  
+  Post_DB.query('SELECT COUNT(*) AS totalPosts FROM posts WHERE Post_Title LIKE ? OR Post_Content LIKE ? OR Post_Tag LIKE ? ', [`%${postSearchLine}%`, `%${postSearchLine}%`,`%${postSearchLine}%`], (error, countResult) => {
+    if (error) {
+      console.log('total post count error', error);
+      res.status(500).json({ error: 'Internal server error' });
+      return;
+    }
+
+    const totalPosts = countResult[0].totalPosts;
+    const totalPages = Math.ceil(totalPosts / limit);
+
+    // 마지막 페이지인지 확인
+    if (page > totalPages) {
+      res.status(404).json({ error: 'Page not found' });
+      return;
+    }
+
   Post_DB.query('SELECT Post_ID, Post_Title, Post_Content, Post_Tag, Post_Num, DATE_FORMAT(Post_Date, "%Y-%m-%d") AS Post_Date FROM posts WHERE Post_Title LIKE ? OR Post_Content LIKE ? OR Post_Tag LIKE ? ORDER BY Post_Num DESC LIMIT ? OFFSET ?', [`%${postSearchLine}%`, `%${postSearchLine}%`,`%${postSearchLine}%`, limit, offset], (error, results) => {
     if (error){
       console.log('post search error', error);
@@ -338,6 +382,7 @@ app.get('/api/search/:searchLine', async (req, res) => {
       console.log('results is = ', results);
       res.json(results);
     }
+    });
   });
 });
 

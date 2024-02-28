@@ -1,0 +1,61 @@
+/*
+2-29
+진행 사항:
+게시글 생성페이지에 대한 디자인을 적용했다.
+*/
+.create-category{
+    font-size: x-large;
+    margin: auto;
+    width: 367px;
+    padding-top: 30px;
+    text-align: center;
+    padding-bottom: 30px;
+}
+.create-title, .create-content{
+    display: flex;
+    font-size: x-large;
+    margin: auto;
+    padding-top: 30px;
+    width: 1000px;
+}
+.create-title-input, .create-content-textarea{
+    font-size: large;
+    width: 800px;
+    height: 30px;
+    border: 2px solid gray;
+    margin-left: 50px;
+}
+.create-content-textarea{
+    height: 500px;
+    font-family: none;
+}
+.create-tags{
+    display: flex;
+    font-size: x-large;
+    margin: auto;
+    padding-top: 30px;
+    width: 1000px;
+}
+.create-tag{
+    display: flex;
+    flex-direction: row-reverse;
+    margin-left: 20px;
+}
+.create-title-word{
+    padding-right: 30px;
+}
+.create-button-wrap{
+    font-size: large;
+    margin: auto;
+    width: 367px;
+    padding-top: 30px;
+    text-align: center;
+}
+.create-button{
+    font-size: large;
+    cursor: pointer;
+    width: 140px;
+    margin:auto;
+    border:2px solid gray;
+    border-radius: 30px;
+}

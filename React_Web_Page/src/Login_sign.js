@@ -27,6 +27,10 @@
  * CORS 오류로 이를 설정해줘야지 쿠키를 송신하고 수신받는다.
  * 서버가 전송한 쿠키값을 가져오기 위해 이를 설정해주었고 따라서 쿠키가 스토리지에 저장되는 것을 확인할 수 있다.
  * 서버로 전송하는 과정이 기존에는 try catch문 이였는데, 간단하게 보이고자 promise 문법으로 바꿨다.
+ * 
+ * 2-29
+ * 진행 사항:
+ * 라벨 태그로 CSS를 주는 바람에 오류가 생겨 클래스로 구분 짓도록했다.
  */
 import React, { useState } from 'react';
 import './Login_sign.css';
@@ -80,9 +84,9 @@ const Login_sign = ({handleLogin}) => {
             <div class="login-screen">
                 <div class="login-top">로그인</div>
                 <form class="login-box">
-                    <label for="id">아이디</label>
+                    <label class="login-box-label" for="id">아이디</label>
                     <input type='text' id="id" class="input-id" placeholder='아이디를 입력하세요' value={id} onChange={(e) => setUserid(e.target.value)}></input>
-                    <label for="password">비밀번호</label>
+                    <label class="login-box-label" for="password">비밀번호</label>
                     <input type='password' id="password" class="input-pw" placeholder='비밀번호를 입력하세요' value={password} onChange={(e) => setPassword(e.target.value)}></input>
                     <button class="login-btn" onClick={handleSubmit}>로그인</button>
                 </form>

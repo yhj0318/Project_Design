@@ -1,0 +1,55 @@
+/*
+2-29
+진행 사항:
+게시글 디테일 페이지 디자인을 적용했다.
+*/
+.view-top, .view-mid, .view-buttons{
+    font-size: large;
+    margin: auto;
+    padding-top: 30px;
+    width: 1000px;
+}
+.view-top-title-wrap, .view-top-content-wrap, .view-mid-wrap{
+    width: 900px;
+    margin-bottom: 10px;
+}
+.view-top-title{
+    display: flex;
+    align-items: center;
+}
+.view-post-title, .view-post-content-subtitle, .view-mid-content-subtitle{
+    padding: 0px 20px 0px 20px;
+    font-size: x-large;
+    border-right: 2px solid gray;
+}
+.view-mid-content-subtitle{
+    border: 0px;
+}
+.view-top-content{
+    display: flex;
+    align-items: center;
+}
+.view-post-content-class, .view-post-title-class{
+    margin: 15px 30px 15px 10px;
+}
+.view-mid-content-class{
+    margin-left: 20px;
+    width: 900px;
+    height: 500px;
+    border: 3px solid gray;
+}
+.view-buttons{
+    display: flex;
+    padding-left: 40px;
+}
+.view-button{
+    margin-right: 20px;
+    cursor: pointer;
+    border-radius: 30px;
+    width: 110px;
+    height: 20px;
+    text-align: center;
+}
+.view-button:hover{
+    box-shadow: 4.0px 4.0px 4.0px hsl(0deg 0% 0% / 0.2);
+}

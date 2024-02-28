@@ -2,6 +2,10 @@
 12-06
 진행 사항:
 로그인/가입 페이지에 대한 css를 적용시킴
+
+2-29
+진행 사항:
+라벨 태그를 클래스로 수정했다.
 */
 .login-sign-content
 {
@@ -34,7 +38,7 @@
     display: flex;
     flex-direction: column;
 }
-label
+.login-box-label
 {
     display:flex;
     margin: 20px 0px 20px 0px;

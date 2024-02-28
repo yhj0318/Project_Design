@@ -12,10 +12,17 @@
  * 진행 사항:
  * 내용이 고정되어 수정이 불가능한 문제를 해결했다. 조회하는 데이터셋과 변경하려는 데이터셋의 상태가 서로 같았기에 수정이 불가능했다.
  * 상태는 상수로서 절대불변이기에 바꾸려는 값을 다른 상태에 저장하여 문제를 해결했다.
+ * 
+ * 2-29
+ * 진행 사항:
+ * 디자인 적용을 위해 HTML 작업을 진행했고, 권한이 없는 사용자에게 수정 및 삭제가 불가능 하도록 만들었다.
+ * 해당 권한이 없는 사람에게 애초에 버튼이 보이지 않도록 만들면 좋을 것 같다. => 수정예정
  */
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
+import './ViewPost.css';
+import './CreatePost.css';
 
 const ViewPost = () => {
   const [post, setPost] = useState({title: '', content: ''});
@@ -44,7 +51,15 @@ const ViewPost = () => {
   };
 
   const handleUpdatePost = () => {
-    setIsEditing(true);
+    axios.get('http://localhost:8080/auth')
+    .then((response) => {
+      console.log(response.data);
+      setIsEditing(true);
+    })
+    .catch((error) => {
+      console.error(error);
+      alert('해당 권한이 없습니다.');
+    })
   }
   
   const handleUpdatePostSave = async () => {
@@ -55,6 +70,7 @@ const ViewPost = () => {
     })
     .catch((err) => {
         console.error('update error is = ', err);
+        alert('제목, 내용, 태그를 빠짐없이 작성해주세요!')
     });
   }
 
@@ -66,57 +82,89 @@ const ViewPost = () => {
     })
     .catch((err) => {
         console.error('delete error is = ', err);
+        alert('해당 권한이 없습니다.');
     })
   }
+
   return (
     <div>
         {isEditing ? (
-            <div>
-                <h2>게시글 작성</h2>
-                <p>제목</p>
+        <div class="create-main">
+        <div class="create-main-frame">
+          <div class="create-category">게시글 수정</div>
+            <div class="create-title">
+              <div>제목</div>
+              <input
+                class="create-title-input"
+                type="text"
+                placeholder="제목을 입력해주세요"
+                value={updatePost.Post_Title}
+                onChange={e => setUpdatePost({ ...updatePost, Post_Title: e.target.value })}
+              />
+            </div>
+          <div class="create-content">
+            <div class="">내용</div>
+            <textarea
+              class="create-content-textarea"
+              placeholder="1000자 이내로 작성해주세요"
+              value={updatePost.Post_Content}
+              onChange={e => setUpdatePost({ ...updatePost, Post_Content: e.target.value })}
+            />
+          </div>
+          <div class="create-tags">
+            <div class="create-title-word">태그</div>
+            {checkboxes.map((checkbox) => (
+              <label class="create-tag" key={checkbox.id}>
                 <input
-                    type="text"
-                    placeholder="제목을 입력해주세요"
-                    value={updatePost.Post_Title}
-                    onChange={e => setUpdatePost({ ...updatePost, Post_Title: e.target.value })}
+                  type="checkbox"
+                  checked={selectedItem === checkbox.id}
+                  onChange={() => handleCheckboxChange(checkbox.id)}
                 />
-                <p>내용</p>
-                <textarea
-                    placeholder="1000자 이내로 작성해주세요"
-                    value={updatePost.Post_Content}
-                    onChange={e => setUpdatePost({ ...updatePost, Post_Content: e.target.value })}
-                />
-                <p>태그</p>
-                    {checkboxes.map((checkbox) => (
-                        <label key={checkbox.id}>
-                        <input
-                            type="checkbox"
-                            checked={selectedItem === checkbox.id}
-                            onChange={() => handleCheckboxChange(checkbox.id)}
-                        />
-                        {checkbox.label}
-                    </label>
-                ))}
-            <button onClick={handleUpdatePostSave}>Update</button>
-            </div>
+                {checkbox.label}
+              </label>
+            ))}
+          </div>
+          <div class="create-button-wrap">
+            <div class="create-button" onClick={handleUpdatePostSave}><p>게시글 수정하기</p></div>
+          </div>
+        </div>
+      </div>
         ) : (
-            <div>
-                <h2>작성번호</h2>
-                <p>{post.Post_Num}</p>
-                <h2>제목</h2>
-                <p>{post.Post_Title}</p>
-                <h2>내용</h2>
-                <p>{post.Post_Content}</p>
-                <h2>태그</h2>
-                <p>{post.Post_Tag}</p>
-                <h2>작성자</h2>
-                <p>{post.Post_ID}</p>
-                <h2>작성날짜</h2>
-                <p>{post.Post_Date}</p>
-                <button onClick={handleUpdatePost}>게시글 수정</button>
-                <button onClick={handleDeletePost}>게시글 삭제</button>
+        <div class="view-main">
+          <div class="view-top">
+            <div class="view-top-title-wrap">
+              <div class="view-top-title">
+                <div class="view-post-title" id="Post-Title">제목</div>
+                <p class="view-post-title-class">{post.Post_Title}</p>
+              </div>
             </div>
-        )}
+            <div class="view-top-content-wrap">
+              <div class="view-top-content">
+                <div class="view-post-content-subtitle" id="Post-Num">작성번호</div>
+                <p class="view-post-content-class">{post.Post_Num}</p>
+                <div class="view-post-content-subtitle" id="Post-Tag">태그</div>
+                <p class="view-post-content-class">{post.Post_Tag}</p>
+                <div class="view-post-content-subtitle" id="Post-User">작성자</div>
+                <p class="view-post-content-class">{post.Post_ID}</p>
+                <div class="view-post-content-subtitle" id="Post-Date">작성날짜</div>
+                <p class="view-post-content-class">{post.Post_Date}</p>
+              </div>
+            </div>
+          </div>
+          <div class="view-mid">
+            <div class="view-mid-wrap">
+              <div class="view-mid-content">
+                <div class="view-mid-content-subtitle" id="Post-Content">내용</div>
+                <p class="view-mid-content-class">{post.Post_Content}</p>
+              </div>
+            </div>
+          </div>
+          <div class="view-buttons">
+            <div class="view-button" id="Post-Update" onClick={handleUpdatePost}>게시글 수정</div>
+            <div class="view-button" id="Post-Delete" onClick={handleDeletePost}>게시글 삭제</div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
