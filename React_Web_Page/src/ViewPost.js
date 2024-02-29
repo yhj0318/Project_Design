@@ -16,7 +16,11 @@
  * 2-29
  * 진행 사항:
  * 디자인 적용을 위해 HTML 작업을 진행했고, 권한이 없는 사용자에게 수정 및 삭제가 불가능 하도록 만들었다.
- * 해당 권한이 없는 사람에게 애초에 버튼이 보이지 않도록 만들면 좋을 것 같다. => 수정예정
+ * 해당 권한이 없는 사람에게 애초에 버튼이 보이지 않도록 만들면 좋을 것 같다. => 수정완료 3-1
+ * 
+ * 3-1
+ * 진행 사항:
+ * 권한이 없는 사람에게 버튼이 안 보이도록 만들었다.
  */
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -30,6 +34,7 @@ const ViewPost = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
+  const [isAuth, setIsAuth] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const [checkboxes, setCheckboxes] = useState([]);
 
@@ -44,6 +49,15 @@ const ViewPost = () => {
     axios.get('http://localhost:8080/checkboxes')
       .then(response => setCheckboxes(response.data))
       .catch(error => console.error('Error fetching checkboxes:', error));
+      
+    axios.get(`http://localhost:8080/api/updateAuth/${id}`)
+      .then((response) => {
+        console.log(response.data);
+        setIsAuth(true);
+      })
+      .catch((error) => {
+        console.error(error);
+      })
   }, [id]);
 
   const handleCheckboxChange = (itemId) => {
@@ -58,7 +72,6 @@ const ViewPost = () => {
     })
     .catch((error) => {
       console.error(error);
-      alert('해당 권한이 없습니다.');
     })
   }
   
@@ -159,10 +172,14 @@ const ViewPost = () => {
               </div>
             </div>
           </div>
+          {isAuth ? (
           <div class="view-buttons">
             <div class="view-button" id="Post-Update" onClick={handleUpdatePost}>게시글 수정</div>
             <div class="view-button" id="Post-Delete" onClick={handleDeletePost}>게시글 삭제</div>
           </div>
+          ) : (
+            <div></div>
+          )}
         </div>
       )}
     </div>

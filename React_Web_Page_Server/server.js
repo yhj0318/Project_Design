@@ -74,6 +74,10 @@
  * 진행 사항:
  * 게시글 작성 기능 중 제목, 내용, 태그 어느 하나라도 없다면 작성이 안 되도록 작성했다.
  * 검색시 페이지를 확인하기 위해 검색 API에도 페이지 확인을 위한 로직을 추가했다.
+ * 
+ * 3-1
+ * 진행 사항:
+ * 게시글 디테일 페이지에서 해당 사용자가 유효한지 아닌지 판단하는 조건문을 추가했다.
  */
 const express = require('express');
 const path = require('path');
@@ -337,15 +341,36 @@ app.put('/api/update:id', verifyToken, async (req, res) => {
   });
 })
 
+app.get('/api/updateAuth/:id', verifyToken, (req, res) => {
+  console.log('req.params.id is = ', req.params.id);
+  const postID = req.params.id;
+  Post_DB.query('SELECT Post_ID FROM posts WHERE Post_Num = ?', [postID], (error, UserResult) => {
+    if(UserResult[0].Post_ID === req.userID){
+      res.json('updateAuth Secure Data');
+    }
+    else{
+      res.status(401).json({Error : 'This is not secure'});
+      return;
+    }
+  })
+})
 app.delete('/api/delete/:id', verifyToken, async (req, res) => {
   const postID = req.params.id;
   console.log(postID)
-  Post_DB.query('DELETE FROM posts WHERE Post_Num = ?', [postID], (error, results) => {
-    if(error){
-      console.log('delete post error is = ', error);
+  Post_DB.query('SELECT Post_ID FROM posts WHERE Post_Num = ?', [postID], (error, UserResult) => {
+    if(UserResult[0].Post_ID === req.userID){
+      Post_DB.query('DELETE FROM posts WHERE Post_Num = ?', [postID], (error, results) => {
+        if(error){
+          console.log('delete post error is = ', error);
+        }
+        else{
+          res.json('deletePost successful');
+        }
+      })
     }
     else{
-      res.json('deletePost successful');
+      res.status(401).json({Error : 'This is not secure'});
+      return;
     }
   })
 })

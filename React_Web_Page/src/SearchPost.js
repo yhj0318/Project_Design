@@ -7,6 +7,10 @@
  * 2-29
  * 진행 사항:
  * 에러 헨들링을 하기위해 마지막페이지임을 알려주도록 만들었다.
+ * 
+ * 3-1
+ * 진행 사항:
+ * 검색 후 페이지에 버튼을 디자인하지 않아 해당 기능을 추가했다.
  */
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
@@ -77,10 +81,6 @@ const SearchPost = () => {
                                 </Link>
                             ))}
                         </div>
-                        <div class="review-mid-content-board-page">
-                            <button onClick={() => setCurrentPage(prevPage => Math.max(prevPage - 1, 1))} class="review-mid-content-board-page-button">이전 페이지</button>
-                            <button onClick={() => setCurrentPage(prevPage => prevPage + 1)} class="review-mid-content-board-page-button">다음 페이지</button>
-                        </div>
                     </div>
                     <div class="review-mid-content-tag">
                         <div class="review-mid-content-tag-wrap">
@@ -116,6 +116,10 @@ const SearchPost = () => {
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="review-page-buttons">
+                <div onClick={() => setCurrentPage(prevPage => Math.max(prevPage - 1, 1))} class="review-page-button">이전 페이지</div>
+                <div onClick={() => setCurrentPage(prevPage => prevPage + 1)} class="review-page-button">다음 페이지</div>
             </div>
         </div>
         </>
