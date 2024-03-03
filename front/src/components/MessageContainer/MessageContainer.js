@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import "./MessageContainer.css";
 import { Container } from "@mui/system";
 
@@ -12,9 +12,9 @@ const MessageContainer = ({ messageList, user }) => {
               <div className="system-message-container">
                 <p className="system-message">{message.chat}</p>
               </div>
-            ) : message.user.name === user.name ? (
+            ) : message.user.id === user.id ? (
               <div className="my-message-container">
-                <div className="my-message">{message.chat}</div>
+                <div className="my-message">{message.chat}</div>    //채팅 한쪽 통신문제 
               </div>
             ) : (
               <div className="your-message-container">
@@ -24,7 +24,7 @@ const MessageContainer = ({ messageList, user }) => {
                   style={
                     (index === 0
                       ? { visibility: "visible" }
-                      : messageList[index - 1].user.name === user.name) ||
+                      : messageList[index - 1].user.id === user.id) ||
                     messageList[index - 1].user.name === "system"
                       ? { visibility: "visible" }
                       : { visibility: "hidden" }
