@@ -18,9 +18,10 @@
  */
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
-const Sign = () => {    
+const Sign = () => {
+    const navigate = useNavigate();
     const [message, setMessage] = useState('');
     const [id, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -34,6 +35,8 @@ const Sign = () => {
         });
         setMessage(response.data);
         console.log(response.data);
+        alert('회원가입을 성공했습니다!');
+        navigate('/');
         } catch (error) {
         console.error(error);
         }
@@ -50,9 +53,9 @@ const Sign = () => {
             <div class="login-screen">
                 <div class="login-top">회원가입</div>
                 <form class="login-box">
-                    <label for="id">아이디</label>
+                    <label class="login-box-label" for="id">아이디</label>
                     <input type='text' id="id" class="input-id" placeholder='아이디를 입력하세요' value={id} onChange={(e) => setUsername(e.target.value)}></input>
-                    <label for="password">비밀번호</label>
+                    <label class="login-box-label" for="password">비밀번호</label>
                     <input type='password' id="password" class="input-pw" placeholder='비밀번호를 입력하세요' value={password} onChange={(e) => setPassword(e.target.value)}></input>
                     {/* <label for="password">비밀번호 확인</label>
                     <input type='password' id="password" class="input-pw" placeholder='비밀번호를 다시 입력하세요'></input> */}
