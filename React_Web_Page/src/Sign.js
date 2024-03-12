@@ -23,22 +23,37 @@
  * 또한 약식으로 아이디랑 비밀번호만 작성하게했는데, 이 부분 또한 비밀번호 확인, 성별, 이메일, 핸드폰번호, 주소
  * 다양하게 세분화하여 나눠야한다. 이를 위해 데이터베이스도 수정이 필요하다.
  */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
-
+import DaumPostcode from 'react-daum-postcode';
+import './Sign.css'
 const Sign = () => {
     const navigate = useNavigate();
     const [message, setMessage] = useState('');
     const [id, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [comparePassword, setComparePassword] = useState('');
+    const [email, setEmail] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState('');
+    const [adress, setAdress] = useState('');
+    const [userCheckbox, setUserCheckbox] = useState([]);
+    const [userSelect, setUserSelect] = useState(null);
 
     const handleRegister = async (event) => {
         event.preventDefault();
+        if(password != comparePassword){
+            setMessage('비밀번호가 일치하지 않습니다.');
+            return;
+        }
         try {
         const response = await axios.post('http://localhost:8080/sign', {
             id,
-            password
+            password,
+            email,
+            adress,
+            phoneNumber,
+            userSelect
         });
         setMessage(response.data);
         console.log(response.data);
@@ -49,6 +64,16 @@ const Sign = () => {
         }
     };
 
+    useEffect(() => {
+        axios.get('http://localhost:8080/userCheckboxes')
+        .then(response => setUserCheckbox(response.data))
+        .catch(error => console.error('Error fetching checkboxes:', error));
+    }, []);
+
+    const handleUserCheckboxChange = (itemId) => {
+        setUserSelect(itemId);
+      };
+    
     return (
         <>
         <div class="login-sign-content">
@@ -60,19 +85,37 @@ const Sign = () => {
             <div class="login-screen">
                 <div class="login-top">회원가입</div>
                 <form class="login-box">
+                    <div class="userCheckbox-wrap">
+                        {userCheckbox.map((userCheck) => (
+                            <label class="userCheckbox" key={userCheck.id}>
+                                <input 
+                                type="checkbox" 
+                                checked={userSelect === userCheck.id} 
+                                onChange={() => handleUserCheckboxChange(userCheck.id)}
+                                />
+                                {userCheck.label}
+                            </label>
+                        ))}
+                    </div>
                     <label class="login-box-label" for="id">아이디</label>
                     <input type='text' id="id" class="input-id" placeholder='아이디를 입력하세요' value={id} onChange={(e) => setUsername(e.target.value)}></input>
                     <label class="login-box-label" for="password">비밀번호</label>
                     <input type='password' id="password" class="input-pw" placeholder='비밀번호를 입력하세요' value={password} onChange={(e) => setPassword(e.target.value)}></input>
-                    {/* <label for="password">비밀번호 확인</label>
-                    <input type='password' id="password" class="input-pw" placeholder='비밀번호를 다시 입력하세요'></input> */}
+                    <label class="login-box-label" for="password">비밀번호 확인</label>
+                    <input type='password' id="password" class="input-pw" placeholder='비밀번호 다시 입력하세요' value={comparePassword} onChange={(e) => setComparePassword(e.target.value)}></input>
+                    {message && (
+                        <div>
+                            <p>{message}</p>
+                        </div>
+                    )}
+                    <label class="login-box-label" for="email">이메일</label>
+                    <input type='text' id="email" class="input-id" placeholder='이메일을 입력하세요' value={email} onChange={(e) => setEmail(e.target.value)}></input>
+                    <label class="login-box-label" for="phoneNumber">전화번호</label>
+                    <input type='text' id="phoneNumber" class="input-id" placeholder='전화번호를 입력하세요' value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)}></input>
+                    <label class="login-box-label" for="adress">주소</label>
+                    <input type='text' id="adress" class="input-id" placeholder='주소를 입력하세요' value={adress} onChange={(e) => setAdress(e.target.value)}></input>
                     <button class="login-btn" onClick={handleRegister}>회원가입</button>
                 </form>
-                {message && (
-                    <div>
-                    <p>{message}</p>
-                    </div>
-                )}
             </div>
         </div>
         </>

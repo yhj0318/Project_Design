@@ -122,6 +122,11 @@ const checkboxes = [
   // 추가적인 체크박스 항목들을 필요에 따라 추가할 수 있습니다.
 ];
 
+const userCheckboxes = [
+  {id: '일반사용자', label: '일반사용자'}, 
+  {id: '변호사', label: '변호사'}
+];
+
 User_DB.connect((err) => {
   if(err){
     console.log('Error User_DB is connection to MySQL: ', err);
@@ -150,9 +155,9 @@ app.get('/', async (req, res) =>
 });
 
 app.post('/sign', async (req, res) => {
-  const { id, password } = req.body;
+  const { id, password, email, adress, phoneNumber, userSelect } = req.body;
   const hashedPassword = await bcrypt.hash(password, 10);
-  const user = { id, password: hashedPassword };
+  const user = { id, password: hashedPassword, email, adress, phoneNumber, lawyer: userSelect };
   User_DB.query('INSERT INTO users SET ?', user, (error, results) => {
     if (error) {
       console.error('Error registering user:', error);
@@ -413,6 +418,10 @@ app.get('/api/search/:searchLine', async (req, res) => {
 
 app.get('/checkboxes', (req, res) => {
   res.json(checkboxes);
+});
+
+app.get('/userCheckboxes', (req, res) => {
+  res.json(userCheckboxes);
 });
 
 app.listen(8080, () => {

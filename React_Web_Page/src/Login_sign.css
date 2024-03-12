@@ -30,7 +30,7 @@
 }
 .login-screen
 {
-    margin-top: 50px;
+    margin-top: 30px;
 }
 .login-box
 {
@@ -64,4 +64,7 @@
 {
     margin-left: 60px;
     color: tomato;
+}
+.login-top{
+    font-size: large;
 }
