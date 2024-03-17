@@ -25,19 +25,25 @@
  * 2-8
  * 진행 사항:
  * 불필요한 쿠키 정보를 조회하는 코드를 App.js에 useEffect로 코드를 옮겨줬다.
+ * 
+ * 3-17
+ * 진행 사항:
+ * 마이페이지를 만들기위해 로그인을 했을 경우 마이페이지 라는 카테고리가 나오도록 만들었다.
  */
 import React from 'react';
 import './Header.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Default.css';
 import axios from 'axios';
 
 const Header = ({isLoggedIn, handleLogout}) => {
+  const navigate = useNavigate();
   const logout = async() => {
     await axios.get('http://localhost:8080/logout', {withCredentials: true})
     .then((res) => {
       console.log(res.data);
       handleLogout();
+      navigate('/');
     })
     .catch((err) => {
       console.log('logout error = ', err);
@@ -48,7 +54,7 @@ const Header = ({isLoggedIn, handleLogout}) => {
     <>
     <header class="header">
       <div class="top">
-        <div class="top-left">
+        <div class="top-categorie">
           <div class="top-title">
             <h2 class="title">
               <Link to="/">법률 상담 서비스</Link>
@@ -66,7 +72,7 @@ const Header = ({isLoggedIn, handleLogout}) => {
             </div>
           </div>
         </div>
-        <div class="top-center">
+        <div class="top-search">
           <div class="search-icon">
             <a class="icon-btn">
               <img class="icon" src="/images/search-icon.png" alt="검색 아이콘" width={20} height={20} href="search-btn"></img>
@@ -76,7 +82,16 @@ const Header = ({isLoggedIn, handleLogout}) => {
             <input type="text" placeholder='어떤 문제가 있으신가요?' maxLength="30" class="search-space"></input>
           </div>
         </div>
-        <div class="top-right">
+        <div class="top-mypage">
+          <div class="mypage-btn">
+            {isLoggedIn ? (
+              <Link to="/myPage" target='_self'>마이페이지</Link>
+            ) : (
+              <div></div>
+            )}
+          </div>
+        </div>
+        <div class="top-login-sign">
           <div class="login-sign-btn">
             {isLoggedIn ? (
               <Link onClick={logout}>로그아웃</Link>

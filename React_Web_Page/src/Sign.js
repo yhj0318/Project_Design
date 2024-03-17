@@ -26,7 +26,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
-import DaumPostcode from 'react-daum-postcode';
+
 import './Sign.css'
 const Sign = () => {
     const navigate = useNavigate();

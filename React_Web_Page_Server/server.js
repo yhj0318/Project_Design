@@ -78,6 +78,10 @@
  * 3-1
  * 진행 사항:
  * 게시글 디테일 페이지에서 해당 사용자가 유효한지 아닌지 판단하는 조건문을 추가했다.
+ * 
+ * 3-17
+ * 진행 사항:
+ * 마이페이지에 유저데이터를 가져오기 위한 API, 예약하기 페이지에 변호사 데이터를 가져오기 위한 API를 설계했다.
  */
 const express = require('express');
 const path = require('path');
@@ -415,6 +419,34 @@ app.get('/api/search/:searchLine', async (req, res) => {
     });
   });
 });
+
+app.get('/userdata', verifyToken, (req, res) => {
+  User_DB.query('SELECT id, email, phoneNumber, adress, lawyer FROM users WHERE id = ?', [req.userID], (error, results) => {
+    if(error){
+      console.log('userData error', error);
+      res.status(500).json({error: 'user Database error'});
+      return;
+    }
+    else{
+      console.log('userDate successful');
+      res.json(results);
+    }
+  })
+})
+
+app.get('/lawyerData', (req, res) => {
+  User_DB.query('SELECT id, email, phoneNumber, adress FROM users WHERE lawyer = ?', ['변호사'], (error, results) => {
+    if(error){
+      console.log('lawyerData error', error);
+      res.status(500).json({error: 'lawyer Database error'});
+      return;
+    }
+    else{
+      console.log('lawyerData search successful');
+      res.json(results);
+    }
+  })
+})
 
 app.get('/checkboxes', (req, res) => {
   res.json(checkboxes);

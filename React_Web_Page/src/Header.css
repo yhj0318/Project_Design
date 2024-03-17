@@ -29,7 +29,7 @@ border-radius를 30px로 바꾸니 아주 이쁘게 동그라미 모양을 만�
   border-bottom:2px solid gray;
   background-color: white;
 }
-.top-left
+.top-categorie
 {
   display:flex;
 }
@@ -59,7 +59,7 @@ border-radius를 30px로 바꾸니 아주 이쁘게 동그라미 모양을 만�
 {
   box-shadow: 4.0px 4.0px 4.0px 4.0px hsl(0deg 0% 0% / 0.1);
 }
-.top-center
+.top-search
 {
   display:flex;
   align-items: center;
@@ -87,14 +87,14 @@ border-radius를 30px로 바꾸니 아주 이쁘게 동그라미 모양을 만�
 {
   font-size:17px;
 }
-.top-right
+.top-login-sign, .top-mypage
 {
   font-size:15px;
-  margin:0px 15px 0px 15px;
+  margin:0px 0px 0px 10px;
   padding: 8px;
   border-radius: 30px;
 }
-.top-right:hover
+.top-login-sign:hover, .top-mypage:hover
 {
   box-shadow: 4.0px 4.0px 4.0px 4.0px hsl(0deg 0% 0% / 0.1);
 }

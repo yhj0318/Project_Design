@@ -44,6 +44,10 @@
  * 2-8
  * 진행 사항:
  * 새로고침을 하면 로그인이 풀리는 문제를 발견해서 문제를 해결하고자 useEffect로 쿠키값을 항상 조회하여 그 값이 있다면 로그인이 유지되도록 만들었다.
+ * 
+ * 3-17
+ * 진행 사항:
+ * 마이페이지를 만들었다.
  */
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
@@ -63,6 +67,7 @@ import ScrollToTop from './ScrollToTop';
 import CreatePost from './CreatePost';
 import ViewPost from './ViewPost';
 import SearchPost from './SearchPost';
+import MyPage from './MyPage';
 
 const App = () => {
    const [isLoggedIn, setLoggedIn] = useState(false);
@@ -105,6 +110,7 @@ const App = () => {
          <Route path='/createPost' element={<CreatePost />}></Route>
          <Route path='/viewPost/:id' element={<ViewPost />}></Route>
          <Route path='/searchPost/:searchTerm' element={<SearchPost />}></Route>
+         <Route path='/mypage/' element={<MyPage />}></Route>
          <Route path="*" element={<NotFound />}></Route>
       </Routes>
       <Footer isLoggedIn={isLoggedIn}/>

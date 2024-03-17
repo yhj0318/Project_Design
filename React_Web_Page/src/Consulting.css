@@ -1,0 +1,31 @@
+.reserve-consulting-main{
+    padding-top: 30px;
+    text-align: center;
+}
+.reserve-consulting-top{
+    margin-bottom: 120px;
+    margin-top: 30px;
+}
+.reserve-consulting-top-area{
+    border-bottom: 2px solid slategray;
+    width: 367px;
+    margin: auto;
+}
+.reserve-consulting-top-text{
+    font-size: x-large;
+    padding-bottom: 30px;
+}
+.reserve-consulting-mid{
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+.reserve-lawyer-list{
+    font-size: large;
+    padding: 0;
+    margin: 50px 150px 50px 150px;
+    border: 2px solid red;
+}
+.reserve-lawyer-lists{
+    margin: 20px 0px 20px 0px;
+}
