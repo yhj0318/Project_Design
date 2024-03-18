@@ -226,7 +226,7 @@ app.get('/auth', verifyToken, async (req, res) => {
 
 /**
  * 쿠키에서 토큰을 가져오고, 유효한 토큰인지 확인하고, 유효하다면 암호화된 토큰을 복호화 시켜서 
- * 데이터베이스와 일치하는 토큰을 찾고 복호화된 아이디를 req로 넘겨준다.
+ * 데이터베이스와 일치하는 토큰을 찾고 복호화된 아이디를 req로 넘겨준다. 반환값 req.userID
  */
 function verifyToken(req, res, next) {
   const token = req.cookies.x_auth; // 쿠키에서 토큰 가져오기
@@ -443,6 +443,36 @@ app.get('/lawyerData', (req, res) => {
     }
     else{
       console.log('lawyerData search successful');
+      res.json(results);
+    }
+  })
+})
+
+app.get('/reserve/:lawyerId', verifyToken, (req, res) => {
+  const reserveLawyerId = req.params.lawyerId;
+
+  User_DB.query('SELECT id, email, phoneNumber, adress FROM users WHERE id = ?', [reserveLawyerId], (error, results) => {
+    if(error){
+      console.log('reserve LawyerData error', error);
+      res.status(500).json({error: 'lawyer Database error'});
+      return;
+    }
+    else{
+      console.log('lawyerData search successful');
+      res.json(results);
+    }
+  })
+})
+
+app.get('/mainPost', (req, res) => {
+  Post_DB.query('SELECT Post_ID, Post_Title, Post_Content, Post_Tag from posts', (error, results) => {
+    if(error){
+      console.log('mainPost search error', error);
+      res.status(500).json({error: 'mainPost error'});
+      return;
+    }
+    else{
+      console.log('mainPost search successful');
       res.json(results);
     }
   })

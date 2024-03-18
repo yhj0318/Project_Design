@@ -68,6 +68,7 @@ import CreatePost from './CreatePost';
 import ViewPost from './ViewPost';
 import SearchPost from './SearchPost';
 import MyPage from './MyPage';
+import Reserve from './Reserve';
 
 const App = () => {
    const [isLoggedIn, setLoggedIn] = useState(false);
@@ -111,6 +112,7 @@ const App = () => {
          <Route path='/viewPost/:id' element={<ViewPost />}></Route>
          <Route path='/searchPost/:searchTerm' element={<SearchPost />}></Route>
          <Route path='/mypage/' element={<MyPage />}></Route>
+         <Route path='/reserve/:lawyerId' element={<Reserve />}></Route>
          <Route path="*" element={<NotFound />}></Route>
       </Routes>
       <Footer isLoggedIn={isLoggedIn}/>

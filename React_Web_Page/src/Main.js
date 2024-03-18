@@ -31,15 +31,27 @@ import logo from './logo.svg';
 import './Main_content.css';
 import './Default.css';
 import './Mid_content.css'
-import {React, Component} from 'react';
+import {React, Component, useEffect, useState} from 'react';
 import { Link } from 'react-router-dom';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import './Reviews_content.css';
+import axios from 'axios';
 
-export default class Main extends Component {
-  render(){
+function Main() {
+  const [mainPosts, setMainPosts] = useState([]);
+
+  useEffect(() => {
+    axios.get('http://localhost:8080/mainPost')
+    .then((response) => {
+      console.log(response.data);
+      setMainPosts(response.data);
+    })
+    .catch((error) => {
+      console.error(error);
+    })
+  }, [])
     const settings = {
       slide: 'div',		//슬라이드 되어야 할 태그 ex) div, li 
       infinite : true, 	//무한 반복 옵션	 
@@ -279,24 +291,14 @@ export default class Main extends Component {
                 <div class="reviews-slick">
                   <Slider {...settings}>
                     {/* 테스트입니다 */}
-                    <div>
-                      <h3>1</h3>
-                    </div>
-                    <div>
-                      <h3>2</h3>
-                    </div>
-                    <div>
-                      <h3>3</h3>
-                    </div>
-                    <div>
-                      <h3>4</h3>
-                    </div>
-                    <div>
-                      <h3>5</h3>
-                    </div>
-                    <div>
-                      <h3>6</h3>
-                    </div>
+                    {mainPosts.map((posts) => (
+                      <div key={posts.id}>
+                        <div>{posts.Post_ID}</div>
+                        <div>{posts.Post_Title}</div>
+                        <div>{posts.Post_Content}</div>
+                        <div>{posts.Post_Tag}</div>
+                      </div>
+                    ))}
                   </Slider>
                 </div>
               </div>
@@ -306,4 +308,4 @@ export default class Main extends Component {
       </div>
     );
   }
-}
+export default Main;
