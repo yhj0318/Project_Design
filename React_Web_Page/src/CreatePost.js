@@ -16,6 +16,10 @@
  * 진행 사항:
  * 게시글 작성 페이지에 대한 전반적인 수정을 진행했다.
  * 또한 제목 내용 태그중 하나라도 빠져있다면 글 작성이 안되도록 서버단에서 if문을 통하여 불가능하도록 만들었다.
+ * 
+ * 3-19
+ * 진행 사항:
+ * 로그인 없이 주소를 수정해서 접근할 수 있던 문제를 해결했다.
  */
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
@@ -32,6 +36,13 @@ const CreatePost = () => {
     axios.get('http://localhost:8080/checkboxes')
       .then(response => setCheckboxes(response.data))
       .catch(error => console.error('Error fetching checkboxes:', error));
+    axios.get('http://localhost:8080/auth')
+    .then(response => console.log(response.data))
+    .catch((error) => {
+      console.error(error);
+      alert('잘못된 접근입니다.');
+      navigate('/');
+    });
   }, []);
 
   const handleCheckboxChange = (itemId) => {

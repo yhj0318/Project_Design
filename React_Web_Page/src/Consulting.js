@@ -8,6 +8,10 @@
  * 진행 사항:
  * 회원가입에서 필요한 정보를 입력받아 유저 테이블에 저장한 값중 변호사인 경우에만 예약하기 페이지에 띄우도록 만들었다.
  * 추후 예약하기 페이지에 들어가면 날짜, 시간, 상담방법 등 여러가지 구현 목표가 있다.
+ * 
+ * 3-19
+ * 진행 사항:
+ * 회원가입시 이름을 입력받았기에 아이디 대신 이름으로 표현하는걸로 바꿨다.
  */
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
@@ -39,7 +43,7 @@ const Consulting = () => {
         <div class="reserve-consulting-mid">
           {userData.map(user => (
             <ul class="reserve-lawyer-list" key={user.id}>
-              <li class="reserve-lawyer-lists" id="id">{user.id} 변호사님</li>
+              <li class="reserve-lawyer-lists" id="id">{user.name} 변호사님</li>
               <li class="reserve-lawyer-lists" id="email">{user.email}</li>
               <li class="reserve-lawyer-lists" id="phoneNumber">{user.phoneNumber}</li>
               <li class="reserve-lawyer-lists" id="adress">{user.adress}</li>

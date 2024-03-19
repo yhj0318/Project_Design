@@ -82,6 +82,12 @@
  * 3-17
  * 진행 사항:
  * 마이페이지에 유저데이터를 가져오기 위한 API, 예약하기 페이지에 변호사 데이터를 가져오기 위한 API를 설계했다.
+ * 
+ * 3-19
+ * 진행 사항:
+ * 마이페이지 프로필을 설정하기 위한 multer 라이브러리를 설치 후 프로필 업로드 API 그리고 프로필을 볼 수 있도록 API를 만들었다.
+ * 서버 스토리지 uploads 폴더에 이미지 파일을 업로드하고, 그 파일을 보여주도록 만들었다.
+ * 업로드할 때 해당 유저 DB에 스토리지 주소를 넣고 그 이미지를 띄우도록 설계했다. 
  */
 const express = require('express');
 const path = require('path');
@@ -90,6 +96,18 @@ const mysql = require('mysql');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
+const multer = require('multer');
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/');
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + path.extname(file.originalname));
+  }
+});
+
+const upload = multer({ storage: storage });
 
 app.use(express.json());
 const cors = require('cors');
@@ -349,7 +367,7 @@ app.put('/api/update:id', verifyToken, async (req, res) => {
     }
   });
 })
-
+// 요청자와 게시글의 작성자가 일치하는지 확인하는 API 일치한다면 수정하기 삭제하기 버튼 활성화
 app.get('/api/updateAuth/:id', verifyToken, (req, res) => {
   console.log('req.params.id is = ', req.params.id);
   const postID = req.params.id;
@@ -421,7 +439,7 @@ app.get('/api/search/:searchLine', async (req, res) => {
 });
 
 app.get('/userdata', verifyToken, (req, res) => {
-  User_DB.query('SELECT id, email, phoneNumber, adress, lawyer FROM users WHERE id = ?', [req.userID], (error, results) => {
+  User_DB.query('SELECT name, id, email, phoneNumber, adress, lawyer FROM users WHERE id = ?', [req.userID], (error, results) => {
     if(error){
       console.log('userData error', error);
       res.status(500).json({error: 'user Database error'});
@@ -435,7 +453,7 @@ app.get('/userdata', verifyToken, (req, res) => {
 })
 
 app.get('/lawyerData', (req, res) => {
-  User_DB.query('SELECT id, email, phoneNumber, adress FROM users WHERE lawyer = ?', ['변호사'], (error, results) => {
+  User_DB.query('SELECT name, id, email, phoneNumber, adress FROM users WHERE lawyer = ?', ['변호사'], (error, results) => {
     if(error){
       console.log('lawyerData error', error);
       res.status(500).json({error: 'lawyer Database error'});
@@ -477,6 +495,42 @@ app.get('/mainPost', (req, res) => {
     }
   })
 })
+
+app.post('/profileUpload', verifyToken, upload.single('profileImage'), (req, res) => {
+  const imagePath = req.file.path;
+  console.log('profileUpload connect = ', imagePath)
+
+  // MySQL에 이미지 경로 저장
+  const sql = 'UPDATE users SET image_path = ? WHERE id = ?';
+  User_DB.query(sql, [imagePath, req.userID], (error, results, fields) => {
+    if (error) {
+      console.log('profileUpload database error = ', error)
+      throw error;
+    }
+    console.log('Image uploaded successfully = ', results);
+    res.json({ success: true, imagePath });
+  });
+});
+
+app.get('/profileImage', verifyToken, (req, res) => {
+  // MySQL에서 이미지 경로 가져오기
+  console.log('profileImage connect');
+  const sql = 'SELECT image_path FROM users WHERE id = ?';
+  User_DB.query(sql, [req.userID] ,(error, results, fields) => {
+    if (error) throw error;
+    if (results.length > 0) {
+      const imagePath = results[0].image_path;
+      const absoluteImagePath = path.join(__dirname, imagePath);
+      console.log('absoluteImagePath is = ', absoluteImagePath);
+      // 이미지 파일을 클라이언트에게 보냅니다.
+      res.sendFile(absoluteImagePath, {headers: {
+        'Content-Type': 'image/png' // 이미지 유형에 맞게 Content-Type을 설정합니다. 여기서는 jpeg 파일을 가정합니다.
+      }});
+    } else {
+      res.status(500).send('프로필 이미지가 없습니다.');
+    }
+  });
+});
 
 app.get('/checkboxes', (req, res) => {
   res.json(checkboxes);

@@ -1,0 +1,17 @@
+.mypage-main{
+    padding-top: 30px;
+    text-align: center;
+}
+.header-mypage{
+    margin-bottom: 120px;
+    margin-top: 30px;
+}
+.header-mypage-area{
+    border-bottom: 2px solid slategray;
+    width: 367px;
+    margin: auto;
+}
+.header-mypage-text{
+    font-size: x-large;
+    padding-bottom: 30px;
+}

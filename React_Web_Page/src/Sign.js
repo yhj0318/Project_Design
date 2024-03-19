@@ -22,6 +22,10 @@
  * 변호사를 클릭하면 입력창이 더 나와서 사무실 주소나 이메일 같은 부분을 작성하도록 한다.
  * 또한 약식으로 아이디랑 비밀번호만 작성하게했는데, 이 부분 또한 비밀번호 확인, 성별, 이메일, 핸드폰번호, 주소
  * 다양하게 세분화하여 나눠야한다. 이를 위해 데이터베이스도 수정이 필요하다.
+ * 
+ * 3-19
+ * 진행 사항:
+ * 변호사나 게시판 작성자를 특정짓기 위해 회원가입시 이름을 작성하도록 만들었다.
  */
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
@@ -31,7 +35,7 @@ import './Sign.css'
 const Sign = () => {
     const navigate = useNavigate();
     const [message, setMessage] = useState('');
-    const [id, setUsername] = useState('');
+    const [id, setUserId] = useState('');
     const [password, setPassword] = useState('');
     const [comparePassword, setComparePassword] = useState('');
     const [email, setEmail] = useState('');
@@ -39,6 +43,7 @@ const Sign = () => {
     const [adress, setAdress] = useState('');
     const [userCheckbox, setUserCheckbox] = useState([]);
     const [userSelect, setUserSelect] = useState(null);
+    const [userName, setUserName] = useState('');
 
     const handleRegister = async (event) => {
         event.preventDefault();
@@ -53,7 +58,8 @@ const Sign = () => {
             email,
             adress,
             phoneNumber,
-            userSelect
+            userSelect,
+            userName
         });
         setMessage(response.data);
         console.log(response.data);
@@ -97,8 +103,10 @@ const Sign = () => {
                             </label>
                         ))}
                     </div>
+                    <label class="login-box-label" for="id">이름</label>
+                    <input type='text' id="name" class="input-id" placeholder='이름을 입력하세요' value={userName} onChange={(e) => setUserName(e.target.value)}></input>
                     <label class="login-box-label" for="id">아이디</label>
-                    <input type='text' id="id" class="input-id" placeholder='아이디를 입력하세요' value={id} onChange={(e) => setUsername(e.target.value)}></input>
+                    <input type='text' id="id" class="input-id" placeholder='아이디를 입력하세요' value={id} onChange={(e) => setUserId(e.target.value)}></input>
                     <label class="login-box-label" for="password">비밀번호</label>
                     <input type='password' id="password" class="input-pw" placeholder='비밀번호를 입력하세요' value={password} onChange={(e) => setPassword(e.target.value)}></input>
                     <label class="login-box-label" for="password">비밀번호 확인</label>
