@@ -8,6 +8,9 @@
 3-19
 진행 사항:
 회원가입을 위한 이름과 마이페이지 이미지를 위한 데이터베이스를 정의
+3-20
+진행 사항:
+이미지주소와 자기소개 스키마를 작성
 */
 CREATE DATABASE login_test;
 
@@ -20,7 +23,8 @@ CREATE TABLE users(
     adress VARCHAR(100) NOT NULL,
     lawyer VARCHAR(10) NOT NULL,
     name VARCHAR(5) NOT NULL,
-    image_path VARCHAR(255) NOT NULL
+    image_path VARCHAR(255) NOT NULL,
+    aboutSelf VARCHAR(1000)
 );
 
 /*최초 테이블 정의 이후에 추가할 스키마가 있다면 사용*/
@@ -30,6 +34,7 @@ ALTER TABLE users ADD COLUMN adress VARCHAR(100) NOT NULL;
 ALTER TABLE users ADD COLUMN lawyer VARCHAR(10) NOT NULL;
 ALTER TABLE users ADD COLUMN name VARCHAR(5) NOT NULL;
 ALTER TABLE users ADD COLUMN image_path VARCHAR(255) NOT NULL;
+ALTER TABLE users ADD COLUMN aboutSelf VARCHAR(1000);
 
 SELECT * FROM users;
 

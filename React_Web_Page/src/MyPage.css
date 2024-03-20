@@ -1,10 +1,11 @@
 .mypage-main{
-    padding-top: 30px;
-    text-align: center;
+
 }
 .header-mypage{
     margin-bottom: 120px;
     margin-top: 30px;
+    padding-top: 30px;
+    text-align: center;
 }
 .header-mypage-area{
     border-bottom: 2px solid slategray;
@@ -14,4 +15,19 @@
 .header-mypage-text{
     font-size: x-large;
     padding-bottom: 30px;
+}
+.mypage-mid{
+    display: flex;
+    justify-content: space-evenly;
+}
+.mypage-left-side-update-btns{
+    display: flex;
+    margin-top: 80px;
+    font-size: x-large;
+}
+.mypage-left-side-update-btn{
+    margin: 0px 50px 0px 0px;
+}
+.mypage-left-side-save-btn{
+    margin: 0px 0px 0px 50px;
 }

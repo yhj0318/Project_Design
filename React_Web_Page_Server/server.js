@@ -87,7 +87,11 @@
  * 진행 사항:
  * 마이페이지 프로필을 설정하기 위한 multer 라이브러리를 설치 후 프로필 업로드 API 그리고 프로필을 볼 수 있도록 API를 만들었다.
  * 서버 스토리지 uploads 폴더에 이미지 파일을 업로드하고, 그 파일을 보여주도록 만들었다.
- * 업로드할 때 해당 유저 DB에 스토리지 주소를 넣고 그 이미지를 띄우도록 설계했다. 
+ * 업로드할 때 해당 유저 DB에 스토리지 주소를 넣고 그 이미지를 띄우도록 설계했다.
+ * 
+ * 3-20
+ * 진행 사항:
+ * 자기소개 페이지에 들어가는 자기소개 스키마를 불러오도록 userData API를 수정했다.
  */
 const express = require('express');
 const path = require('path');
@@ -439,7 +443,7 @@ app.get('/api/search/:searchLine', async (req, res) => {
 });
 
 app.get('/userdata', verifyToken, (req, res) => {
-  User_DB.query('SELECT name, id, email, phoneNumber, adress, lawyer FROM users WHERE id = ?', [req.userID], (error, results) => {
+  User_DB.query('SELECT aboutSelf, name, id, email, phoneNumber, adress, lawyer FROM users WHERE id = ?', [req.userID], (error, results) => {
     if(error){
       console.log('userData error', error);
       res.status(500).json({error: 'user Database error'});
@@ -447,7 +451,7 @@ app.get('/userdata', verifyToken, (req, res) => {
     }
     else{
       console.log('userDate successful');
-      res.json(results);
+      res.json(results[0]);
     }
   })
 })
