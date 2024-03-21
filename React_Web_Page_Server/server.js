@@ -92,6 +92,10 @@
  * 3-20
  * 진행 사항:
  * 자기소개 페이지에 들어가는 자기소개 스키마를 불러오도록 userData API를 수정했다.
+ * 
+ * 3-21
+ * 진행 사항:
+ * 마이페이지 수정하기 위한 userDataUpdate API를 만들었다.
  */
 const express = require('express');
 const path = require('path');
@@ -473,7 +477,7 @@ app.get('/lawyerData', (req, res) => {
 app.get('/reserve/:lawyerId', verifyToken, (req, res) => {
   const reserveLawyerId = req.params.lawyerId;
 
-  User_DB.query('SELECT id, email, phoneNumber, adress FROM users WHERE id = ?', [reserveLawyerId], (error, results) => {
+  User_DB.query('SELECT name, aboutSelf, id, email, phoneNumber, adress FROM users WHERE id = ?', [reserveLawyerId], (error, results) => {
     if(error){
       console.log('reserve LawyerData error', error);
       res.status(500).json({error: 'lawyer Database error'});
@@ -536,6 +540,19 @@ app.get('/profileImage', verifyToken, (req, res) => {
   });
 });
 
+app.put('/userDataUpdate', verifyToken, async (req, res) => {
+  // 이 부분에는 생성하는 것과 마찬가지로 제목과 내용 태그를 받아 UPDATE쿼리를 적용해주면 된다.
+  console.log(req.body.userUpdateData)
+  const { email, phoneNumber, adress, aboutSelf} = req.body.userUpdateData;
+  User_DB.query('UPDATE users SET email = ?, phoneNumber = ?, adress = ?, aboutSelf = ? WHERE id = ?', [email, phoneNumber, adress, aboutSelf, req.userID], (error, results) => {
+    if (error){
+      console.log('update userData error', error);
+    }
+    else{
+      res.json('updateUserData successful');
+    }
+  });
+})
 app.get('/checkboxes', (req, res) => {
   res.json(checkboxes);
 });

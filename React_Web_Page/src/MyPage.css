@@ -25,9 +25,7 @@
     margin-top: 80px;
     font-size: x-large;
 }
-.mypage-left-side-update-btn{
+.mypage-left-side-update-btn, .mypage-left-side-save-btn{
     margin: 0px 50px 0px 0px;
-}
-.mypage-left-side-save-btn{
-    margin: 0px 0px 0px 50px;
+    cursor: pointer;
 }
