@@ -20,6 +20,15 @@
  * 마이페이지에서 수정하기 버튼과 저장하기 버튼 뒤로가기 버튼을 만들었다.
  * 아직 디자인은 손대지 않았기에 이 부분을 좀 더 해야할 것 같다.
  * 또한 예약페이지가 만들어지면 예약사항을 띄우도록 마이페이지에 표시하도록 만들 예정이다.
+ * 
+ * 3-24
+ * 진행 사항:
+ * 이미지를 svg로 했는데, 서버에서 해당 이미지 파일이 없다면 기본 이미지인 default.png로 되도록
+ * 코드를 작성해서 imageValidation 상태를 삭제했다.
+ * 사용자가 예약 내역을 확인할 수 있도록 페이지를 구성했다.
+ * 예약테이블을 조회하고 값을 불러온다. 아직 진행에 해당하는 상담대기, 상담완료는 구현되지 않았다.
+ * 예약이 없는 상태와 있는 상태 각각 구현했다.
+ * CSS를 수정하여 좀 더 깔끔해 보이게 만들었다.
  */
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -32,8 +41,9 @@ const MyPage = () => {
     const [isEditing, setIsEditing] = useState(false);
     const [selectedFile, setSelectedFile] = useState(null);
     const [profileImage, setProfileImage] = useState(null);
-    const [imgValidation, setImgValidation] = useState(false);
     const [userUpdateData, setUserUpdateData] = useState('');
+    const [reserveList, setReserveList] = useState([]);
+    const [reserveValidation, setReserveValidation] = useState(false);
 
     useEffect(() => {
         fetchProfileImage();
@@ -48,6 +58,15 @@ const MyPage = () => {
             alert('유저 데이터를 불러오는데 오류가 발생했습니다.');
             navigate('/');
         })
+        axios.get('http://localhost:8080/reserveList')
+        .then((response) => {
+            console.log(response.data);
+            setReserveList(response.data);
+        })
+        .catch((error) => {
+            console.error('resrveList error is = ', error);
+            setReserveValidation(true);
+        })
     },[])
     const fetchProfileImage = () => {
         axios.get('http://localhost:8080/profileImage')
@@ -58,7 +77,6 @@ const MyPage = () => {
           })
           .catch(error => {
             console.error('프로필 이미지를 가져오는 동안 오류가 발생했습니다:', error);
-            setImgValidation(true);
           });
     };
 
@@ -118,14 +136,7 @@ const MyPage = () => {
             <div class="mypage-mid">
                 <div class="mypage-left-side">
                     <div class="mypage-left-side-img-content">
-                        {imgValidation ? (
-                            <svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
-                            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
-                            <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
-                        </svg>
-                        ) : (
-                            <img class="mypage-img" src={profileImage} alt="프로필 이미지" />
-                        )}
+                        <img class="mypage-img" src={'http://localhost:8080/profileImage'} alt="프로필 이미지" />
                         <div class="mypage-img-upload-btn">
                             <input type="file" onChange={handleFileChange} />
                             <button onClick={handleUpload}>업로드</button>
@@ -155,38 +166,45 @@ const MyPage = () => {
                 </div>
                 <div class="mypage-right-side">
                     <div class="myPageData-main">
-                        <div class="myPageData-title" id="userName">이름</div>
-                        <p class="myPageData-content">{userData.name}</p>
-                        <div class="myPageData-title" id="userId">아이디</div>
-                        <p class="myPageData-content">{userData.id}</p>
-                        <div class="myPageData-title" id="userEmail">이메일</div>
-                        <input 
-                        class="myPageData-content"
-                        type='text'
-                        placeholder='이메일을 입력해주세요'
-                        value={userUpdateData.email}
-                        onChange={e => setUserUpdateData({...userUpdateData, email: e.target.value})}
-                        />
-                        <div class="myPageData-title" id="userPhoneNumber">핸드폰번호</div>
-                        <input 
-                        class="myPageData-content"
-                        type='text'
-                        placeholder='핸드폰번호르 입력해주세요'
-                        value={userUpdateData.phoneNumber}
-                        onChange={e => setUserUpdateData({...userUpdateData, phoneNumber: e.target.value})}
-                        />
-                        <div class="myPageData-title" id="userAdress">주소</div>
-                        <input 
-                        class="myPageData-content"
-                        type='text'
-                        placeholder='주소를 입력해주세요'
-                        value={userUpdateData.adress}
-                        onChange={e => setUserUpdateData({...userUpdateData, adress: e.target.value})}
-                        />
+                        <div class="myPageData-content-wrap">
+                            <span class="myPageData-title" id="userName">이름: </span>
+                            <span class="myPageData-content">{userData.name}</span>
+                        </div>
+                        <div class="myPageData-content-wrap">
+                            <span class="myPageData-title" id="userId">아이디: </span>
+                            <span class="myPageData-content">{userData.id}</span>
+                        </div>
+                        <div class="myPageData-content-wrap">
+                            <span class="myPageData-title" id="userEmail">이메일: </span>
+                            <input 
+                            class="myPageData-content"
+                            type='text'
+                            placeholder='이메일을 입력해주세요'
+                            value={userUpdateData.email}
+                            onChange={e => setUserUpdateData({...userUpdateData, email: e.target.value})}
+                            />
+                        </div>
+                        <div class="myPageData-content-wrap">
+                            <span class="myPageData-title" id="userPhoneNumber">핸드폰번호: </span>
+                            <input 
+                            class="myPageData-content"
+                            type='text'
+                            placeholder='핸드폰번호르 입력해주세요'
+                            value={userUpdateData.phoneNumber}
+                            onChange={e => setUserUpdateData({...userUpdateData, phoneNumber: e.target.value})}
+                            />
+                        </div>
+                        <div class="myPageData-content-wrap">
+                            <span class="myPageData-title" id="userAdress">주소: </span>
+                            <input 
+                            class="myPageData-content"
+                            type='text'
+                            placeholder='주소를 입력해주세요'
+                            value={userUpdateData.adress}
+                            onChange={e => setUserUpdateData({...userUpdateData, adress: e.target.value})}
+                            />
+                        </div>
                     </div>
-                </div>
-                <div class="mypage-update-btn">
-                    <div ></div>
                 </div>
             </div>
         </div>
@@ -202,18 +220,7 @@ const MyPage = () => {
             <div class="mypage-mid">
                 <div class="mypage-left-side">
                     <div class="mypage-left-side-img-content">
-                        {imgValidation ? (
-                            <svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
-                            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
-                            <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
-                        </svg>
-                        ) : (
-                            <img class="mypage-img" src={'http://localhost:8080/profileImage'} alt="프로필 이미지" />
-                        )}
-                        <div class="mypage-img-upload-btn">
-                            <input type="file" onChange={handleFileChange} />
-                            <button onClick={handleUpload}>업로드</button>
-                        </div>
+                        <img class="mypage-img" src={'http://localhost:8080/profileImage'} alt="프로필 이미지" />
                     </div>
                     <div class="mypage-left-side-self-content">
                         <div class="mypage-left-side-self-area">
@@ -233,20 +240,61 @@ const MyPage = () => {
                 </div>
                 <div class="mypage-right-side">
                     <div class="myPageData-main">
-                        <div class="myPageData-title" id="userName">이름</div>
-                        <p class="myPageData-content">{userData.name}</p>
-                        <div class="myPageData-title" id="userId">아이디</div>
-                        <p class="myPageData-content">{userData.id}</p>
-                        <div class="myPageData-title" id="userEmail">이메일</div>
-                        <p class="myPageData-content">{userData.email}</p>
-                        <div class="myPageData-title" id="userPhoneNumber">핸드폰번호</div>
-                        <p class="myPageData-content">{userData.phoneNumber}</p>
-                        <div class="myPageData-title" id="userAdress">주소</div>
-                        <p class="myPageData-content">{userData.adress}</p>
+                        <div class="myPageData-content-wrap">
+                            <span class="myPageData-title" id="userName">이름: </span>
+                            <span class="myPageData-content">{userData.name}</span>
+                        </div>
+                        <div class="myPageData-content-wrap">
+                            <span class="myPageData-title" id="userId">아이디: </span>
+                            <span class="myPageData-content">{userData.id}</span>
+                        </div>
+                        <div class="myPageData-content-wrap">
+                            <span class="myPageData-title" id="userEmail">이메일: </span>
+                            <span class="myPageData-content">{userData.email}</span>
+                        </div>
+                        <div class="myPageData-content-wrap">
+                            <span class="myPageData-title" id="userPhoneNumber">핸드폰번호: </span>
+                            <span class="myPageData-content">{userData.phoneNumber}</span>
+                        </div>
+                        <div class="myPageData-content-wrap">
+                            <span class="myPageData-title" id="userAdress">주소: </span>
+                            <span class="myPageData-content">{userData.adress}</span>
+                        </div>
                     </div>
                 </div>
-                <div class="mypage-update-btn">
-                    <div ></div>
+            </div>
+            <hr class="space"></hr>
+            <div class="mypage-reserve-main">
+                <p class="mypage-reserve-title">
+                    예약현황
+                </p>
+                <div class="mypage-reserve-mid">
+                <div class="mypage-reserve-subtitles">
+                    <ul class="mypage-reserve-subtitle-wrap">
+                        <li class="mypage-reserve-subtitle">구분</li>
+                        <li class="mypage-reserve-subtitle">날짜</li>
+                        <li class="mypage-reserve-subtitle">시간</li>
+                        <li class="mypage-reserve-subtitle">변호사</li>
+                        <li class="mypage-reserve-subtitle">진행</li>
+                    </ul>
+                </div>
+                {reserveValidation ? (
+                    <div class="mypage-reserve-contents">
+                        <p>예약된 사항이 없습니다.</p>
+                    </div>
+                ) : (
+                    <div class="mypage-reserve-contents">
+                        {reserveList.map((list)=>(
+                            <ul class="mypage-reserve-content-wrap" key={list.Reserve_Num}>
+                                <li class="mypage-reserve-content">{list.Reserve_Consulting}</li>
+                                <li class="mypage-reserve-content">{list.Reserve_Date}</li>
+                                <li class="mypage-reserve-content">{list.Reserve_Time}</li>
+                                <li class="mypage-reserve-content">{list.Reserve_Lawyer}</li>
+                                <li class="mypage-reserve-content">상담대기</li>
+                            </ul>
+                        ))}
+                    </div>
+                )}
                 </div>
             </div>
         </div>

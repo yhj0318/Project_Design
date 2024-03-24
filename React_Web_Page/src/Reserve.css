@@ -1,0 +1,35 @@
+.reserve-page-main{
+    margin-bottom: 120px;
+    margin-top: 30px;
+    padding-top: 30px;
+    text-align: center;
+}
+.reserve-page-top{
+    border-bottom: 2px solid slategray;
+    width: 367px;
+    margin: auto;
+}
+.reserve-page-detail{
+    font-size: x-large;
+    padding-bottom: 30px;
+}
+#input-data{
+    width: 250px;
+}
+.reserve-page-lawyer-details{
+    display: flex;
+    width: 367px;
+    margin: auto;
+}
+.reserve-page-lawyer-detail-content{
+    margin: 10px 0px 10px 0px;
+    font-size: large;
+}
+.reserve-page-lawyer-detail-title{
+    width: 100px;
+    font-size: large;
+    margin: 10px;
+}
+.reserve-consultingbox, .reserve-date-time{
+    margin-bottom: 20px;
+}

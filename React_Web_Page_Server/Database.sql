@@ -11,6 +11,9 @@
 3-20
 진행 사항:
 이미지주소와 자기소개 스키마를 작성
+3-24
+진행 사항:
+예약 데이터베이스를 정의
 */
 CREATE DATABASE login_test;
 
@@ -47,4 +50,15 @@ CREATE TABLE posts(
     Post_Date DATE NOT NULL TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
     Post_Tag VARCHAR(10) NOT NULL,
     Post_Content VARCHAR(1000) NOT NULL
+);
+
+CREATE DATABASE reserve_test;
+
+CREATE TABLE reserve(
+    Reserve_Num INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    Reserve_Lawyer VARCHAR(10) NOT NULL,
+    Reserve_User VARCHAR(10) NOT NULL,
+    Reserve_Date VARCHAR(20) NOT NULL,
+    Reserve_Time VARCHAR(20) NOT NULL,
+    Reserve_Consulting VARCHAR(10) NOT NULL
 );

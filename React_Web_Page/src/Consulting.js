@@ -12,6 +12,10 @@
  * 3-19
  * 진행 사항:
  * 회원가입시 이름을 입력받았기에 아이디 대신 이름으로 표현하는걸로 바꿨다.
+ * 
+ * 3-24
+ * 진행 사항:
+ * 페이지에 이미지 크기를 고정하기 위해 div태그로 묶고 css를 적용하여 width 160px로 고정
  */
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
@@ -20,7 +24,8 @@ import './Consulting.css';
 
 const Consulting = () => {
   const [userData, setUserData] = useState([]);
-  
+  const [profileImage, setProfileImage] = useState(null);
+
   useEffect(() => {
     axios.get('http://localhost:8080/lawyerData')
     .then((response) => {
@@ -43,6 +48,9 @@ const Consulting = () => {
         <div class="reserve-consulting-mid">
           {userData.map(user => (
             <ul class="reserve-lawyer-list" key={user.id}>
+              <div class="reserve-lawyer-img-wrap">
+                <img class="reserve-lawyer-img" src={`http://localhost:8080/lawyerProfile/${user.id}`}></img>
+              </div>
               <li class="reserve-lawyer-lists" id="id">{user.name} 변호사님</li>
               <li class="reserve-lawyer-lists" id="email">{user.email}</li>
               <li class="reserve-lawyer-lists" id="phoneNumber">{user.phoneNumber}</li>

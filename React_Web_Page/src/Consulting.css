@@ -29,3 +29,10 @@
 .reserve-lawyer-lists{
     margin: 20px 0px 20px 0px;
 }
+.reserve-lawyer-img{
+    width: 160px;
+}
+.reserve-lawyer-img-wrap{
+    width: 160px;
+    height: 200px;
+}

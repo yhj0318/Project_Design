@@ -96,6 +96,20 @@
  * 3-21
  * 진행 사항:
  * 마이페이지 수정하기 위한 userDataUpdate API를 만들었다.
+ * 
+ * 3-24
+ * 진행 사항:
+ * 마이페이지 프로필을 업로드, 표현하기 위해 multer 라이브러리를 설치했다.
+ * profileImage API에서 쿼리 결과가 ''일때 조건문을 통과하는 문제를 발견
+ * 이를 해결하고자 결과값이 ''가 아닐때 false가 되도록 만들었다.
+ * false일때 default 이미지를 보내도록 만들었다.
+ * lawyerProfile/:id API를 만들었다.
+ * 해당 API는 id에 해당하는 변호사 프로필을 불러오는 API이다. 이 또한 프로필이 없을 경우 default 이미지를 보낸다.
+ * api/reserve API를 만들었다.
+ * 이 API는 예약 기능으로 클라이언트로부터 자료를 받아 예약테이블에 INSERT하는 기능이다.
+ * reserveList API를 만들었다.
+ * 이 기능은 클라이언트가 마이페이지에 예약한 리스트를 출력하는 기능이다.
+ * consultingCheckboxes API는 예약하기 페이지에 상담유형 체크박스를 만들기위해 만들었다.
  */
 const express = require('express');
 const path = require('path');
@@ -139,6 +153,13 @@ const Post_DB = mysql.createConnection({
   database : 'post_test'
 });
 
+const Reserve_DB = mysql.createConnection({
+  host     : 'localhost',
+  user     : 'root',
+  password : 'flej12153473',
+  database : 'reserve_test'
+});
+
 const checkboxes = [
   { id: '민사', label: '민사' },
   { id: '상사', label: '상사' },
@@ -155,6 +176,11 @@ const checkboxes = [
 const userCheckboxes = [
   {id: '일반사용자', label: '일반사용자'}, 
   {id: '변호사', label: '변호사'}
+];
+
+const consultingCheckboxes = [
+  {id: '채팅상담', label: '채팅상담'}, 
+  {id: '영상상담', label: '영상상담'}
 ];
 
 User_DB.connect((err) => {
@@ -176,6 +202,7 @@ Post_DB.connect((err) => {
     console.log("Post_DB is connection to MySQL database");
   }
 });
+
 
 app.use(express.static(path.join(__dirname, '..', 'React_Web_Page/build')));
 
@@ -526,7 +553,7 @@ app.get('/profileImage', verifyToken, (req, res) => {
   const sql = 'SELECT image_path FROM users WHERE id = ?';
   User_DB.query(sql, [req.userID] ,(error, results, fields) => {
     if (error) throw error;
-    if (results.length > 0) {
+    if ((results.length > 0) && (results[0].image_path != '')) {
       const imagePath = results[0].image_path;
       const absoluteImagePath = path.join(__dirname, imagePath);
       console.log('absoluteImagePath is = ', absoluteImagePath);
@@ -535,7 +562,11 @@ app.get('/profileImage', verifyToken, (req, res) => {
         'Content-Type': 'image/png' // 이미지 유형에 맞게 Content-Type을 설정합니다. 여기서는 jpeg 파일을 가정합니다.
       }});
     } else {
-      res.status(500).send('프로필 이미지가 없습니다.');
+      const defaultImage = 'uploads\\default.png';
+      const defaultImagePath = path.join(__dirname, defaultImage);
+      res.sendFile(defaultImagePath, {headers: {
+        'Content-Type': 'image/png' // 이미지 유형에 맞게 Content-Type을 설정합니다. 여기서는 jpeg 파일을 가정합니다.
+      }});
     }
   });
 });
@@ -553,12 +584,71 @@ app.put('/userDataUpdate', verifyToken, async (req, res) => {
     }
   });
 })
+
+app.get('/lawyerProfile/:id', (req, res) => {
+  // MySQL에서 이미지 경로 가져오기
+  const lawyerId = req.params.id;
+  console.log('lawyerProfile connect');
+  const sql = 'SELECT image_path FROM users WHERE id = ?';
+  User_DB.query(sql, [lawyerId] ,(error, results, fields) => {
+    if (error) throw error;
+    if ((results.length > 0) && (results[0].image_path != '')) {
+      const imagePath = results[0].image_path;
+      console.log('imagePath is = ', imagePath);
+
+      const absoluteImagePath = path.join(__dirname, imagePath);
+      console.log('absoluteImagePath is = ', absoluteImagePath);
+      // 이미지 파일을 클라이언트에게 보냅니다.
+      res.sendFile(absoluteImagePath, {headers: {
+        'Content-Type': 'image/png' // 이미지 유형에 맞게 Content-Type을 설정합니다. 여기서는 jpeg 파일을 가정합니다.
+      }});
+    } else {
+      const defaultImage = 'uploads\\default.png';
+      const defaultImagePath = path.join(__dirname, defaultImage);
+      res.sendFile(defaultImagePath, {headers: {
+        'Content-Type': 'image/png' // 이미지 유형에 맞게 Content-Type을 설정합니다. 여기서는 jpeg 파일을 가정합니다.
+      }});
+    }
+  });
+});
+
+app.post('/api/reserve', verifyToken, (req, res) => {
+  const selectedDate = req.body.selectedDate;
+  const selectedTime = req.body.selectedTime;
+  const consulting = req.body.userSelect;
+  const lawyerID = req.body.lawyerId;
+  Reserve_DB.query('INSERT INTO reserve (Reserve_Lawyer, Reserve_User, Reserve_Date, Reserve_Time, Reserve_Consulting) VALUES (?, ?, ?, ?, ?)', [lawyerID, req.userID, selectedDate, selectedTime, consulting], (error, results) => {
+    if(error){
+      console.log('reserve is error = ', error)
+    }
+    else{
+      res.send('Reserve is successful');
+    }
+  })
+});
+
+app.get('/reserveList', verifyToken, (req, res) => {
+  Reserve_DB.query('SELECT * FROM reserve WHERE Reserve_User = ? ORDER BY Reserve_Num DESC' , [req.userID], (error, results) => {
+    if(error) throw error;
+    if((results.length > 0)){
+      res.json(results);
+    } else{
+      console.log('reserve is error = ', error);
+      res.status(500).json({error: 'reserveList error'});
+    }
+  })
+});
+
 app.get('/checkboxes', (req, res) => {
   res.json(checkboxes);
 });
 
 app.get('/userCheckboxes', (req, res) => {
   res.json(userCheckboxes);
+});
+
+app.get('/consultingCheckboxes', (req, res) => {
+  res.json(consultingCheckboxes);
 });
 
 app.listen(8080, () => {
