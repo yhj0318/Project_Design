@@ -48,6 +48,11 @@
  * 3-17
  * 진행 사항:
  * 마이페이지를 만들었다.
+ * 
+ * 4-1
+ * 진행 사항:
+ * 챗봇 기능을 사용하기 위해 react-chatbot-kit 라이브러리를 설치했다.
+ * config, MessageParser, ActionProvider를 정의했다.
  */
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
@@ -69,6 +74,10 @@ import ViewPost from './ViewPost';
 import SearchPost from './SearchPost';
 import MyPage from './MyPage';
 import Reserve from './Reserve';
+import {Chatbot} from 'react-chatbot-kit';
+import config from './config.js';
+import MessageParser from './MessageParser.jsx';
+import ActionProvider from './ActionProvider.jsx';
 
 const App = () => {
    const [isLoggedIn, setLoggedIn] = useState(false);
@@ -115,6 +124,11 @@ const App = () => {
          <Route path='/reserve/:lawyerId' element={<Reserve />}></Route>
          <Route path="*" element={<NotFound />}></Route>
       </Routes>
+      <Chatbot
+        config={config}
+        messageParser={MessageParser}
+        actionProvider={ActionProvider}
+      />
       <Footer isLoggedIn={isLoggedIn}/>
       </BrowserRouter>
    </div>
