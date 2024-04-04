@@ -10,15 +10,18 @@ const MessageParser = ({ children, actions }) => {
     if (message.includes('hello')) {
         actions.handleHello();
     }
-    if (message.includes('dog')) {
-        actions.handleDog();
-    }
     if (message.includes('home')) {
-        actions.handleHome();
+      actions.handleHomePage();
+  }
+    if (message.includes('consulting')) {
+        actions.consulting();
     }
     if (message.includes('board')) {
-        actions.handleBoard();
+        actions.Board();
     }
+    if (message.includes('loginSign')) {
+        actions.LoginSign();
+  }
   };
 
   return (
