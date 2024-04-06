@@ -8,9 +8,9 @@ import "./OptionModule.css";
 
 const Options = ({ options }) => {
   const markup = options.map((option) => (
-    <button key={option.id} className="option" onClick={option.handler}>
+    <div key={option.id} className="option" onClick={option.handler}>
       {option.name}
-    </button>
+    </div>
   ));
 
   return <div className="options">{markup}</div>;

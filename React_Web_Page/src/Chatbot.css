@@ -2,11 +2,15 @@
 4-1
 진행 사항:
 만든 홈페이지에 맞도록 챗봇의 디자인을 적용시켰다.
+
+4-6
+진행 사항:
+좌측하단에 챗봇상담 버튼을 만들고 이 버튼에 이미지, 텍스트에 대한 디자인을 적용했다.
 */
 .react-chatbot-kit-chat-container {
     position: fixed;
     right: 30px;
-    bottom: 25px;
+    bottom: 100px;
     width: 370px;
     height: auto;
     min-height: 520px;
@@ -15,7 +19,36 @@
     border-radius: 25px;
     box-shadow: rgb(0 0 0 / 30%) 0px 12px 60px 5px;
   }
-  .react-chatbot-kit-chat-bot-message{
+.react-chatbot-kit-chat-bot-message{
     text-wrap: wrap;
     margin: 0;
-  }
+}
+.option{
+  cursor: pointer;
+  font-size: 0.9em;
+}
+.option:hover{
+  background-color: #2898ec;
+  color: white;
+  transition: all 0.5s;
+}
+.app-chatbot-button{
+  position: fixed;
+  bottom: 25px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  border-radius: 50px;
+  border: 2px solid black;
+  padding: 10px;
+  cursor: pointer;
+  background-color: white;
+}
+.app-chatbot-button:hover{
+  background-color: powderblue;
+  transition: all 0.5s;
+}
+.app-chatbot-content{
+  margin-left: 10px;
+  font-size: large;
+}
