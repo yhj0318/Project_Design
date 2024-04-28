@@ -85,7 +85,7 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
     };
     const handleService = () => {
       const botMessage = createChatBotMessage(
-        "로그인페이지로 안내하겠습니다!",
+        "서비스페이지로 안내하겠습니다!",
         {
           widget: 'service',
         }

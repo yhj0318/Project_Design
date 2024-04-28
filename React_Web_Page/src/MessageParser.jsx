@@ -7,19 +7,19 @@ import React from 'react';
 
 const MessageParser = ({ children, actions }) => {
   const parse = (message) => {
-    if (message.includes('hello')) {
+    if (message.includes('안녕')) {
         actions.handleHello();
     }
-    if (message.includes('home')) {
+    if (message.includes('홈페이지')) {
       actions.handleHomePage();
   }
-    if (message.includes('consulting')) {
+    if (message.includes('상담')) {
         actions.consulting();
     }
-    if (message.includes('board')) {
+    if (message.includes('게시판')) {
         actions.Board();
     }
-    if (message.includes('loginSign')) {
+    if (message.includes('로그인')) {
         actions.LoginSign();
   }
   };
