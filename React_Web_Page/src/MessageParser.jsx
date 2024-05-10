@@ -14,10 +14,13 @@ const MessageParser = ({ children, actions }) => {
       actions.handleHomePage();
   }
     if (message.includes('상담')) {
-        actions.consulting();
+        actions.Consulting();
     }
     if (message.includes('게시판')) {
         actions.Board();
+    }
+    if (message.includes('서비스')) {
+      actions.handleService();
     }
     if (message.includes('로그인')) {
         actions.LoginSign();
