@@ -110,6 +110,13 @@
  * reserveList API를 만들었다.
  * 이 기능은 클라이언트가 마이페이지에 예약한 리스트를 출력하는 기능이다.
  * consultingCheckboxes API는 예약하기 페이지에 상담유형 체크박스를 만들기위해 만들었다.
+ * 
+ * 5-12
+ * 진행 사항:
+ * 예약 비활성화 기능을 구현하기 위해 moment를 설치했다. 추가로 영국 시간대가 기준이라 momnet-timezone도 설치했다.
+ * 이 기능을 사용하여 한국 표준시로 바꾸는데 성공했고, 이를 바탕으로 날짜와 시간을 나눠 데이터베이스에 저장하여,
+ * 비활성화 되는 시간대를 저장했다. 이를 바탕으로 값을 조회해서 비활성화가 가능하고, 마이페이지에 날짜와 시간을 추가하여
+ * json으로 전달하도록 만들었다. 
  */
 const express = require('express');
 const path = require('path');
@@ -119,6 +126,8 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
 const multer = require('multer');
+const moment = require('moment');
+require('moment-timezone');
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -613,11 +622,10 @@ app.get('/lawyerProfile/:id', (req, res) => {
 });
 
 app.post('/api/reserve', verifyToken, (req, res) => {
-  const selectedDate = req.body.selectedDate;
-  const selectedTime = req.body.selectedTime;
+  const selectedDateTime = req.body.selectedDateTime;
   const consulting = req.body.userSelect;
   const lawyerID = req.body.lawyerId;
-  Reserve_DB.query('INSERT INTO reserve (Reserve_Lawyer, Reserve_User, Reserve_Date, Reserve_Time, Reserve_Consulting) VALUES (?, ?, ?, ?, ?)', [lawyerID, req.userID, selectedDate, selectedTime, consulting], (error, results) => {
+  Reserve_DB.query('INSERT INTO reserve (Reserve_Lawyer, Reserve_User, Reserve_DateTime, Reserve_Consulting) VALUES (?, ?, ?, ?)', [lawyerID, req.userID, selectedDateTime, consulting], (error, results) => {
     if(error){
       console.log('reserve is error = ', error)
     }
@@ -631,7 +639,32 @@ app.get('/reserveList', verifyToken, (req, res) => {
   Reserve_DB.query('SELECT * FROM reserve WHERE Reserve_User = ? ORDER BY Reserve_Num DESC' , [req.userID], (error, results) => {
     if(error) throw error;
     if((results.length > 0)){
-      res.json(results);
+      let dataList = [];
+      for(let data of results){
+        dataList.push(data.Reserve_DateTime);
+      };
+      const dataListArray = dataList.map(item => {
+        const dateTime = moment(item).clone().tz('Asia/Seoul');
+        return dateTime.format('YYYY-MM-DD HH:mm');
+      });
+      console.log(dataListArray);
+      const jsonDataArray = dataListArray.map(dateTimeString => {
+        const [Reserve_Date, Reserve_Time] = dateTimeString.split(' ');
+        return { Reserve_Date, Reserve_Time };
+      });
+      console.log(jsonDataArray)
+      console.log(results)
+
+      const mergedResults = results.map((result, index) => {
+        return {
+          ...result,
+          Reserve_Date: jsonDataArray[index].Reserve_Date,
+          Reserve_Time: jsonDataArray[index].Reserve_Time
+        };
+      });
+      console.log(mergedResults);
+
+      res.json(mergedResults);
     } else{
       console.log('reserve is error = ', error);
       res.status(500).json({error: 'reserveList error'});
@@ -639,6 +672,28 @@ app.get('/reserveList', verifyToken, (req, res) => {
   })
 });
 
+app.get('/checkReserved/:lawyerId', (req, res) => {
+  const reserveLawyerId = req.params.lawyerId;
+  Reserve_DB.query('SELECT Reserve_DateTime FROM reserve WHERE Reserve_Lawyer = ?', [reserveLawyerId], (error, results) => {
+    if(error) throw error;
+    if((results.length > 0)){
+      let dataList = [];
+      for(let data of results){
+        dataList.push(data.Reserve_DateTime);
+      };
+      const dataListArray = dataList.map(item => {
+        const dateTime = moment(item).clone().tz('Asia/Seoul');
+        return dateTime.format('YYYY-MM-DD HH:mm');
+      });
+      console.log(dataListArray);
+      res.json(dataListArray);
+    }
+    else{
+      console.log('checkReserved is error = ', error);
+      res.status(500).json({eror: 'checkReserved error'});
+    }
+  })
+})
 app.get('/checkboxes', (req, res) => {
   res.json(checkboxes);
 });

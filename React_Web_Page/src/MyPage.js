@@ -29,6 +29,12 @@
  * 예약테이블을 조회하고 값을 불러온다. 아직 진행에 해당하는 상담대기, 상담완료는 구현되지 않았다.
  * 예약이 없는 상태와 있는 상태 각각 구현했다.
  * CSS를 수정하여 좀 더 깔끔해 보이게 만들었다.
+ * 
+ * 5-12
+ * 진행 사항:
+ * 비활성화 기능을 추가해서 json형태를 바꿨다.
+ * Reserve_DateTime을 Reserve_Date, ReserveTime로 나눴다.
+ * 이후 현재 시간을 불러오고 그 시간과 예약 시간을 비교해서 상담완료, 상담대기를 나누는 작업을 진행할 예정이다.
  */
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';

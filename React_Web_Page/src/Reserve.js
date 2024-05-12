@@ -15,13 +15,19 @@
  * 이외에 시간에는 예약이 불가능 하도록 minTime, maxTime을 설정했다.
  * handlerSubmit이 실행되면 원래는 ISO 8601 표준으로 날짜와 시간이 표현되는데, 이를 보기 쉽게 표현하고자 코드 몇줄을 추가했다.
  * isAvaliable 상태를 사용하진 못해서 해당 시간대에 예약 불가능 표시를 못했다.
+ * 
+ * 5-12
+ * 진행 사항:
+ * 예약이 완료된 날짜와 시간을 서버로부터 가져오고 그 값을 비교하여 비활성화 되도록 만들었다.
+ * 처음에는 그냥 비활성화에만 집중했는데 만들다보니 변호사별로 비활성화를 구분지었어야 해서
+ * useEffect에서 CheckReserved에 lawyerId를 추가로 요청하여 해당 변호사의 아이디에 해당하는 예약 정보만 가져오도록 만들었다.
  */
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import {useNavigate, useParams} from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { setHours, setMinutes } from 'date-fns';
+import { set, setHours, setMinutes } from 'date-fns';
 import { ko } from "date-fns/locale";
 import './Reserve.css';
 
@@ -29,11 +35,10 @@ const Reserve = () => {
     const [lawyerData, setLawyerData] = useState([]);
     const { lawyerId } = useParams();
     const [isAvailable, setIsAvailable] = useState(true);
-    const [startDate, setStartDate] = useState(
-        setHours(setMinutes(new Date(), 0), 9),
-      );
+    const [startDate, setStartDate] = useState(new Date());
     const [consultingCheckbox, setConsultingCheckbox] = useState([]);
     const [userSelect, setUserSelect] = useState(null);
+    const [reservedTime, setReservedTime] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -54,6 +59,15 @@ const Reserve = () => {
         .catch((error) => {
             console.error(error);
         })
+        
+        axios.get(`http://localhost:8080/checkReserved/${lawyerId}`)
+        .then((response) => {
+            console.log(response.data);
+            setReservedTime(response.data);
+        })
+        .catch((error) => {
+            console.error(error);
+        })
     }, [lawyerId])
 
     const handleDateChange = (date) => {
@@ -65,6 +79,7 @@ const Reserve = () => {
       };
 
     const handleSubmit = () => {
+        console.log('startDate is = ',startDate);
         const year = startDate.getFullYear();
         const month = startDate.getMonth() + 1; // 월은 0부터 시작하므로 1을 더합니다.
         const day = startDate.getDate();
@@ -74,13 +89,13 @@ const Reserve = () => {
         const minutes = startDate.getMinutes();
         const time = `${hours < 10 ? '0' + hours : hours}:${minutes < 10 ? '0' + minutes : minutes}`;
         console.log(time);
-        reserveToServer(date, time);
+        const dateTime = date + " " + time;
+        reserveToServer(dateTime);
     };
 
-    const reserveToServer = (date, time) => {
+    const reserveToServer = (dateTime) => {
         axios.post('http://localhost:8080/api/reserve', { 
-            selectedDate: date, 
-            selectedTime: time,
+            selectedDateTime: dateTime, 
             userSelect,
             lawyerId
         })
@@ -93,7 +108,24 @@ const Reserve = () => {
             console.error('Error sending data to server:', error);
         });
     };
+    const getReservedTimesForDate = date => {
+        return reservedTime
+          .filter(item => new Date(item).toDateString() === date.toDateString())
+          .map(item => new Date(item));
+      };
 
+    const filterPassedTime = (time) => {
+        const currentDate = new Date();
+        const selectedDateTime = startDate || new Date();
+        // 선택한 날짜가 현재 날짜와 같고, 선택한 시간이 현재 시간보다 이후인지 확인
+        const isFutureTime = selectedDateTime.toDateString() === currentDate.toDateString() && time > currentDate;
+        // 선택한 날짜가 현재 날짜보다 미래이거나 선택한 시간이 현재 시간보다 이후인 경우에만 예약 가능
+        if (selectedDateTime > currentDate || isFutureTime) {
+            const reservedTimes = getReservedTimesForDate(selectedDateTime);
+            return !reservedTimes.some(reservedTime => reservedTime.getHours() === time.getHours() && reservedTime.getMinutes() === time.getMinutes());
+        }
+        return false;
+    }
     return (
         <div class="reserve-page-main">
             <div class="reserve-page-top">
@@ -154,6 +186,8 @@ const Reserve = () => {
                         onChange={handleDateChange}
                         showTimeSelect
                         locale={ko}
+                        excludeTimes={getReservedTimesForDate(startDate || new Date())}
+                        filterTime={filterPassedTime}
                         minTime={setHours(setMinutes(new Date(), 0), 9)}
                         maxTime={setHours(setMinutes(new Date(), 0), 17)}
                         dateFormat="yyyy년 MM월 dd일 aa h시 mm분"

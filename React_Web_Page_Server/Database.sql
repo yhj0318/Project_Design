@@ -2,18 +2,27 @@
 1-4 
 진행 사항:
 데이터베이스에 대한 정의를 작성
+
 2-1 
 진행 사항:
 게시판 데이터베이스를 정의
+
 3-19
 진행 사항:
 회원가입을 위한 이름과 마이페이지 이미지를 위한 데이터베이스를 정의
+
 3-20
 진행 사항:
 이미지주소와 자기소개 스키마를 작성
+
 3-24
 진행 사항:
 예약 데이터베이스를 정의
+
+5-13
+진행 사항:
+예약 테이블 중 Reserve_DateTime 속성을 삭제하고, Reserve_DateTime을 재정의했다.
+날짜와 시간을 VARCHAR로 받았는데, 날짜와 시간을 저장하려면 DATETIME을 써야한다.
 */
 CREATE DATABASE login_test;
 
@@ -58,7 +67,6 @@ CREATE TABLE reserve(
     Reserve_Num INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     Reserve_Lawyer VARCHAR(10) NOT NULL,
     Reserve_User VARCHAR(10) NOT NULL,
-    Reserve_Date VARCHAR(20) NOT NULL,
-    Reserve_Time VARCHAR(20) NOT NULL,
+    Reserve_DateTime DATETIME NOT NULL,
     Reserve_Consulting VARCHAR(10) NOT NULL
 );
