@@ -19,6 +19,7 @@
  * 5-12
  * 진행 사항:
  * 예약이 완료된 날짜와 시간을 서버로부터 가져오고 그 값을 비교하여 비활성화 되도록 만들었다.
+ * 또한 현재 시간을 기준으로 이미 지나간 시간에 대해서는 비활성화 되도록 만들었다.
  * 처음에는 그냥 비활성화에만 집중했는데 만들다보니 변호사별로 비활성화를 구분지었어야 해서
  * useEffect에서 CheckReserved에 lawyerId를 추가로 요청하여 해당 변호사의 아이디에 해당하는 예약 정보만 가져오도록 만들었다.
  */
@@ -34,7 +35,6 @@ import './Reserve.css';
 const Reserve = () => {
     const [lawyerData, setLawyerData] = useState([]);
     const { lawyerId } = useParams();
-    const [isAvailable, setIsAvailable] = useState(true);
     const [startDate, setStartDate] = useState(new Date());
     const [consultingCheckbox, setConsultingCheckbox] = useState([]);
     const [userSelect, setUserSelect] = useState(null);
@@ -194,8 +194,7 @@ const Reserve = () => {
                         />
                     </div>
                 </div>
-                {!isAvailable && <p>선택하신 시간은 이미 예약이 완료되었습니다.</p>}
-                <button class="reserve-btn" type="submit" onClick={handleSubmit} disabled={!isAvailable}>예약하기</button>
+                <button class="reserve-btn" type="submit" onClick={handleSubmit}>예약하기</button>
             </div>
         </div>
     );

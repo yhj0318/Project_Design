@@ -38,7 +38,7 @@
  */
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import {useNavigate} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import './MyPage.css';
 
 const MyPage = () => {
@@ -50,7 +50,7 @@ const MyPage = () => {
     const [userUpdateData, setUserUpdateData] = useState('');
     const [reserveList, setReserveList] = useState([]);
     const [reserveValidation, setReserveValidation] = useState(false);
-
+    
     useEffect(() => {
         fetchProfileImage();
         axios.get('http://localhost:8080/userdata')
@@ -74,6 +74,7 @@ const MyPage = () => {
             setReserveValidation(true);
         })
     },[])
+
     const fetchProfileImage = () => {
         axios.get('http://localhost:8080/profileImage')
           .then(response => {
@@ -296,7 +297,19 @@ const MyPage = () => {
                                 <li class="mypage-reserve-content">{list.Reserve_Date}</li>
                                 <li class="mypage-reserve-content">{list.Reserve_Time}</li>
                                 <li class="mypage-reserve-content">{list.Reserve_Lawyer}</li>
-                                <li class="mypage-reserve-content">상담대기</li>
+                                <li class="mypage-reserve-content">
+                                    {list.isAfter ? (
+                                        <div>
+                                            <Link to={`/view/${list.Reserve_Consulting}`}>
+                                                상담대기
+                                            </Link>
+                                        </div>
+                                    ) : (
+                                        <div>
+                                            상담완료
+                                        </div>
+                                    )}
+                                </li>
                             </ul>
                         ))}
                     </div>

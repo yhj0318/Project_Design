@@ -221,9 +221,9 @@ app.get('/', async (req, res) =>
 });
 
 app.post('/sign', async (req, res) => {
-  const { id, password, email, adress, phoneNumber, userSelect } = req.body;
+  const { id, password, userName, email, adress, phoneNumber, userSelect } = req.body;
   const hashedPassword = await bcrypt.hash(password, 10);
-  const user = { id, password: hashedPassword, email, adress, phoneNumber, lawyer: userSelect };
+  const user = { id, password: hashedPassword, email, name: userName, adress, phoneNumber, lawyer: userSelect };
   User_DB.query('INSERT INTO users SET ?', user, (error, results) => {
     if (error) {
       console.error('Error registering user:', error);
@@ -286,6 +286,13 @@ app.get('/auth', verifyToken, async (req, res) => {
   });
 });
 
+function sighDefaultImage(req, res, next){
+  const defaultImage = 'uploads\\default.png';
+    const defaultImagePath = path.join(__dirname, defaultImage);
+    res.sendFile(defaultImagePath, {headers: {
+      'Content-Type': 'image/png' // 이미지 유형에 맞게 Content-Type을 설정합니다. 여기서는 jpeg 파일을 가정합니다.
+    }});
+}
 /**
  * 쿠키에서 토큰을 가져오고, 유효한 토큰인지 확인하고, 유효하다면 암호화된 토큰을 복호화 시켜서 
  * 데이터베이스와 일치하는 토큰을 찾고 복호화된 아이디를 req로 넘겨준다. 반환값 req.userID
@@ -573,6 +580,7 @@ app.get('/profileImage', verifyToken, (req, res) => {
     } else {
       const defaultImage = 'uploads\\default.png';
       const defaultImagePath = path.join(__dirname, defaultImage);
+      console.log(defaultImagePath)
       res.sendFile(defaultImagePath, {headers: {
         'Content-Type': 'image/png' // 이미지 유형에 맞게 Content-Type을 설정합니다. 여기서는 jpeg 파일을 가정합니다.
       }});
@@ -636,18 +644,27 @@ app.post('/api/reserve', verifyToken, (req, res) => {
 });
 
 app.get('/reserveList', verifyToken, (req, res) => {
-  Reserve_DB.query('SELECT * FROM reserve WHERE Reserve_User = ? ORDER BY Reserve_Num DESC' , [req.userID], (error, results) => {
+  Reserve_DB.query('SELECT NOW() AS currentDateTime, Reserve_Num, Reserve_Lawyer, Reserve_User, Reserve_DateTime, Reserve_Consulting FROM reserve WHERE Reserve_User = ? ORDER BY Reserve_Num DESC' , [req.userID], (error, results) => {
     if(error) throw error;
     if((results.length > 0)){
       let dataList = [];
+      let currentList = [];
       for(let data of results){
         dataList.push(data.Reserve_DateTime);
+      };
+      for(let data of results){
+        currentList.push(data.currentDateTime);
       };
       const dataListArray = dataList.map(item => {
         const dateTime = moment(item).clone().tz('Asia/Seoul');
         return dateTime.format('YYYY-MM-DD HH:mm');
       });
+      const currentDateTime = currentList.map(item => {
+        const dateTime = moment(item).clone().tz('Asia/Seoul');
+        return dateTime.format('YYYY-MM-DD HH:mm');
+      });
       console.log(dataListArray);
+      console.log(currentDateTime);
       const jsonDataArray = dataListArray.map(dateTimeString => {
         const [Reserve_Date, Reserve_Time] = dateTimeString.split(' ');
         return { Reserve_Date, Reserve_Time };
@@ -655,11 +672,18 @@ app.get('/reserveList', verifyToken, (req, res) => {
       console.log(jsonDataArray)
       console.log(results)
 
+      const comparisonResult = dataListArray.map(dateTime => ({
+        isAfter: currentDateTime < dateTime
+      }));
+      console.log(comparisonResult);
       const mergedResults = results.map((result, index) => {
         return {
           ...result,
           Reserve_Date: jsonDataArray[index].Reserve_Date,
-          Reserve_Time: jsonDataArray[index].Reserve_Time
+          Reserve_Time: jsonDataArray[index].Reserve_Time,
+          Reserve_DateTime: dataListArray[index],
+          currentDateTime: currentDateTime[index],
+          ...comparisonResult[index],
         };
       });
       console.log(mergedResults);
