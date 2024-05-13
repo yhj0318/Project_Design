@@ -221,9 +221,10 @@ app.get('/', async (req, res) =>
 });
 
 app.post('/sign', async (req, res) => {
+  const defaultImage = 'uploads\\default.png';
   const { id, password, userName, email, adress, phoneNumber, userSelect } = req.body;
   const hashedPassword = await bcrypt.hash(password, 10);
-  const user = { id, password: hashedPassword, email, name: userName, adress, phoneNumber, lawyer: userSelect };
+  const user = { image_path: defaultImage ,id, password: hashedPassword, email, name: userName, adress, phoneNumber, lawyer: userSelect };
   User_DB.query('INSERT INTO users SET ?', user, (error, results) => {
     if (error) {
       console.error('Error registering user:', error);
@@ -286,13 +287,6 @@ app.get('/auth', verifyToken, async (req, res) => {
   });
 });
 
-function sighDefaultImage(req, res, next){
-  const defaultImage = 'uploads\\default.png';
-    const defaultImagePath = path.join(__dirname, defaultImage);
-    res.sendFile(defaultImagePath, {headers: {
-      'Content-Type': 'image/png' // 이미지 유형에 맞게 Content-Type을 설정합니다. 여기서는 jpeg 파일을 가정합니다.
-    }});
-}
 /**
  * 쿠키에서 토큰을 가져오고, 유효한 토큰인지 확인하고, 유효하다면 암호화된 토큰을 복호화 시켜서 
  * 데이터베이스와 일치하는 토큰을 찾고 복호화된 아이디를 req로 넘겨준다. 반환값 req.userID
