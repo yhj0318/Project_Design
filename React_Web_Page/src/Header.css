@@ -12,6 +12,14 @@ border-radius를 30px로 바꾸니 아주 이쁘게 동그라미 모양을 만�
 헤더의 width가 80%라서 메인 배경이 뒤에 보여지게 되는 문제를 발견
 헤더를 100%로 주고 쓰기로 결정
 */
+@keyframes fadeInAnimation {
+  from {
+      opacity: 0; /* 시작 시 완전 투명 */
+  }
+  to {
+      opacity: 1; /* 끝날 때 완전 불투명 */
+  }
+}
 .header
 {
   display:block;
@@ -28,6 +36,9 @@ border-radius를 30px로 바꾸니 아주 이쁘게 동그라미 모양을 만�
   width: 100%;
   border-bottom:2px solid gray;
   background-color: white;
+  opacity: 0; /* 처음에는 투명하게 설정 */
+  animation: fadeInAnimation 0.3s ease-in forwards;
+  z-index: 1;
 }
 .top-categorie
 {

@@ -117,12 +117,12 @@ const Sign = () => {
                         </div>
                     )}
                     <label class="login-box-label" for="email">이메일</label>
-                    <input type='text' id="email" class="input-id" placeholder='이메일을 입력하세요' value={email} onChange={(e) => setEmail(e.target.value)}></input>
+                    <input type='text' id="email" class="input-email" placeholder='이메일을 입력하세요' value={email} onChange={(e) => setEmail(e.target.value)}></input>
                     <label class="login-box-label" for="phoneNumber">전화번호</label>
-                    <input type='text' id="phoneNumber" class="input-id" placeholder='전화번호를 입력하세요' value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)}></input>
+                    <input type='text' id="phoneNumber" class="input-phoneNumber" placeholder='전화번호를 입력하세요' value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)}></input>
                     <label class="login-box-label" for="adress">주소</label>
-                    <input type='text' id="adress" class="input-id" placeholder='주소를 입력하세요' value={adress} onChange={(e) => setAdress(e.target.value)}></input>
-                    <button class="login-btn" onClick={handleRegister}>회원가입</button>
+                    <input type='text' id="adress" class="input-adress" placeholder='주소를 입력하세요' value={adress} onChange={(e) => setAdress(e.target.value)}></input>
+                    <button class="sign-in-btn" onClick={handleRegister}>회원가입</button>
                 </form>
             </div>
         </div>

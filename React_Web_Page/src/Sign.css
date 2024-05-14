@@ -1,6 +1,26 @@
 .userCheckbox-wrap{
     margin: 10px 0px 20px 0px;
+    opacity: 0;
+    transform: translateY(100%);
+    animation: slideUpAnimation 0.5s ease-in-out forwards 0.3s;
 }
 .userCheckbox{
     margin: 0px 10px 0px 10px;
+}
+.input-email{
+    opacity: 0;
+    transform: translateY(100%);
+    animation: slideUpAnimation 0.5s ease-in-out forwards 1.5s;
+}
+.input-phoneNumber
+{
+    opacity: 0;
+    transform: translateY(100%);
+    animation: slideUpAnimation 0.5s ease-in-out forwards 1.9s;
+}
+.input-adress
+{
+    opacity: 0;
+    transform: translateY(100%);
+    animation: slideUpAnimation 0.5s ease-in-out forwards 2.3s;
 }

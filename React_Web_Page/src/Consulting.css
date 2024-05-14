@@ -23,8 +23,7 @@
 .reserve-lawyer-list{
     font-size: large;
     padding: 0;
-    margin: 50px 150px 50px 150px;
-    border: 2px solid red;
+    margin: 50px 100px 50px 100px;
 }
 .reserve-lawyer-lists{
     margin: 20px 0px 20px 0px;
@@ -35,4 +34,8 @@
 .reserve-lawyer-img-wrap{
     width: 160px;
     height: 200px;
+    margin: auto;
+}
+.reserve-lawyer-btn{
+    cursor: pointer;
 }

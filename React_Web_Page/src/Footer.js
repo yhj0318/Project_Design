@@ -32,7 +32,7 @@ const Consulting = ({isLoggedIn}) => {
                             서비스소개
                         </a>
                     </Link>
-                    <Link to={'/information'}>
+                    {/* <Link to={'/information'}>
                         <a class="footer-contain-group-service">
                             법률 정보 공개
                         </a>
@@ -41,7 +41,7 @@ const Consulting = ({isLoggedIn}) => {
                         <a class="footer-contain-group-service">
                             개정법안
                         </a>
-                    </Link>
+                    </Link> */}
                     <Link to={'/consulting_review'}>
                         <a class="footer-contain-group-service">
                             상담후기

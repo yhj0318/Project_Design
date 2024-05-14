@@ -19,6 +19,9 @@ border-radius를 30px로 바꾸니 아주 이쁘게 동그라미 모양을 만�
 .search-lawer
 {
     display: block;
+    opacity: 0;
+    transform: translateY(100%);
+    animation: slideUpAnimation 1s ease-in-out forwards 0.5s;
 }
 .search-text
 {

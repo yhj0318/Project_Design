@@ -511,7 +511,7 @@ app.get('/lawyerData', (req, res) => {
   })
 })
 
-app.get('/reserve/:lawyerId', verifyToken, (req, res) => {
+app.get('/reserve/:lawyerId', (req, res) => {
   const reserveLawyerId = req.params.lawyerId;
 
   User_DB.query('SELECT name, aboutSelf, id, email, phoneNumber, adress FROM users WHERE id = ?', [reserveLawyerId], (error, results) => {
@@ -638,7 +638,7 @@ app.post('/api/reserve', verifyToken, (req, res) => {
 });
 
 app.get('/reserveList', verifyToken, (req, res) => {
-  Reserve_DB.query('SELECT NOW() AS currentDateTime, Reserve_Num, Reserve_Lawyer, Reserve_User, Reserve_DateTime, Reserve_Consulting FROM reserve WHERE Reserve_User = ? ORDER BY Reserve_Num DESC' , [req.userID], (error, results) => {
+  Reserve_DB.query('SELECT NOW() AS currentDateTime, Reserve_Num, Reserve_Lawyer, Reserve_User, Reserve_DateTime, Reserve_Consulting FROM reserve WHERE Reserve_User = ? OR Reserve_Lawyer = ? ORDER BY Reserve_Num DESC' , [req.userID, req.userID], (error, results) => {
     if(error) throw error;
     if((results.length > 0)){
       let dataList = [];

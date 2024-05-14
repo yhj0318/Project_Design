@@ -1,6 +1,9 @@
 .review-content{
     margin: auto;
     width: 80%;
+    opacity: 0;
+    transform: translateY(100%);
+    animation: slideUpAnimation 1s ease-in-out forwards 1s;
 }
 .review-content-title{
     margin-top: 80px;

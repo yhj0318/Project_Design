@@ -281,7 +281,13 @@ const MyPage = () => {
                         <li class="mypage-reserve-subtitle">구분</li>
                         <li class="mypage-reserve-subtitle">날짜</li>
                         <li class="mypage-reserve-subtitle">시간</li>
-                        <li class="mypage-reserve-subtitle">변호사</li>
+                        <li class="mypage-reserve-subtitle">
+                            {userData.lawyer == '변호사' ? (
+                                '예약자'
+                            ) : (
+                                '변호사'
+                            )}
+                        </li>
                         <li class="mypage-reserve-subtitle">진행</li>
                     </ul>
                 </div>
@@ -296,7 +302,12 @@ const MyPage = () => {
                                 <li class="mypage-reserve-content">{list.Reserve_Consulting}</li>
                                 <li class="mypage-reserve-content">{list.Reserve_Date}</li>
                                 <li class="mypage-reserve-content">{list.Reserve_Time}</li>
-                                <li class="mypage-reserve-content">{list.Reserve_Lawyer}</li>
+                                <li class="mypage-reserve-content">
+                                    {userData.lawyer == '변호사' ? (
+                                    list.Reserve_User
+                                ) : (
+                                    list.Reserve_Lawyer
+                                )}</li>
                                 <li class="mypage-reserve-content">
                                     {list.isAfter ? (
                                         <div>

@@ -64,8 +64,8 @@ const Header = ({isLoggedIn, handleLogout}) => {
             <div class="menu-list">
               <ul class="header-categories">
                 <Link to="/service"><li class="header-categorie">서비스 소개</li></Link>
-                <Link to="/information"><li class="header-categorie">법률 정보 공개</li></Link>
-                <Link to="/edit_law"><li class="header-categorie">개정법안</li></Link>
+                {/* <Link to="/information"><li class="header-categorie">법률 정보 공개</li></Link>
+                <Link to="/edit_law"><li class="header-categorie">개정법안</li></Link> */}
                 <Link to="/consulting_review"><li class="header-categorie">상담후기</li></Link>
                 <Link to="/help"><li class="header-categorie">고객센터</li></Link>
               </ul>
@@ -82,15 +82,15 @@ const Header = ({isLoggedIn, handleLogout}) => {
             <input type="text" placeholder='어떤 문제가 있으신가요?' maxLength="30" class="search-space"></input>
           </div>
         </div>
+        {isLoggedIn ? (
         <div class="top-mypage">
           <div class="mypage-btn">
-            {isLoggedIn ? (
-              <Link to="/myPage" target='_self'>마이페이지</Link>
-            ) : (
-              <div></div>
-            )}
+            <Link to="/myPage" target='_self'>마이페이지</Link>
           </div>
         </div>
+        ) : (
+          <div></div>
+        )}
         <div class="top-login-sign">
           <div class="login-sign-btn">
             {isLoggedIn ? (

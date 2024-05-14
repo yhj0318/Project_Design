@@ -12,6 +12,8 @@ Service 페이지에 대한 CSS를 적용시킴
     padding-top: 30px;
     text-align: center;
     padding-bottom: 30px;
+    opacity: 0; /* 처음에는 투명하게 설정 */
+    animation: fadeInAnimation 1s ease-in forwards;
 }
 .header-service-area
 {
@@ -38,6 +40,9 @@ Service 페이지에 대한 CSS를 적용시킴
     width: 1300px;
     background-color: whitesmoke;
     border-radius: 30px;
+    opacity: 0;
+    transform: translateY(100%);
+    animation: slideUpAnimation 0.5s ease-in-out forwards 0.5s;
 }
 .service-background-text, .service-objective-text
 {

@@ -84,9 +84,9 @@ const Login_sign = ({handleLogin}) => {
             <div class="login-screen">
                 <div class="login-top">로그인</div>
                 <form class="login-box">
-                    <label class="login-box-label" for="id">아이디</label>
+                    <label class="login-box-label" id="login-box-label1" for="id">아이디</label>
                     <input type='text' id="id" class="input-id" placeholder='아이디를 입력하세요' value={id} onChange={(e) => setUserid(e.target.value)}></input>
-                    <label class="login-box-label" for="password">비밀번호</label>
+                    <label class="login-box-label" id="login-box-label2" for="password">비밀번호</label>
                     <input type='password' id="password" class="input-pw" placeholder='비밀번호를 입력하세요' value={password} onChange={(e) => setPassword(e.target.value)}></input>
                     <button class="login-btn" onClick={handleSubmit}>로그인</button>
                 </form>

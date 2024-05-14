@@ -79,18 +79,27 @@ const Reserve = () => {
       };
 
     const handleSubmit = () => {
-        console.log('startDate is = ',startDate);
-        const year = startDate.getFullYear();
-        const month = startDate.getMonth() + 1; // 월은 0부터 시작하므로 1을 더합니다.
-        const day = startDate.getDate();
-        const date = `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`;
-        console.log(date);
-        const hours = startDate.getHours();
-        const minutes = startDate.getMinutes();
-        const time = `${hours < 10 ? '0' + hours : hours}:${minutes < 10 ? '0' + minutes : minutes}`;
-        console.log(time);
-        const dateTime = date + " " + time;
-        reserveToServer(dateTime);
+        axios.get('http://localhost:8080/auth')
+        .then((response) => {
+            console.log(response.data);
+            console.log('startDate is = ',startDate);
+            const year = startDate.getFullYear();
+            const month = startDate.getMonth() + 1; // 월은 0부터 시작하므로 1을 더합니다.
+            const day = startDate.getDate();
+            const date = `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`;
+            console.log(date);
+            const hours = startDate.getHours();
+            const minutes = startDate.getMinutes();
+            const time = `${hours < 10 ? '0' + hours : hours}:${minutes < 10 ? '0' + minutes : minutes}`;
+            console.log(time);
+            const dateTime = date + " " + time;
+            reserveToServer(dateTime);
+        })
+        .catch((error) => {
+            console.error(error);
+            alert('예약에는 로그인이 필요합니다!');
+            navigate('/login_sign');
+        })
     };
 
     const reserveToServer = (dateTime) => {
@@ -106,6 +115,8 @@ const Reserve = () => {
         })
         .catch(error => {
             console.error('Error sending data to server:', error);
+            alert('잘못된 접근입니다.');
+            navigate('/');
         });
     };
     const getReservedTimesForDate = date => {

@@ -18,6 +18,9 @@
     overflow: hidden;
     border-radius: 25px;
     box-shadow: rgb(0 0 0 / 30%) 0px 12px 60px 5px;
+    opacity: 0;
+    transform: translateY(100%);
+    animation: slideUpAnimation 0.5s ease-in-out forwards 0.2s;
   }
 .react-chatbot-kit-chat-bot-message{
     text-wrap: wrap;

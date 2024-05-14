@@ -18,6 +18,8 @@
 {
     font-size: x-large;
     padding-bottom: 30px;
+    opacity: 0; /* 처음에는 투명하게 설정 */
+    animation: fadeInAnimation 1s ease-in forwards;
 }
 .header-login-area
 {
@@ -42,22 +44,44 @@
     display:flex;
     margin: 20px 0px 20px 0px;
 }
-.input-id
+#login-box-label1{
+    opacity: 0;
+    transform: translateY(100%);
+    animation: slideUpAnimation 0.5s ease-in-out forwards 0.5s;
+}
+.input-id, .input-pw, .input-email, .input-phoneNumber, .input-adress
 {
     border-bottom: 2px solid slategray;
     height: 40px;
+    opacity: 0;
+    transform: translateY(100%);
+    animation: slideUpAnimation 0.5s ease-in-out forwards 0.7s;
+}
+#login-box-label2{
+    opacity: 0;
+    transform: translateY(100%);
+    animation: slideUpAnimation 0.5s ease-in-out forwards 0.9s;
 }
 .input-pw
 {
-    border-bottom: 2px solid slategray;
-    height: 40px;
+    opacity: 0;
+    transform: translateY(100%);
+    animation: slideUpAnimation 0.5s ease-in-out forwards 1.1s;
 }
-.login-btn
+.login-btn, .sign-in-btn
 {
     margin: 40px 0px 20px 0px;
     height: 50px;
     background-color: powderblue ;
     border-color: slategray ;
+    opacity: 0;
+    transform: translateY(100%);
+    animation: slideUpAnimation 0.5s ease-in-out forwards 1.3s;
+}
+.sign-box{
+    opacity: 0;
+    transform: translateY(100%);
+    animation: slideUpAnimation 0.5s ease-in-out forwards 1.5s;
 }
 .sign-btn
 {
@@ -66,4 +90,6 @@
 }
 .login-top{
     font-size: large;
+    opacity: 0; /* 처음에는 투명하게 설정 */
+    animation: fadeInAnimation 1s ease-in forwards;
 }

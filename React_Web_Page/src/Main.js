@@ -87,7 +87,7 @@ function Main() {
             </Link>
             <div class="consulting">
                 <div class="consulting-list">
-                  <div class="consulting-wrap">
+                  <div class="consulting-wrap" id="consulting-wrap1">
                     <div class="consulting-btn-icons" >
                       <Link to={'/consulting'} class="cbtn">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="consulting-icons" viewBox="0 0 16 16">
@@ -101,7 +101,7 @@ function Main() {
                       채팅상담에 대한 내용입니다.
                     </div>
                   </div>
-                  <div class="consulting-wrap">
+                  <div class="consulting-wrap" id="consulting-wrap2">
                     <div class="consulting-btn-icons">
                       <Link to={'/consulting'} class="cbtn">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="consulting-icons" viewBox="0 0 16 16">
@@ -115,7 +115,7 @@ function Main() {
                       영상상담에 대한 내용입니다.
                     </div>
                   </div>
-                  <div class="consulting-wrap">
+                  <div class="consulting-wrap" id="consulting-wrap3">
                     <div class="consulting-btn-icons">
                       <Link to={'/consulting'} class="cbtn">
                         <svg xmlns="http://www.w3.org/2000/svg"fill="currentColor" class="consulting-icons" viewBox="0 0 16 16">
@@ -129,7 +129,7 @@ function Main() {
                       챗봇상담에 대한 내용입니다.
                     </div>
                   </div>
-                  <div class="consulting-wrap">
+                  <div class="consulting-wrap" id="consulting-wrap4">
                     <div class="consulting-btn-icons">
                       <Link to={'/consulting'} class="cbtn">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="consulting-icons" viewBox="0 0 16 16">

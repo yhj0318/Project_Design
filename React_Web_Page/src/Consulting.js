@@ -25,6 +25,7 @@ import './Consulting.css';
 const Consulting = () => {
   const [userData, setUserData] = useState([]);
   const [profileImage, setProfileImage] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios.get('http://localhost:8080/lawyerData')
@@ -36,6 +37,7 @@ const Consulting = () => {
       console.error(error);
     })
   }, [])
+
     return (
       <div class="reserve-consulting-main">
         <div class="reserve-consulting-top">
@@ -55,7 +57,7 @@ const Consulting = () => {
               <li class="reserve-lawyer-lists" id="email">{user.email}</li>
               <li class="reserve-lawyer-lists" id="phoneNumber">{user.phoneNumber}</li>
               <li class="reserve-lawyer-lists" id="adress">{user.adress}</li>
-              <Link to={`/reserve/${user.id}`}>예약하기</Link>
+                <Link to={`/reserve/${user.id}`}>상세페이지</Link>
             </ul>
           ))}
         </div>
