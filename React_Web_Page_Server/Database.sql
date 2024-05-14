@@ -34,7 +34,7 @@ CREATE TABLE users(
     phoneNumber VARCHAR(15) NOT NULL,
     adress VARCHAR(100) NOT NULL,
     lawyer VARCHAR(10) NOT NULL,
-    name VARCHAR(5) NOT NULL,
+    name VARCHAR(10) NOT NULL,
     image_path VARCHAR(255) NOT NULL,
     aboutSelf VARCHAR(1000)
 );
