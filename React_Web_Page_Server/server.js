@@ -117,6 +117,12 @@
  * 이 기능을 사용하여 한국 표준시로 바꾸는데 성공했고, 이를 바탕으로 날짜와 시간을 나눠 데이터베이스에 저장하여,
  * 비활성화 되는 시간대를 저장했다. 이를 바탕으로 값을 조회해서 비활성화가 가능하고, 마이페이지에 날짜와 시간을 추가하여
  * json으로 전달하도록 만들었다. 
+ * 
+ * 5-18
+ * 진행 사항:
+ * 상담예약 시간 기준으로 전후 10분간만 상담페이지에 접근할 수 있도록 만들었다.
+ * 예를들어 11시00분에 예약이면 10시50분 ~ 11시10분까지 접근이 가능하고, 10시50분 이전에는 상담대기라고 뜬다.
+ * 그리고 11시10분을 넘어가면 상담종료라고 나타난다.
  */
 const express = require('express');
 const path = require('path');
@@ -666,10 +672,29 @@ app.get('/reserveList', verifyToken, (req, res) => {
       console.log(jsonDataArray)
       console.log(results)
 
-      const comparisonResult = dataListArray.map(dateTime => ({
-        isAfter: currentDateTime < dateTime
-      }));
-      console.log(comparisonResult);
+      const comparisonResult = dataListArray.map((dateTime, index) => {
+        const specificDateTime = new Date(dataListArray[index]);
+        const curruntD = new Date(currentDateTime[index]);
+        console.log('curruntD is = ', curruntD)
+        console.log(specificDateTime)
+        const tenMBefore = new Date(specificDateTime.getTime() - 10 * 60000);
+        console.log('tenMBefore is = ', tenMBefore)
+        const tenMAfter = new Date(specificDateTime.getTime() + 10 * 60000);
+        console.log('tenMAfter is = ', tenMAfter)
+        console.log(currentDateTime[index])
+        const isWithinTenMinutes = curruntD >= tenMBefore && curruntD <= tenMAfter;
+        const isEnd = tenMAfter <= curruntD;
+        if(isWithinTenMinutes == true && isEnd == false) {
+          return {isAfter: '상담시작'};
+        }
+        if(isWithinTenMinutes == false && isEnd == false){
+          return {isAfter: '상담대기'};
+        }
+        if(isEnd == true){
+          return {isAfter: '상담종료'};
+        }
+      });
+      console.log('comparisonResult1 is = ', comparisonResult)
       const mergedResults = results.map((result, index) => {
         return {
           ...result,

@@ -35,6 +35,10 @@
  * 비활성화 기능을 추가해서 json형태를 바꿨다.
  * Reserve_DateTime을 Reserve_Date, ReserveTime로 나눴다.
  * 이후 현재 시간을 불러오고 그 시간과 예약 시간을 비교해서 상담완료, 상담대기를 나누는 작업을 진행할 예정이다.
+ * 
+ * 5-18
+ * 진행 사항:
+ * 상담종료, 상담대기, 상담시작으로 나누어 상담시작일 경우에만 상담을 진행할 수 있도록 만들었다.
  */
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -309,16 +313,18 @@ const MyPage = () => {
                                     list.Reserve_Lawyer
                                 )}</li>
                                 <li class="mypage-reserve-content">
-                                    {list.isAfter ? (
+                                    {list.isAfter == '상담시작' ? (
                                         <div>
                                             <Link to={`/view/${list.Reserve_Consulting}`}>
-                                                상담대기
+                                                상담시작
                                             </Link>
                                         </div>
-                                    ) : (
+                                    ) : list.isAfter == '상담종료' ? (
                                         <div>
-                                            상담완료
+                                            상담종료
                                         </div>
+                                    ) : (
+                                        <div>상담대기</div>
                                     )}
                                 </li>
                             </ul>
