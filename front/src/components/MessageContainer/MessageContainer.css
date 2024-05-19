@@ -1,48 +1,94 @@
 .system-message-container {
   display: flex;
-
   justify-content: center;
   align-items: center;
 }
 
+
 .system-message {
-  background-color: #55667758;
+  background-color: #4a587458;
   border-radius: 100px;
   text-align: center;
   color: white;
   padding: 2px 15px;
   font-size: 14px;
 }
+
+
 .my-message-container {
   display: flex;
   justify-content: flex-end;
   margin-bottom: 5px;
 }
+
+
 .my-message {
-  background-color: #5bc99b;
+  background-color: rgb(126, 156, 221);
   border-radius: 8px;
   padding: 8px;
   max-width: 200px;
   font-size: 12px;
+  position: relative;
 }
+
+.my-message::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 50%;
+  width: 0;
+  height: 0;
+  border: 10px solid transparent;
+  border-left-color: rgb(126, 156, 221);
+  border-right: none;
+  margin-top: -10px;
+  margin-right: -10px;
+}
+
 
 .your-message-container {
   display: flex;
   justify-content: flex-start;
-  /* margin-bottom: 5px; */
-  align-items: center;
+  align-items: flex-start;
+  margin-bottom: 5px;
 }
+
+
 .your-message {
   background-color: white;
   border-radius: 8px;
   padding: 8px;
   max-width: 200px;
   font-size: 12px;
+  position: relative;
 }
+
+.your-message::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 0;
+  height: 0;
+  border: 10px solid transparent;
+  border-right-color: white;
+  border-left: none;
+  margin-top: -10px;
+  margin-left: -10px;
+}
+
 
 .profile-image {
   width: 38px;
   height: 38px;
   border-radius: 100px;
   margin-right: 10px;
+  flex-shrink: 0;
+}
+
+
+.user-id-small {
+  font-size: 12px;
+  font-weight: bold;
+  color: #555;
 }
