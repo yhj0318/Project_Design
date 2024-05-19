@@ -1,0 +1,30 @@
+@font-face {
+  font-family: "TTLaundryGothicB";
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/2403-2@1.0/TTLaundryGothicB.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+}
+.container {
+  display: flex;
+  gap: 3px; /* 간격을 5px에서 3px로 줄입니다. */
+}
+
+.left-content {
+  margin-right: 3px; /* 왼쪽 요소의 오른쪽 여백을 3px로 줄입니다. */
+}
+
+.right-content {
+  margin-left: 3px; /* 오른쪽 요소의 왼쪽 여백을 3px로 줄입니다. */
+}
+#localVideo {
+  border-radius: 10px; /* 모든 모서리를 10px만큼 둥글게 만듭니다. */
+}
+#remoteVideo {
+  border-radius: 10px; /* 모든 모서리를 10px만큼 둥글게 만듭니다. */
+}
+#me,
+#you {
+  font-size: 24px;
+  font-weight: bold;
+  font-family: "TTLaundryGothicB";
+}

@@ -54,7 +54,7 @@ io.sockets.on("connection", (socket) => {
 
   let roomName = "testRoomName";
 
-  socket.on("join_room", (myUserID) => {
+  socket.on("join_room", (myUserID, done) => {
     let clientsInRoom = io.sockets.adapter.rooms[roomName];
     let numClients = clientsInRoom ? Object.keys(clientsInRoom.sockets).length : 0;
     log("Room " + roomName + " now has " + numClients + " client(s)");
@@ -76,5 +76,7 @@ io.sockets.on("connection", (socket) => {
     } else {
       socket.emit("full", roomName);
     }
+
+    done();
   });
 });
