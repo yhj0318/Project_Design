@@ -19,14 +19,14 @@ module.exports = function (io) {
       try {
         // MySQL에서 사용자의 토큰 정보를 가져옴
         const [rows] = await connection.promise().query('SELECT token FROM users WHERE id = ?', [userID]);
-        console.log("DB에서 조회된 토큰: ", rows[0]?.token); // 디버깅용 로그
+        console.log("DB에서 조회된 토큰: ", rows[0]?.token); 
 
         if (rows.length > 0 && rows[0].token) {
           // 로그인 성공 처리
-          const user = await userController.saveUser(userID); // 유저의 ID를 사용하여 저장
+          const user = await userController.saveUser(userID); 
           const welcomeMessage = {
             chat: `${userID} 님이 방에 입장하셨습니다.`,
-            user: { id: userID, name: "system" } // 실제 앱에서는 유저 이름도 함께 보내야 할 수 있음
+            user: { id: userID, name: "system" } 
           };
           io.emit("message", welcomeMessage);
           cb({ ok: true, data: user });
